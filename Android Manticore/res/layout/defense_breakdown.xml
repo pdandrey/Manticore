@@ -1,10 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout
   xmlns:android="http://schemas.android.com/apk/res/android"
-  android:id="@+id/defensebreakdown_parent"
   android:layout_width="match_parent"
   android:layout_height="match_parent"
   android:orientation="vertical"
   >
     <TextView android:layout_height="wrap_content" android:text="TextView" android:layout_width="match_parent" android:textSize="24sp" android:id="@+id/defensebreakdown_txtDefense"></TextView>
+    <LinearLayout
+    	android:id="@+id/defensebreakdown_layoutApplied"
+    	android:layout_width="match_parent"
+    	android:layout_height="wrap_content"
+    	android:orientation="vertical"
+    	/>
+    <TextView 
+    	android:layout_height="wrap_content" 
+    	android:text="Not Applied:" 
+    	android:layout_width="match_parent" 
+    	android:textSize="24sp"
+    	android:layout_marginTop="10dip"
+    	/>
+    <LinearLayout
+    	android:id="@+id/defensebreakdown_layoutNotApplied"
+    	android:layout_width="match_parent"
+    	android:layout_height="wrap_content"
+    	android:orientation="vertical"
+    	/>
 </LinearLayout>

@@ -14,6 +14,7 @@ import com.ncgeek.manticore.character.inventory.EquipmentSlot;
 import com.ncgeek.manticore.character.stats.Stat;
 import com.ncgeek.manticore.items.Armor;
 import com.ncgeek.manticore.items.ArmorTypes;
+import com.ncgeek.manticore.items.EnchantedItem;
 import com.ncgeek.manticore.items.EquippableItem;
 import com.ncgeek.manticore.items.Weapon;
 import com.ncgeek.manticore.items.WeaponGroups;
@@ -291,6 +292,9 @@ public class Addition implements Serializable {
 	}
 
 	private void equipWeapon(EquippableItem item, String specific, boolean isRemove) {
+		if(item instanceof EnchantedItem)
+			item = ((EnchantedItem)item).getItem();
+		
 		if(!(item instanceof Weapon))
 			return;
 		
@@ -332,6 +336,9 @@ public class Addition implements Serializable {
 	}
 
 	private void equipArmor(EquippableItem item, String specific, boolean isRemove) {
+		if(item instanceof EnchantedItem)
+			item = ((EnchantedItem)item).getItem();
+		
 		if(!(item instanceof Armor))
 			return;
 		

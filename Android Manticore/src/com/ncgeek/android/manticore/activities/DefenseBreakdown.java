@@ -1,5 +1,8 @@
 package com.ncgeek.android.manticore.activities;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.ncgeek.android.manticore.ManticoreStatus;
 import com.ncgeek.android.manticore.R;
 import com.ncgeek.manticore.character.PlayerCharacter;
@@ -25,7 +28,8 @@ public class DefenseBreakdown extends Activity {
         Bundle extras = this.getIntent().getExtras();
         String defense = extras.getString("defense");
         
-        LinearLayout parent = (LinearLayout)findViewById(R.id.defensebreakdown_parent);
+        LinearLayout layoutApplied = (LinearLayout)findViewById(R.id.defensebreakdown_layoutApplied);
+        LinearLayout layoutNotApplied = (LinearLayout)findViewById(R.id.defensebreakdown_layoutNotApplied);
         
         PlayerCharacter pc = ManticoreStatus.getPC();
         Stat s = pc.getStats().get(defense);
@@ -33,8 +37,19 @@ public class DefenseBreakdown extends Activity {
         TextView tv = (TextView)findViewById(R.id.defensebreakdown_txtDefense);
         tv.setText(String.format("%s %d Breakdown", defense, s.getCalculatedValue()));
         
-        for(Addition a : s.getAppliedAdditions()) {
-        	parent.addView(createView(a));
+        List<Addition> applied = s.getAppliedAdditions();
+        
+        for(Addition a : applied) {
+        	layoutApplied.addView(createView(a));
+        }
+        
+        List<Addition> all = s.getAdditions();
+        if(all.size() > applied.size()) {
+        	for(Addition a : all) {
+        		if(!applied.contains(a)) {
+        			layoutNotApplied.addView(createView(a));
+        		}
+        	}
         }
 	 }
 	
