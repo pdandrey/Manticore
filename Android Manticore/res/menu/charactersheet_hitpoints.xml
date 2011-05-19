@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <group android:id="@+id/charactersheet_mnugrpHitpoints" android:orderInCategory="0">
+        <item android:orderInCategory="0" android:title="@string/menu_Damage" android:id="@+id/charactersheet_mnuDamage"></item>
+        <item android:orderInCategory="1" android:title="@string/menu_healing" android:id="@+id/charactersheet_mnuHealing"></item>
+        <item android:orderInCategory="2" android:title="@string/menu_Surge" android:id="@+id/charactersheet_mnuSurge"></item>
+    </group>
+    <group android:id="@+id/charactersheet_mnugrpDeathSave" android:orderInCategory="1" android:visible="false">
+    	<item android:id="@+id/charactersheet_mnuDeathSaveFail" android:orderInCategory="3" android:title="@string/menu_faildeathsave"></item>
+    </group>
+</menu>

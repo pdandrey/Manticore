@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <item 
+    	android:title="Preferences" 
+   		android:id="@+id/loadcharacter_mnuPreferences"
+   		android:icon="@drawable/ic_menu_preferences"
+   		/>
+    <item android:title="View Preferences" android:id="@+id/loadcharacter_mnuViewPrefs"></item>
+</menu>

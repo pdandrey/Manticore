@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest 
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	package="com.ncgeek.android.manticore" 
+	android:versionCode="1"
+	android:versionName="1.0" 
+	android:installLocation="preferExternal"
+	>
+	<supports-screens 
+		android:normalScreens="true"
+		android:smallScreens="true" 
+		android:largeScreens="true"
+		android:anyDensity="true" 
+		android:resizeable="true"
+		/>
+	<application 
+		android:icon="@drawable/icon" 
+		android:label="@string/app_name"
+		>
+		<activity 
+			android:name="com.ncgeek.android.manticore.activities.CharacterSheet"
+			android:label="Manticore Character Sheet" 
+			android:theme="@android:style/Theme.Light.NoTitleBar"
+			>
+			<intent-filter>
+				<action android:name="android.intent.action.VIEW" />
+				<category android:name="android.intent.category.DEFAULT" />
+				<data 
+					android:scheme="file" 
+					android:host="*" 
+					android:mimeType="text/plain"
+					android:pathPattern=".*\\.dnd4e" 
+					/>
+			</intent-filter>
+			<intent-filter>
+				<action android:name="android.intent.action.VIEW" />
+				<category android:name="android.intent.category.DEFAULT" />
+				<data 
+					android:scheme="http" 
+					android:host="*"
+					android:pathPattern=".*\\.dnd4e" />
+				<!--<data android:scheme="https" android:host="*" android:pathPattern=".*\\.dnd4e" 
+					/> <data android:scheme="content" android:host="*" android:pathPattern=".*\\.dnd4e" 
+					/> -->
+			</intent-filter>
+		</activity>
+		<activity 
+			android:name="com.ncgeek.android.manticore.activities.LoadCharacter"
+			android:label="@string/app_name" 
+			android:theme="@android:style/Theme.Light.NoTitleBar"
+			>
+			<intent-filter>
+				<action android:name="android.intent.action.MAIN" />
+				<category android:name="android.intent.category.LAUNCHER" />
+			</intent-filter>
+		</activity>
+		<activity 
+			android:name="com.ncgeek.android.manticore.activities.DefenseBreakdown"
+			android:label="@string/app_name" 
+			android:theme="@android:style/Theme.Light.NoTitleBar"
+			>
+			<intent-filter>
+				<action android:name="android.intent.action.VIEW" />
+				<category android:name="android.intent.category.DEFAULT" />
+			</intent-filter>
+		</activity>
+		<activity 
+			android:name="com.ncgeek.android.manticore.activities.Preferences"
+			android:label="@string/app_name" 
+			android:theme="@android:style/Theme.Light.NoTitleBar"
+			>
+			<intent-filter>
+				<action android:name="android.intent.action.EDIT" />
+				<category android:name="android.intent.category.PREFERENCE" />
+			</intent-filter>
+		</activity>
+		<activity 
+			android:name="com.ncgeek.android.manticore.activities.PreferenceViewer"
+			android:label="@string/app_name" 
+			android:theme="@android:style/Theme.Light.NoTitleBar"
+			>
+			<intent-filter>
+				<action android:name="android.intent.action.VIEW" />
+				<category android:name="android.intent.category.DEFAULT" />
+			</intent-filter>
+		</activity>
+	</application>
+	<uses-sdk 
+		android:minSdkVersion="7" 
+		android:targetSdkVersion="8" 
+		/>
+	<uses-permission android:name="android.permission.INTERNET" />
+	<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+</manifest> 

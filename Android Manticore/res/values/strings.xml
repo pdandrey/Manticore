@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="hello">Hello World, Main!</string>
+    <string name="app_name">Manticore</string>
+    <string name="loadcharacter_cmbSource_prompt">Character File Location</string>
+    <string-array name="loadcharacter_cmbSource_sources">
+    	<item>SD Card</item>
+    	<item>Internal</item>
+    	<item>Wizards</item>
+    	<item>URL</item>
+    </string-array>
+    	<string name="level">Level</string>
+    	<string name="hitpoints_lblWithHealing">HP after Healing:</string>
+    	<string name="hitpoints_lblWithSurge">HP after a Healing Surge:</string>
+    	<string name="hitpoints_lblTempHP">Temporary Hitpoints:</string>
+    	<string name="hitpoints_btnDamage">Take Damage</string>
+    	<string name="hitpoints_btnHeal">Heal</string>
+    	<string name="hitpoints_btnSurge">Healing Surge</string>
+    	<string name="hitpoints_btnTempHP">Temporary Hitpoints</string>
+    	<string name="hitpoints_btnSpendSurge">Spend Surge</string>
+    	<string name="hitpoints_btnDeathSave">Failed Death Save</string>
+    	<string name="stat_fortitude">Fortitude</string>
+    	<string name="stat_AC">AC</string>
+    	<string name="stat_Reflex">Reflex</string>
+    	<string name="stat_will">Will</string>
+    	<string name="menu_Damage">Take Damage</string>
+    	<string name="menu_healing">Healing</string>
+    	<string name="menu_Surge">Spend a Surge</string>
+    	<string name="menu_faildeathsave">Fail Death Save</string>
+    	<string name="menu_useactionpoint">Use Action Point</string>
+    	<string name="menu_milestone">Milestone Reached</string>
+</resources>

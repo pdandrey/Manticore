@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    
+    
+    <PreferenceCategory android:title="Caching" android:key="Caching"><CheckBoxPreference android:summary="Maintains an internal cache of items and powers to speed up loading of characters." android:title="Enable Cache Database" android:defaultValue="true" android:key="UseDatabase" android:disableDependentsState="false"></CheckBoxPreference><CheckBoxPreference android:dependency="UseDatabase" android:defaultValue="true" android:key="CopyDatabase" android:enabled="true" android:title="Copy an existing cache if found"></CheckBoxPreference></PreferenceCategory>
+    <PreferenceCategory android:key="Character" android:title="Character Display">
+        <CheckBoxPreference android:summary="Calculate stat values based on the character's selected rules and equipped items." android:title="Display Calculated Stats" android:defaultValue="true" android:key="UseCalculatedStats"></CheckBoxPreference>
+    </PreferenceCategory>
+    <PreferenceCategory android:key="Logs">
+        <CheckBoxPreference android:summary="Write log information to SDCard/Manticore/Logs" android:title="Write log files" android:key="FileLogs"></CheckBoxPreference>
+    </PreferenceCategory>
+</PreferenceScreen>
