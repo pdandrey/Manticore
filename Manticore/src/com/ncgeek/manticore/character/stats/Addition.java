@@ -98,6 +98,10 @@ public class Addition implements Serializable {
 		_value = value;
 	}
 	
+	public int getAbsoluteValue() {
+		return _value;
+	}
+	
 	public Integer getLevel() {
 		return _level;
 	}

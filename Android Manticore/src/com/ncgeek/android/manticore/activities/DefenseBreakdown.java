@@ -1,6 +1,5 @@
 package com.ncgeek.android.manticore.activities;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import com.ncgeek.android.manticore.ManticoreStatus;
@@ -40,24 +39,27 @@ public class DefenseBreakdown extends Activity {
         List<Addition> applied = s.getAppliedAdditions();
         
         for(Addition a : applied) {
-        	layoutApplied.addView(createView(a));
+        	layoutApplied.addView(createView(a, true));
         }
         
         List<Addition> all = s.getAdditions();
         if(all.size() > applied.size()) {
         	for(Addition a : all) {
         		if(!applied.contains(a)) {
-        			layoutNotApplied.addView(createView(a));
+        			layoutNotApplied.addView(createView(a, false));
         		}
         	}
         }
 	 }
 	
-	private View createView(Addition a) {
+	private View createView(Addition a, boolean getAppliedValue) {
 		TextView tv = new TextView(this);
 		StringBuilder buf = new StringBuilder();
 		
 		int value = a.getValue();
+		if(!getAppliedValue)
+			value = a.getAbsoluteValue();
+		
 		if(value < 0)
 			buf.append(value);
 		else
