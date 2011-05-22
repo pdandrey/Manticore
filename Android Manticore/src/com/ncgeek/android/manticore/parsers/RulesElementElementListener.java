@@ -22,6 +22,7 @@ public class RulesElementElementListener implements ElementListener {
 	public RulesElementElementListener(Element rule) {
 		lstRules = new ArrayList<Rule>(10);
 		Element spec = rule.getChild("specific");
+		
 		spec.setTextElementListener(new TextElementListener() {
 
 			private String name;
