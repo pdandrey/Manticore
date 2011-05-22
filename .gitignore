@@ -1,0 +1,6 @@
+bin/
+.settings/
+.metadata/
+Thumbs.db
+/Manticore/docs/
+Manticore\ Test/lib/jdom-api/
