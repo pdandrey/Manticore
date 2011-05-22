@@ -14,6 +14,22 @@ public final class ItemUtilities {
 
 	private ItemUtilities() {}
 	
+	public static Item itemFromRule(Rule rule) {
+		switch(rule.getType()) {
+			case WEAPON:
+				return weaponFromRule(rule);
+				
+			case ARMOR:
+				return armorFromRule(rule);
+				
+			case MAGIC_ITEM:
+				return magicItemFromRule(rule);
+				
+			default:
+				return null;
+		}
+	}
+	
 	public static Armor armorFromRule(Rule rule) {
 		if(!rule.hasSpecifics())
 			throw new IllegalArgumentException("Cannot create armor from rule without specifics");
