@@ -1,9 +1,12 @@
 package com.ncgeek.manticore.parsers;
 
+import java.util.Stack;
+
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
+import com.ncgeek.manticore.ICompendiumRepository;
 import com.ncgeek.manticore.character.PlayerCharacter;
 
 class CharacterHandler extends DefaultHandler {
@@ -21,6 +24,7 @@ class CharacterHandler extends DefaultHandler {
 		Section(String name, IElementHandler handler, Section next) {
 			localname = name;
 			this.handler = handler;
+			this.next = next;
 		}
 		public String getName() { return localname; }
 		public Section getNext() { return next; }
@@ -30,13 +34,15 @@ class CharacterHandler extends DefaultHandler {
 	private final CharacterParser parser;
 	private PlayerCharacter pc;
 	
-	private StringBuilder buf;
 	private Section currentSection;
 	private Section nextSection;
 	private IElementHandler sectionHandler;
+	private Stack<StringBuilder> textQueue;
 	
-	public CharacterHandler(CharacterParser parser) {
+	public CharacterHandler(CharacterParser parser, ICompendiumRepository repos) {
 		this.parser = parser;
+		((LootHandler)Section.Loot.getHandler()).setRepository(repos);
+		textQueue = new Stack<StringBuilder>();
 	}
 	
 	public PlayerCharacter getPlayerCharacter() { return pc; }
@@ -45,7 +51,6 @@ class CharacterHandler extends DefaultHandler {
 	public void startDocument() throws SAXException {
 		super.startDocument();
 		pc = new PlayerCharacter();
-		buf = new StringBuilder(500);
 		currentSection = null;
 		nextSection = Section.Details;
 	}
@@ -54,36 +59,36 @@ class CharacterHandler extends DefaultHandler {
 	public void startElement(String uri, String localName, String name, Attributes attributes) throws SAXException {
 		super.startElement(uri, localName, name, attributes);
 		
-		if(sectionHandler != null) {
-			sectionHandler.startElement(pc, localName, attributes);
-		} else if(nextSection != null && nextSection.getName().equals(name)) {
+		if(nextSection != null && name.equals(nextSection.getName())) {
 			currentSection = nextSection;
 			nextSection = currentSection.getNext();
 			sectionHandler = currentSection.getHandler();
 			parser.sectionStart(currentSection.toString());
-		}
-		
-		buf.setLength(0);
+		} else if(sectionHandler != null) {
+			sectionHandler.startElement(pc, name, attributes);
+		} 
+		textQueue.push(new StringBuilder(100));
 	}
 	
 	@Override
 	public void characters(char[] ch, int start, int length) throws SAXException {
 		super.characters(ch, start, length);
-		buf.append(ch, start, length);
+		textQueue.peek().append(ch, start, length);
 	}
 	
 	@Override
 	public void endElement(String uri, String localName, String name) throws SAXException {
-		String body = buf.toString();
-		buf.setLength(0);
+		String body = textQueue.pop().toString();
 		
 		if(currentSection == null)
 			return;
 		
 		if(name.equals(currentSection.getName())) {
-			// do nothing
-		} else if(sectionHandler != null) {
-			sectionHandler.endElement(pc, localName, body);
+			sectionHandler = null;
+		}
+		
+		if(sectionHandler != null) {
+			sectionHandler.endElement(pc, name, body);
 			
 			if(currentSection == Section.Rules) {
 				pc.add(((RulesElementHandler)sectionHandler).getRule());

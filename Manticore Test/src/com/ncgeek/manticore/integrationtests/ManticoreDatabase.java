@@ -8,19 +8,25 @@ import java.sql.SQLException;
 import java.sql.Statement;
 
 import com.ncgeek.manticore.Dice;
+import com.ncgeek.manticore.ICompendiumRepository;
 import com.ncgeek.manticore.Money;
 import com.ncgeek.manticore.Source;
 import com.ncgeek.manticore.items.Armor;
 import com.ncgeek.manticore.items.ArmorCategories;
 import com.ncgeek.manticore.items.ArmorTypes;
+import com.ncgeek.manticore.items.Gear;
+import com.ncgeek.manticore.items.GearCategory;
+import com.ncgeek.manticore.items.Item;
 import com.ncgeek.manticore.items.ItemSlots;
+import com.ncgeek.manticore.items.MagicItem;
 import com.ncgeek.manticore.items.Range;
 import com.ncgeek.manticore.items.Weapon;
 import com.ncgeek.manticore.items.WeaponCategories;
 import com.ncgeek.manticore.items.WeaponGroups;
 import com.ncgeek.manticore.items.WeaponProperties;
+import com.ncgeek.manticore.rules.Rule;
 
-public class ManticoreDatabase {
+public class ManticoreDatabase implements ICompendiumRepository {
 
 	static {
 		try {
@@ -138,5 +144,94 @@ public class ManticoreDatabase {
 		Statement stmt = connection.createStatement();
 		stmt.setQueryTimeout(10);
 		return stmt.executeQuery(sql);
+	}
+
+	@Override
+	public Item getItem(Rule rule) {
+		switch(rule.getType()) {
+			case WEAPON: return getWeapon(rule);
+			case ARMOR: return getArmor(rule);
+			case MAGIC_ITEM: return getMagicItem(rule);
+			default: return null;
+		}
+	}
+
+	@Override
+	public Weapon getWeapon(Rule rule) {
+		return getWeapon(rule.getInternalID());
+	}
+
+	@Override
+	public Armor getArmor(Rule rule) {
+		return getArmor(rule.getInternalID());
+	}
+
+	@Override
+	public MagicItem getMagicItem(Rule rule) {
+		return null;
+	}
+
+	@Override
+	public Gear getGear(Rule rule) {
+		String internalID = rule.getInternalID();
+		
+		try {
+			ResultSet rs = execute("SELECT * FROM vGear WHERE InternalID = '" + internalID + "'");
+			
+			if(!rs.next())
+				return null;
+			
+			Gear g = new Gear();
+			g.setName(rs.getString("Name"));
+			g.setDescription(rs.getString("Description"));
+			g.setPrice(new Money(rs.getLong("Price")));
+			if(rs.getString("ItemSlot") != null)
+				g.setItemSlot(ItemSlots.forName(rs.getString("ItemSlot")));
+			g.setWeight(rs.getDouble("Weight"));
+			g.setCategory(GearCategory.forName(rs.getString("GearCategory")));
+			g.setCount(rs.getInt("ItemCount"));
+			
+			rs.close();
+			rs = null;
+			
+			rs = execute("SELECT * FROM vGearSources WHERE InternalID = '" + internalID + "'");
+			while(rs.next()) {
+				g.addSource(Source.forName(rs.getString("Name")));
+			}
+			
+			return g;
+		} catch(SQLException ex) {
+			throw new RuntimeException(ex);
+		}
+	}
+
+	@Override
+	public void add(Item item) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void add(Weapon weapon) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void add(Armor armor) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void add(MagicItem magicItem) {
+		// TODO Auto-generated method stub
+		
+	}
+
+	@Override
+	public void add(Gear gear) {
+		// TODO Auto-generated method stub
+		
 	}
 }

@@ -6,7 +6,7 @@ import com.ncgeek.android.manticore.ManticorePreferences;
 import com.ncgeek.android.manticore.ManticoreStatus;
 import com.ncgeek.android.manticore.MessageTypes;
 import com.ncgeek.android.manticore.R;
-import com.ncgeek.android.manticore.parsers.CharacterParser;
+import com.ncgeek.android.manticore.database.DatabaseRepository;
 import com.ncgeek.android.manticore.threads.LoadCharacterThread;
 import com.ncgeek.manticore.character.HitPoints;
 import com.ncgeek.manticore.character.PlayerCharacter;
@@ -118,7 +118,8 @@ public class CharacterSheet extends Activity {
 	    
 	    ManticoreStatus.setPCFile(f);
 	    
-	    thdLoad = LoadCharacterThread.getThread(f, dialogHandler, new CharacterParser(this, dialogHandler));
+	    thdLoad = LoadCharacterThread.getThread(f, dialogHandler);
+	    thdLoad.setRepository(new DatabaseRepository(this));
 	    
 	    if(!thdLoad.hasStarted()) {
 	    	showDialog(DIALOG_LOADING);

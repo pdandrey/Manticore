@@ -5,6 +5,8 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import com.ncgeek.manticore.character.RuleEventArgs;
 import com.ncgeek.manticore.character.RuleEventType;
@@ -19,10 +21,12 @@ import com.ncgeek.manticore.items.EquippableItem;
 import com.ncgeek.manticore.items.Weapon;
 import com.ncgeek.manticore.items.WeaponGroups;
 import com.ncgeek.manticore.rules.Rule;
+import com.ncgeek.manticore.rules.RuleTypes;
 
 public class Addition implements Serializable {
 	
 	private static final long serialVersionUID = 1L;
+	private static final Pattern PATTERN_LEVEL_REQUIREMENT = Pattern.compile("(\\d+) level");
 	private int _value;
 	private Integer _level;
 	private String _statlink;
@@ -387,8 +391,20 @@ public class Addition implements Serializable {
 		if(inverse)
 			name = name.substring(1);
 		
-		if(name != null && !name.equalsIgnoreCase(rule.getName()))
+		// check for level requirement
+		if(rule.getType() == RuleTypes.LEVEL) {
+			Matcher match = PATTERN_LEVEL_REQUIREMENT.matcher(name);
+			if(match.matches()) {
+				int targetLevel = Integer.parseInt(match.group(1));
+				int ruleLevel = Integer.parseInt(rule.getName());
+				if(ruleLevel < targetLevel)
+					return;
+			} else {
+				return;
+			}
+		} else if(name != null && !name.equalsIgnoreCase(rule.getName())) {
 			return;
+		}
 		
 		_foundRule = true;
 		_shouldApply = !inverse;

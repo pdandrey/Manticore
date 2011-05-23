@@ -10,12 +10,27 @@ import java.util.Observable;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
+import com.ncgeek.manticore.ICompendiumRepository;
 import com.ncgeek.manticore.character.PlayerCharacter;
 import com.ncgeek.manticore.util.Logger;
 
 public class CharacterParser extends Observable {
 
 	static final String LOG_TAG = "Character Parser";
+	
+	private ICompendiumRepository repository;
+	
+	public CharacterParser() {
+		this(null);
+	}
+	
+	public CharacterParser(ICompendiumRepository repository) {
+		this.repository = repository;
+	}
+	
+	public void setRepository(ICompendiumRepository repos) {
+		repository = repos;
+	}
 	
 	public PlayerCharacter parse(String url) {
 		try {
@@ -45,7 +60,7 @@ public class CharacterParser extends Observable {
 		SAXParserFactory factory = SAXParserFactory.newInstance();
 		try {
 		    SAXParser parser = factory.newSAXParser();
-		    CharacterHandler handler = new CharacterHandler(this);
+		    CharacterHandler handler = new CharacterHandler(this, repository);
 		    parser.parse(in, handler);
 		    return handler.getPlayerCharacter();
 		} catch (Exception e) {

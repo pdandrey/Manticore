@@ -26,38 +26,38 @@ public class SetPCPropertiesFromStatsRules extends BaseIntegrationTest {
 		_class = null;
 		race = null;
 		
-		if(file.equals("chase")) {
+		if(file.equals("chase2")) {
 			gender = Gender.Male;
 			align = Alignment.Good;
 			hp = 43;
 			surges = 11;
 			_class = "Swordmage";
 			race = "Human";
-		} else if(file.equals("alek")) {
+		} else if(file.equals("alek2")) {
 			gender = Gender.Male;
 			align = Alignment.Good;
 			hp = 30;
 			surges = 8;
 			_class = "Psion";
 			race = "Human";
-		} else if(file.equals("christof")) {
+		} else if(file.equals("christof2")) {
 			gender = Gender.Male;
 			align = Alignment.Good;
 			hp = 31;
 			surges = 8;
 			_class = "Rogue";
 			race = "Human";
-		} else if(file.equals("greyson")) {
+		} else if(file.equals("greyson2")) {
 			gender = Gender.Male;
 			align = Alignment.Unaligned;
 			hp = 43;
 			surges = 11;
 			_class = "Swordmage";
 			race = "Human";
-		} else if(file.equals("pynder")) {
+		} else if(file.equals("pynder2")) {
 			gender = Gender.Male;
 			align = Alignment.Unaligned;
-			hp = 30;
+			hp = 35;
 			surges = 10;
 			_class = "Warlock";
 			race = "Human";

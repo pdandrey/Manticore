@@ -25,6 +25,9 @@ public final class ItemUtilities {
 			case MAGIC_ITEM:
 				return magicItemFromRule(rule);
 				
+			case GEAR:
+				return gearFromRule(rule);
+				
 			default:
 				return null;
 		}

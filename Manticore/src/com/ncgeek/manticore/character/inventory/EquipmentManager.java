@@ -86,7 +86,7 @@ public class EquipmentManager extends Observable implements Serializable {
 			throw new IllegalArgumentException("Do not have any in the stack to equip");
 		
 		if(item.getItemSlot() == null)
-			throw new IllegalArgumentException("That item is not equippable");
+			throw new IllegalArgumentException("That item is not equippable: " + item.getName());
 		
 		EnumSet<EquipmentSlot> slots = EnumSet.noneOf(EquipmentSlot.class);
 		// Does the item fill all the item slots? (two-handed weapon, etc)

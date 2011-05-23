@@ -28,6 +28,7 @@ public class RulesElementHandler implements IElementHandler {
 			String url = attrs.getValue("url");
 			String legal = attrs.getValue("legality");
 			rule = new Rule(ruleName, type, internalID, url, legal);
+			
 		} else if(name.equals("specific")) {
 			specName = attrs.getValue("name");
 		}

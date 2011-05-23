@@ -7,10 +7,13 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.ncgeek.manticore.character.PlayerCharacter;
+import com.ncgeek.manticore.parsers.CharacterParser;
+import com.ncgeek.manticore.test.TestLogger;
+import com.ncgeek.manticore.util.Logger;
 
 public abstract class BaseIntegrationTest {
 
-	private PlayerCharacterParser parser;
+	private CharacterParser parser;
 	private File directory;
 	private ManticoreDatabase db;
 	private File file;
@@ -19,8 +22,9 @@ public abstract class BaseIntegrationTest {
 	public void setup() {
 		directory = new File(".\\docs\\");
 		db = new ManticoreDatabase(new File("c:\\users\\walynkyle\\documents\\my dropbox\\manticore\\manticore.db"));
-		parser = new PlayerCharacterParser(db);
+		parser = new CharacterParser(db);
 		file = null;
+		Logger.setLogger(new TestLogger());
 	}
 	
 	@After
@@ -30,35 +34,35 @@ public abstract class BaseIntegrationTest {
 	
 	@Test
 	public void testChase() {
-		file = new File(directory, "chase.dnd4e");
+		file = new File(directory, "chase2.dnd4e");
 		setupCharacterValues();
 		test(parser.parse(file));
 	}
 	
 	@Test
 	public void testPynder() {
-		file = new File(directory, "pynder.dnd4e");
+		file = new File(directory, "pynder2.dnd4e");
 		setupCharacterValues();
 		test(parser.parse(file));
 	}
 	
 	@Test
 	public void testAlek() {
-		file = new File(directory, "alek.dnd4e");
+		file = new File(directory, "alek2.dnd4e");
 		setupCharacterValues();
 		test(parser.parse(file));
 	}
 	
 	@Test
 	public void testChristof() {
-		file = new File(directory, "christof.dnd4e");
+		file = new File(directory, "christof2.dnd4e");
 		setupCharacterValues();
 		test(parser.parse(file));
 	}
 	
 	@Test
 	public void testGreyson() {
-		file = new File(directory, "greyson.dnd4e");
+		file = new File(directory, "greyson2.dnd4e");
 		setupCharacterValues();
 		test(parser.parse(file));
 	}
