@@ -41,10 +41,9 @@ public class EquipmentManagerTests {
 		_equipItem = mockEquippableItem("Mock Belt", ItemSlots.Waist);
 	}
 
-	@SuppressWarnings("unchecked")
 	@Test
 	public void testAddItem_NotPresent() {
-		_lootList = new ArrayList();
+		_lootList = new ArrayList<ItemStack>();
 		_pack = new EquipmentManager(_lootList, _equippedMap);
 		
 		_pack.add(_item);

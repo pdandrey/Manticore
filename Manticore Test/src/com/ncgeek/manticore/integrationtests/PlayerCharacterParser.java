@@ -17,7 +17,6 @@ import com.ncgeek.manticore.character.PlayerCharacter;
 import com.ncgeek.manticore.character.inventory.EquipmentManager;
 import com.ncgeek.manticore.character.stats.Addition;
 import com.ncgeek.manticore.character.stats.Stat;
-import com.ncgeek.manticore.items.Armor;
 import com.ncgeek.manticore.items.EquippableItem;
 import com.ncgeek.manticore.items.Item;
 import com.ncgeek.manticore.rules.Rule;

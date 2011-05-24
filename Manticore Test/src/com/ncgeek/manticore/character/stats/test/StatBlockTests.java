@@ -3,14 +3,10 @@ package com.ncgeek.manticore.character.stats.test;
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -21,11 +17,9 @@ import org.mockito.ArgumentCaptor;
 
 import com.ncgeek.manticore.character.RuleEventArgs;
 import com.ncgeek.manticore.character.inventory.EquipmentManagerEventArgs;
-import com.ncgeek.manticore.character.inventory.EquipmentManagerEventType;
 import com.ncgeek.manticore.character.stats.Addition;
 import com.ncgeek.manticore.character.stats.Stat;
 import com.ncgeek.manticore.character.stats.StatBlock;
-import com.ncgeek.manticore.items.EquippableItem;
 
 public class StatBlockTests {
 
@@ -69,6 +63,7 @@ public class StatBlockTests {
 		
 		verify(_mapStats).put("arcana", s);
 		
+		@SuppressWarnings("rawtypes")
 		ArgumentCaptor<List> captor = ArgumentCaptor.forClass(List.class);
 		verify(_mapLinks).put(eq("int"), captor.capture());
 		

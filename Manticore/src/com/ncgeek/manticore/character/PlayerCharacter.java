@@ -11,7 +11,6 @@ import com.ncgeek.manticore.character.stats.Stat;
 import com.ncgeek.manticore.character.stats.StatBlock;
 import com.ncgeek.manticore.powers.Power;
 import com.ncgeek.manticore.rules.Rule;
-import com.ncgeek.manticore.rules.RuleTypes;
 
 public class PlayerCharacter extends Observable implements Serializable, IRest{
 	
