@@ -10,6 +10,7 @@ import java.util.Map;
 import java.util.Set;
 
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import com.ncgeek.manticore.character.RuleEventArgs;
@@ -396,8 +397,9 @@ public class AdditionTests {
 	}
 	
 	@Test
+	@Ignore
 	public void testProcessEquipment_DefensiveNoSub() {
-		fail("nyi");
+		fail("Not Yet Implemented... because I have no idea what this is supposed to do yet.");
 	}
 	
 	@Test

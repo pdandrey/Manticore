@@ -21,7 +21,9 @@ public abstract class BaseIntegrationTest {
 	@Before
 	public void setup() {
 		directory = new File(".\\docs\\");
-		db = new ManticoreDatabase(new File("c:\\users\\walynkyle\\documents\\my dropbox\\manticore\\manticore.db"));
+		File dbFile = new File("c:\\userss\\walynkyle\\documents\\my dropbox\\manticore\\manticore.db");
+		if(dbFile.exists())
+			db = new ManticoreDatabase(dbFile);
 		parser = new CharacterParser(db);
 		file = null;
 		Logger.setLogger(new TestLogger());
@@ -29,7 +31,8 @@ public abstract class BaseIntegrationTest {
 	
 	@After
 	public void cleanup() {
-		db.close();
+		if(db != null)
+			db.close();
 	}
 	
 	@Test
