@@ -1,6 +1,10 @@
 package com.ncgeek.android.manticore.activities;
 
 import java.io.File;
+import java.io.FileOutputStream;
+import java.net.URL;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import com.ncgeek.android.manticore.ManticorePreferences;
 import com.ncgeek.android.manticore.ManticoreStatus;
@@ -8,6 +12,8 @@ import com.ncgeek.android.manticore.MessageTypes;
 import com.ncgeek.android.manticore.R;
 import com.ncgeek.android.manticore.database.DatabaseRepository;
 import com.ncgeek.android.manticore.threads.LoadCharacterThread;
+import com.ncgeek.android.manticore.util.Utility;
+import com.ncgeek.android.manticore.widgets.LabelBar;
 import com.ncgeek.manticore.character.HitPoints;
 import com.ncgeek.manticore.character.PlayerCharacter;
 import com.ncgeek.manticore.character.stats.Stat;
@@ -20,6 +26,9 @@ import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Bitmap.CompressFormat;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -33,6 +42,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -73,6 +83,13 @@ public class CharacterSheet extends Activity {
 		}
 	};
 	
+	private android.view.View.OnClickListener ContextMenuClick = new android.view.View.OnClickListener() {
+		@Override
+		public void onClick(View v) {
+			v.performLongClick();
+		}
+	};
+	
 	@Override
     public void onCreate(Bundle savedInstanceState) {
 		ManticoreStatus.initialize(this);
@@ -80,9 +97,18 @@ public class CharacterSheet extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.character_sheet);
         
-        registerForContextMenu(findViewById(R.id.charactersheet_frameDefenses));
-        registerForContextMenu(findViewById(R.id.charactersheet_frameHP));
-        registerForContextMenu(findViewById(R.id.charactersheet_frameActionPoints));
+        View v = findViewById(R.id.charactersheet_hpbar);
+        v.setOnClickListener(ContextMenuClick);
+        registerForContextMenu(v);
+        
+        v = findViewById(R.id.charactersheet_surgebar);
+        v.setOnClickListener(ContextMenuClick);
+        registerForContextMenu(v);
+       
+        registerForContextMenu(findViewById(R.id.charactersheet_llDefenses));
+        
+        //registerForContextMenu(findViewById(R.id.charactersheet_frameActionPoints));
+        
 	 }
 	 
 	@Override
@@ -255,19 +281,20 @@ public class CharacterSheet extends Activity {
 		MenuInflater inflater = getMenuInflater();
 		
 		switch(v.getId()) {
-			case R.id.charactersheet_frameDefenses:
+			case R.id.charactersheet_llDefenses:
 				inflater.inflate(R.menu.charactersheet_explain_defense, menu);
 				break;
 				
-			case R.id.charactersheet_frameHP:
+			case R.id.charactersheet_hpbar:
+			case R.id.charactersheet_surgebar:
 				inflater.inflate(R.menu.charactersheet_hitpoints, menu);
 				menu.setGroupVisible(R.id.charactersheet_mnugrpDeathSave, _pc.getHP().isBleedingOut());
 				break;
 				
-			case R.id.charactersheet_frameActionPoints:
-				inflater.inflate(R.menu.charactersheet_actionpoints, menu);
-				menu.setGroupEnabled(R.id.charactersheet_mnugrpActionPoints, _pc.getActionPoints() > 0);
-				break;
+//			case R.id.charactersheet_frameActionPoints:
+//				inflater.inflate(R.menu.charactersheet_actionpoints, menu);
+//				menu.setGroupEnabled(R.id.charactersheet_mnugrpActionPoints, _pc.getActionPoints() > 0);
+//				break;
 		}
 	}
 
@@ -341,17 +368,58 @@ public class CharacterSheet extends Activity {
 	    }
 	}
 	
-	public void showContextMenu(View v) {
-		v.performLongClick();
-	}
-	
 	private void update() {
 		if(_pc == null)
 			return;
 		
+		if(_pc.getPortrait() != null) {
+			try {
+				URL url = new URL(_pc.getPortrait());
+				
+				Bitmap bitmap = null;
+				String cachePortraitFilename = null;
+				File cacheDir = null; 
+				
+				
+				if(prefs.cacheImages() && Utility.isExternalAvailable()) {
+					cacheDir = new File(ManticoreStatus.getExternalStorageDirectory(), "cache/portraits/");
+					if(!cacheDir.exists() && !cacheDir.mkdirs()) {
+						Logger.error(LOG_TAG, "Failed to create portrait cache directory");
+					} else {
+						Pattern regexFilename = Pattern.compile("\\d+\\.png$");
+						Matcher m = regexFilename.matcher(_pc.getPortrait());
+						if(m.find()) {
+							File portrait = new File(cacheDir, m.group());
+							if(portrait.exists()) {
+								bitmap = BitmapFactory.decodeFile(portrait.toString());
+							} else {
+								cachePortraitFilename = portrait.toString();
+							}
+						}
+					}
+				}
+				
+				if(bitmap == null) {
+					bitmap = BitmapFactory.decodeStream(url.openStream());
+				}
+				
+				if(cachePortraitFilename != null && cacheDir != null) {
+					FileOutputStream fos = new FileOutputStream(cachePortraitFilename);
+					bitmap.compress(CompressFormat.PNG, 100, fos);
+					fos.close();
+				}
+				
+				ImageView iv = (ImageView)findViewById(R.id.charactersheet_img);
+				iv.setImageBitmap(bitmap);
+			} catch(Exception ex) {
+				Logger.error(LOG_TAG, "Error loading portrait", ex);
+			}
+		}
+		
 		TextView txtName = (TextView)findViewById(R.id.charactersheet_txtName);
 		txtName.setText(_pc.getName());
 		
+		/*
 		TextView txtLevel = (TextView)findViewById(R.id.charactersheet_txtLevel);
 		txtLevel.setText(_pc.getLevel() + "");
 		
@@ -360,6 +428,7 @@ public class CharacterSheet extends Activity {
 		
 		TextView txtClass = (TextView)findViewById(R.id.charactersheet_txtClass);
 		txtClass.setText(_pc.getHeroicClass());
+		*/
 		
 		updateAbilityScores("STR", R.id.charactersheet_txtStr, R.id.charactersheet_txtStrMod);
 		updateAbilityScores("Con", R.id.charactersheet_txtCon, R.id.charactersheet_txtConMod);
@@ -373,9 +442,9 @@ public class CharacterSheet extends Activity {
 		updateDefenses("Reflex", R.id.charactersheet_txtReflex);
 		updateDefenses("Will", R.id.charactersheet_txtWill);
 		
-		updateHP();
-		
 		updateActionPoints();
+		
+		updateHP();
 	}
 	
 	private void updateAbilityScores(String stat, int txtID, int txtModID) {
@@ -415,19 +484,18 @@ public class CharacterSheet extends Activity {
 	private void updateHP() {
 		HitPoints hp = _pc.getHP();
 		
-		TextView txtHP = (TextView)findViewById(R.id.charactersheet_txtHP);
-		TextView surges = (TextView)findViewById(R.id.charactersheet_txtSurges);
+		LabelBar hpbar = (LabelBar)findViewById(R.id.charactersheet_hpbar);
+		LabelBar surgebar = (LabelBar)findViewById(R.id.charactersheet_surgebar);
 		
-		surges.setText(hp.getRemainingSurges() + "");
+		hpbar.setMax(hp.getMax());
+		hpbar.setCurrent(hp.getCurrent());
+		hpbar.setTemporary(hp.getTemp());
 		
-		StringBuilder buf = new StringBuilder(hp.getCurrent() + "");
-		if(hp.getTemp() > 0) {
-			buf.append(" (+");
-			buf.append(hp.getTemp());
-			buf.append(")");
-		}
-		txtHP.setText(buf.toString());
+		surgebar.setMax(hp.getTotalSurges());
+		surgebar.setCurrent(hp.getRemainingSurges());
+		surgebar.setTemporary(0);
 		
+		/*
 		int background = R.drawable.hp_background;
 		if(hp.isDead()) {
 			background = R.drawable.hp_dead_background;
@@ -444,10 +512,11 @@ public class CharacterSheet extends Activity {
 		findViewById(R.id.charactersheet_imgDead).setVisibility(failed > 2 ? View.VISIBLE : View.GONE);
 		
 		findViewById(R.id.charactersheet_frameHP).setBackgroundResource(background);
+		*/
 	}
 	
 	private void updateActionPoints() {
-		TextView txt = (TextView)findViewById(R.id.charactersheet_txtActionPoints);
-		txt.setText(_pc.getActionPoints() + "");
+		//TextView txt = (TextView)findViewById(R.id.charactersheet_txtActionPoints);
+		//txt.setText(_pc.getActionPoints() + "");
 	}
 }

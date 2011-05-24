@@ -34,8 +34,6 @@ public final class ItemUtilities {
 	}
 	
 	public static Armor armorFromRule(Rule rule) {
-		if(!rule.hasSpecifics())
-			throw new IllegalArgumentException("Cannot create armor from rule without specifics");
 		
 		Armor a = new Armor();
 		fillItem(a, rule);
@@ -52,8 +50,6 @@ public final class ItemUtilities {
 	}
 	
 	public static Weapon weaponFromRule(Rule rule) {
-		if(!rule.hasSpecifics())
-			throw new IllegalArgumentException("Cannot create weapon from rule without specifics");
 		
 		Weapon w = new Weapon();
 		fillItem(w, rule);
@@ -169,7 +165,7 @@ public final class ItemUtilities {
 	
 	private static void fillItem(Item item, Rule rule) {
 		if(!rule.hasSpecifics())
-			throw new IllegalArgumentException("Cannot fill item from rule without specifics");
+			throw new IllegalArgumentException(String.format("Cannot fill item from rule without specifics: %s (%s)", rule.getName(), rule.getInternalID()));
 		
 		item.setID(rule.getInternalID());
 		item.setName(rule.getName());

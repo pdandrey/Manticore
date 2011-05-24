@@ -23,6 +23,10 @@ public final class ManticorePreferences {
 		return prefs.getBoolean("UseCalculatedStats", true);
 	}
 	
+	public final boolean cacheImages() {
+		return prefs.getBoolean("CacheImages", true);
+	}
+	
 	public final boolean shouldCopyDatabase() {
 		boolean copy = prefs.getBoolean("CopyDatabase", true);
 		boolean db = isDatabaseEnabled();

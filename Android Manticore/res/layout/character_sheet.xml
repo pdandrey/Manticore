@@ -1,19 +1,29 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:ncgeek="http://schemas.android.com/apk/res/com.ncgeek.android.manticore"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:background="#FFFFFF"
     >
-    <TextView 
-    	android:layout_height="wrap_content" 
+    <ImageView 
+    	android:id="@+id/charactersheet_img"
+    	android:src="@drawable/icon"  
+    	android:layout_height="125dp" 
+    	android:layout_width="125dp" 
     	android:layout_alignParentLeft="true" 
+    	android:layout_alignParentTop="true"/>
+    <TextView
     	android:id="@+id/charactersheet_txtName" 
-    	android:text="Chase Dravon" 
+    	android:layout_height="wrap_content" 
     	android:layout_width="match_parent" 
-    	android:layout_alignParentTop="true"
-    	android:textSize="24sp"
-    	android:textColor="#000000"
+    	android:textSize="24sp" 
+    	android:textColor="#000000" 
+    	android:text="Chase Dravon" 
+    	android:gravity="left"
+    	android:layout_toRightOf="@+id/charactersheet_img" 
+    	android:layout_alignParentTop="true" 
     	/>
+    <!-- 
     <TextView 
     	android:layout_height="wrap_content" 
     	android:layout_alignParentLeft="true" 
@@ -189,4 +199,238 @@
 	    	</TableRow>
     	</TableLayout>
  	</FrameLayout>
+ 	
+ 	--> 
+ 	<com.ncgeek.android.manticore.widgets.LabelBar
+    	android:id="@+id/charactersheet_hpbar"
+    	android:layout_width="200dp"
+ 		android:layout_height="wrap_content"
+ 		android:orientation="horizontal"
+ 		android:layout_below="@id/charactersheet_txtName" 
+    	android:layout_alignLeft="@id/charactersheet_txtName"
+    	android:layout_marginRight="5dp"
+    	ncgeek:label="HP:"
+    	ncgeek:max="57"
+    	ncgeek:current="48"
+    	ncgeek:temporary="3"
+    	ncgeek:barDrawable="@drawable/hp_bar"
+    	/>
+    <com.ncgeek.android.manticore.widgets.LabelBar
+    	android:id="@+id/charactersheet_surgebar"
+    	android:layout_width="200dp" 
+ 		android:layout_height="wrap_content"
+ 		android:layout_below="@id/charactersheet_hpbar" 
+ 		android:layout_alignLeft="@id/charactersheet_hpbar"
+ 		android:layout_alignRight="@id/charactersheet_hpbar"
+ 		ncgeek:label="Healing Surges:"
+    	ncgeek:max="8"
+    	ncgeek:current="4"
+    	ncgeek:barDrawable="@drawable/surge_bar"
+    	/>
+    <LinearLayout
+    	android:id="@+id/charactersheet_llDefenses"
+    	android:layout_width="fill_parent"
+    	android:layout_height="wrap_content"
+    	android:orientation="horizontal"
+    	android:layout_alignLeft="@id/charactersheet_img"
+    	android:layout_below="@id/charactersheet_img"
+    	>
+    	<LinearLayout style="@style/charactersheet_defense_entry">
+    		<LinearLayout style="@style/charactersheet_defense_entry_label">
+    			<ImageView android:src="@drawable/i_defense_ac" style="@style/charactersheet_defense_entry_label_icon"/>
+    			<TextView android:text="AC:" style="@style/charactersheet_defense_entry_label_text" />
+    		</LinearLayout>
+    		<TextView
+    			android:id="@+id/charactersheet_txtAC" 
+    			android:text="21" 
+    			style="@style/charactersheet_defense_entry_value"
+    			/>
+    	</LinearLayout>
+    	
+    	<LinearLayout style="@style/charactersheet_defense_entry">
+    		<LinearLayout style="@style/charactersheet_defense_entry_label">
+    			<ImageView android:src="@drawable/i_defense_fort" style="@style/charactersheet_defense_entry_label_icon"/>
+    			<TextView android:text="Fort:" style="@style/charactersheet_defense_entry_label_text" />
+    		</LinearLayout>
+    		<TextView
+    			android:id="@+id/charactersheet_txtFort" 
+    			android:text="17" 
+    			style="@style/charactersheet_defense_entry_value"
+    			/>
+    	</LinearLayout>
+    	<LinearLayout style="@style/charactersheet_defense_entry">
+    		<LinearLayout style="@style/charactersheet_defense_entry_label">
+    			<ImageView android:src="@drawable/i_defense_reflex" style="@style/charactersheet_defense_entry_label_icon"/>
+    			<TextView android:text="Reflex:" style="@style/charactersheet_defense_entry_label_text" />
+    		</LinearLayout>
+    		<TextView
+    			android:id="@+id/charactersheet_txtReflex" 
+    			android:text="19" 
+    			style="@style/charactersheet_defense_entry_value"
+    			/>
+    	</LinearLayout>
+    	<LinearLayout style="@style/charactersheet_defense_entry">
+    		<LinearLayout style="@style/charactersheet_defense_entry_label">
+    			<ImageView android:src="@drawable/i_defense_will" style="@style/charactersheet_defense_entry_label_icon"/>
+    			<TextView android:text="Will:" style="@style/charactersheet_defense_entry_label_text" />
+    		</LinearLayout>
+    		<TextView
+    			android:id="@+id/charactersheet_txtWill" 
+    			android:text="15" 
+    			style="@style/charactersheet_defense_entry_value"
+    			/>
+    	</LinearLayout>
+   	</LinearLayout>
+    <TableLayout
+    	android:id="@+id/charactersheet_tblStats"
+    	android:layout_height="wrap_content"
+    	android:layout_width="150dp"
+    	android:layout_alignLeft="@id/charactersheet_img"
+    	android:layout_below="@id/charactersheet_llDefenses"
+    	>
+    	<TableRow>
+    		<TextView 
+    			android:layout_width="wrap_content"
+    			android:layout_height="wrap_content"
+    			android:text="Strength"
+    			/>
+    		<TextView
+    			android:id="@+id/charactersheet_txtStr"
+    			android:layout_width="wrap_content"
+    			android:layout_height="wrap_content"
+    			android:text="10"
+    			/>
+    		<TextView
+    			android:id="@+id/charactersheet_txtStrMod"
+    			android:layout_width="wrap_content"
+    			android:layout_height="wrap_content"
+    			android:text="0"
+    			/>
+    	</TableRow>
+    	<View android:layout_height="1dip" android:layout_width="fill_parent" android:background="#AA000000" />
+    	<TableRow>
+    		<TextView 
+    			android:layout_width="wrap_content"
+    			android:layout_height="wrap_content"
+    			android:text="Constitution"
+    			/>
+    		<TextView
+    			android:id="@+id/charactersheet_txtCon"
+    			android:layout_width="wrap_content"
+    			android:layout_height="wrap_content"
+    			android:text="10"
+    			/>
+    		<TextView
+    			android:id="@+id/charactersheet_txtConMod"
+    			android:layout_width="wrap_content"
+    			android:layout_height="wrap_content"
+    			android:text="0"
+    			/>
+    	</TableRow>
+    	<View android:layout_height="1dip" android:layout_width="fill_parent" android:background="#AA000000" />
+    	<TableRow>
+    		<TextView 
+    			android:layout_width="wrap_content"
+    			android:layout_height="wrap_content"
+    			android:text="Dexterity"
+    			/>
+    		<TextView
+    			android:id="@+id/charactersheet_txtDex"
+    			android:layout_width="wrap_content"
+    			android:layout_height="wrap_content"
+    			android:text="10"
+    			/>
+    		<TextView
+    			android:id="@+id/charactersheet_txtDexMod"
+    			android:layout_width="wrap_content"
+    			android:layout_height="wrap_content"
+    			android:text="0"
+    			/>
+    	</TableRow>
+		<View android:layout_height="1dip" android:layout_width="fill_parent" android:background="#AA000000" />
+    	<TableRow>
+    		<TextView 
+    			android:layout_width="wrap_content"
+    			android:layout_height="wrap_content"
+    			android:text="Intelligence"
+    			/>
+    		<TextView
+    			android:id="@+id/charactersheet_txtInt"
+    			android:layout_width="wrap_content"
+    			android:layout_height="wrap_content"
+    			android:text="10"
+    			/>
+    		<TextView
+    			android:id="@+id/charactersheet_txtIntMod"
+    			android:layout_width="wrap_content"
+    			android:layout_height="wrap_content"
+    			android:text="0"
+    			/>
+    	</TableRow>
+    	<View android:layout_height="1dip" android:layout_width="fill_parent" android:background="#AA000000" />
+    	<TableRow>
+    		<TextView 
+    			android:layout_width="wrap_content"
+    			android:layout_height="wrap_content"
+    			android:text="Wisdom"
+    			/>
+    		<TextView
+    			android:id="@+id/charactersheet_txtWis"
+    			android:layout_width="wrap_content"
+    			android:layout_height="wrap_content"
+    			android:text="10"
+    			/>
+    		<TextView
+    			android:id="@+id/charactersheet_txtWisMod"
+    			android:layout_width="wrap_content"
+    			android:layout_height="wrap_content"
+    			android:text="0"
+    			/>
+    	</TableRow>
+    	<View android:layout_height="1dip" android:layout_width="fill_parent" android:background="#AA000000" />
+    	<TableRow>
+    		<TextView 
+    			android:layout_width="wrap_content"
+    			android:layout_height="wrap_content"
+    			android:text="Charisma"
+    			/>
+    		<TextView
+    			android:id="@+id/charactersheet_txtCha"
+    			android:layout_width="wrap_content"
+    			android:layout_height="wrap_content"
+    			android:text="10"
+    			/>
+    		<TextView
+    			android:id="@+id/charactersheet_txtChaMod"
+    			android:layout_width="wrap_content"
+    			android:layout_height="wrap_content"
+    			android:text="0"
+    			/>
+    	</TableRow>
+   	</TableLayout>
+    <!-- 
+    <com.ncgeek.android.manticore.widgets.LabelBar
+    	android:id="@+id/charactersheet_encounterbar"
+    	android:layout_width="100dp"
+ 		android:layout_height="wrap_content"
+ 		android:layout_below="@id/charactersheet_hpbar" 
+ 		android:layout_alignLeft="@id/charactersheet_hpbar"
+ 		ncgeek:label="Encounters:"
+    	ncgeek:max="8"
+    	ncgeek:current="4"
+    	ncgeek:barDrawable="@drawable/encounterpower_bar"
+    	/>
+    <com.ncgeek.android.manticore.widgets.LabelBar
+    	android:id="@+id/charactersheet_dailybar"
+    	android:layout_width="100dp"
+ 		android:layout_height="wrap_content"
+ 		android:layout_alignTop="@id/charactersheet_encounterbar"
+ 		android:layout_alignBottom="@id/charactersheet_encounterbar"
+ 		android:layout_toRightOf="@id/charactersheet_encounterbar"
+ 		ncgeek:label="Dailies:"
+    	ncgeek:max="3"
+    	ncgeek:current="2"
+    	ncgeek:barDrawable="@drawable/dailypower_bar"
+    	/>
+    	 -->
 </RelativeLayout>

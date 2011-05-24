@@ -83,7 +83,7 @@ public class ManticoreAndroidLogger implements ILog {
 		ensureLogDirectory();
 		
 		try {
-			BufferedWriter writer = new BufferedWriter(new FileWriter(_log));
+			BufferedWriter writer = new BufferedWriter(new FileWriter(_log, true));
 			writer.write(String.format("%s\t%s\t%s\t%s\n", priority.toString(), sdf.format(now), tag, msg));
 			
 			while(tr != null) {
