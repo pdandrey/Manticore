@@ -13,6 +13,11 @@ public class EnchantedItem extends EquippableItem {
 	private final MagicItem _enchantment;
 	
 	public EnchantedItem(EquippableItem item, MagicItem enchant) {
+		if(item == null)
+			throw new IllegalArgumentException("Item cannot be null");
+		if(enchant == null)
+			throw new IllegalArgumentException("Enchant cannot be null");
+		
 		_item = item;
 		_enchantment = enchant;
 	}

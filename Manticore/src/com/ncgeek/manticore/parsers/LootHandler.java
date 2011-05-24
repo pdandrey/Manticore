@@ -50,6 +50,8 @@ public class LootHandler implements IElementHandler {
 			ruleHandler.startElement(pc, name, attributes);
 			if(name.equals("RulesElement") && repository != null) {
 				current = repository.getItem(ruleHandler.getRule());
+				if(current != null)
+					items.add(current);
 			}
 		}
 	}
@@ -57,6 +59,10 @@ public class LootHandler implements IElementHandler {
 	@Override
 	public void endElement(PlayerCharacter pc, String name, String body) {
 		if(name.equals("loot")) {
+			
+			if(items.size() == 0)
+				return;
+			
 			current = items.get(0);
 			
 			if(items.size() > 1)

@@ -40,7 +40,7 @@ public final class ItemUtilities {
 		Armor a = new Armor();
 		fillItem(a, rule);
 		
-		a.setBonus(getSpecificInt(rule, "Armor Bonus"));
+		a.setBonus(getSpecificInt(rule, "Armor Bonus", 0));
 		a.setArmorCategory(ArmorCategories.forName(getSpecificString(rule, "Armor Category")));
 		a.setArmorType(ArmorTypes.forName(getSpecificString(rule, "Armor Type")));
 		a.setCheckPenalty(getSpecificInt(rule, "Check", 0));

@@ -17,7 +17,7 @@ public enum ItemSlots {
 	Mount("Mount", 12),
 	Neck("Neck", 13, EquipmentSlot.Neck),
 	MainHand("Main Hand", 18, EquipmentSlot.MainHand),
-	OffHand("Off-Hand", 2, EquipmentSlot.OffHand),
+	OffHand("Off-Hand", 2, false, EquipmentSlot.MainHand, EquipmentSlot.OffHand),
 	Ring("Ring", 14, EquipmentSlot.Ring1, EquipmentSlot.Ring2),
 	Tattoo("Tattoo", 15, EquipmentSlot.Tattoo),
 	OneHand("One-Hand", 3, false, EquipmentSlot.MainHand, EquipmentSlot.OffHand),

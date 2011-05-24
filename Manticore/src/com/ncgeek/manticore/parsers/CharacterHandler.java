@@ -12,7 +12,8 @@ import com.ncgeek.manticore.character.PlayerCharacter;
 class CharacterHandler extends DefaultHandler {
 
 	private enum Section { 
-		Powers("PowerStats", null, null),
+		Misc("textstring", TextStringHandler.getInstance(), null),
+		Powers("PowerStats", null, Misc),
 		Loot("LootTally", LootHandler.getInstance(), Powers),
 		Rules("RulesElementTally", RulesElementHandler.getInstance(), Loot),
 		Stats("StatBlock", StatBlockHandler.getInstance(), Rules),
@@ -64,6 +65,9 @@ class CharacterHandler extends DefaultHandler {
 			nextSection = currentSection.getNext();
 			sectionHandler = currentSection.getHandler();
 			parser.sectionStart(currentSection.toString());
+			if(name.equals("textstring")) {
+				sectionHandler.startElement(pc, name, attributes);
+			}
 		} else if(sectionHandler != null) {
 			sectionHandler.startElement(pc, name, attributes);
 		} 
@@ -83,7 +87,7 @@ class CharacterHandler extends DefaultHandler {
 		if(currentSection == null)
 			return;
 		
-		if(name.equals(currentSection.getName())) {
+		if(name.equals(currentSection.getName()) && !name.equals("textstring")) {
 			sectionHandler = null;
 		}
 		
@@ -99,6 +103,12 @@ class CharacterHandler extends DefaultHandler {
 	@Override
 	public void endDocument() throws SAXException {
 		super.endDocument();
+		
+		TextStringHandler misc = (TextStringHandler)Section.Misc.getHandler();
+		if(misc.getPortraitID() != null) {
+			pc.setPortrait(String.format("http://media.wizards.com/downloads/dnd/CharacterBuilder/Client/223.241754/CDNContent/Portraits/%d.png", misc.getPortraitID()));
+		}
+		
 		parser.finished(pc);
 	}
 	

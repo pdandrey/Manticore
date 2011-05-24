@@ -95,7 +95,7 @@ public class EquipmentManager extends Observable implements Serializable {
 				// Is there something already there?
 				if(_equippedItems.containsKey(es)) {
 					if(_equippedItems.get(es) == stack.getItem())
-						throw new IllegalArgumentException("Item is already equipped");
+						throw new IllegalArgumentException("Item is already equipped: " + item.getName());
 					unequip(es);
 				}
 				_equippedItems.put(es, item);
