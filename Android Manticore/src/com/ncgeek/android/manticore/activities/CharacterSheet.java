@@ -91,6 +91,18 @@ public class CharacterSheet extends Activity {
 		}
 	};
 	
+	private android.view.View.OnLongClickListener ExplainDefenseLongClick = new android.view.View.OnLongClickListener() {
+		@Override
+		public boolean onLongClick(View v) {
+			Intent i = new Intent(CharacterSheet.this, DefenseBreakdown.class);
+	        i.setAction(Intent.ACTION_VIEW);
+	        i.addCategory(Intent.CATEGORY_DEFAULT);
+	        i.putExtra("defense", (String)v.getTag());
+	        startActivity(i);
+			return true;
+		}
+	};
+	
 	@Override
     public void onCreate(Bundle savedInstanceState) {
 		ManticoreStatus.initialize(this);
@@ -106,12 +118,18 @@ public class CharacterSheet extends Activity {
         v.setOnClickListener(ContextMenuClick);
         registerForContextMenu(v);
        
-        registerForContextMenu(findViewById(R.id.charactersheet_llDefenses));
+        //registerForContextMenu(findViewById(R.id.charactersheet_llDefenses));
         
         v = findViewById(R.id.charactersheet_llActionPoints);
         v.setOnClickListener(ContextMenuClick);
         registerForContextMenu(v);
         
+        findViewById(R.id.charactersheet_llDefenseAC).setOnLongClickListener(ExplainDefenseLongClick);
+        findViewById(R.id.charactersheet_llDefenseFort).setOnLongClickListener(ExplainDefenseLongClick);
+        findViewById(R.id.charactersheet_llDefenseReflex).setOnLongClickListener(ExplainDefenseLongClick);
+        findViewById(R.id.charactersheet_llDefenseWill).setOnLongClickListener(ExplainDefenseLongClick);
+        findViewById(R.id.charactersheet_llStatSpeed).setOnLongClickListener(ExplainDefenseLongClick);
+        findViewById(R.id.charactersheet_llStatInitiative).setOnLongClickListener(ExplainDefenseLongClick);
 	 }
 	 
 	@Override

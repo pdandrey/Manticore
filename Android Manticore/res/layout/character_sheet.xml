@@ -20,7 +20,7 @@
     	android:layout_width="match_parent" 
     	android:textSize="24sp" 
     	android:textColor="#000000" 
-    	android:text="Chase Dravon" 
+    	android:text="Char Name" 
     	android:layout_toRightOf="@id/charactersheet_img" 
     	android:layout_alignParentTop="true" 
     	/>
@@ -94,28 +94,28 @@
     	android:layout_alignLeft="@id/charactersheet_img"
     	android:layout_below="@id/charactersheet_img"
     	>
-    	<LinearLayout style="@style/charactersheet_defense_entry">
+    	<LinearLayout android:id="@+id/charactersheet_llDefenseAC" android:tag="AC" style="@style/charactersheet_defense_entry">
     		<TextView android:text="AC:" style="@style/charactersheet_defense_entry_label_text" />
     		<LinearLayout style="@style/charactersheet_defense_entry_label">
     			<ImageView android:src="@drawable/i_defense_ac" style="@style/charactersheet_defense_entry_label_icon"/>
     			<TextView android:id="@+id/charactersheet_txtAC" style="@style/charactersheet_defense_entry_value" />
     		</LinearLayout>    		
     	</LinearLayout>
-    	<LinearLayout style="@style/charactersheet_defense_entry">
+    	<LinearLayout android:id="@+id/charactersheet_llDefenseFort" android:tag="Fortitude" style="@style/charactersheet_defense_entry">
     		<TextView android:text="Fort:" style="@style/charactersheet_defense_entry_label_text" />
     		<LinearLayout style="@style/charactersheet_defense_entry_label">
     			<ImageView android:src="@drawable/i_defense_fort" style="@style/charactersheet_defense_entry_label_icon"/>
     			<TextView android:id="@+id/charactersheet_txtFort" style="@style/charactersheet_defense_entry_value" />
     		</LinearLayout>
     	</LinearLayout>
-    	<LinearLayout style="@style/charactersheet_defense_entry">
+    	<LinearLayout android:id="@+id/charactersheet_llDefenseReflex" android:tag="Reflex" style="@style/charactersheet_defense_entry">
     		<TextView android:text="Reflex:" style="@style/charactersheet_defense_entry_label_text" />
     		<LinearLayout style="@style/charactersheet_defense_entry_label">
     			<ImageView android:src="@drawable/i_defense_reflex" style="@style/charactersheet_defense_entry_label_icon"/>
     			<TextView android:id="@+id/charactersheet_txtReflex" style="@style/charactersheet_defense_entry_value" />
     		</LinearLayout>
     	</LinearLayout>
-    	<LinearLayout style="@style/charactersheet_defense_entry">
+    	<LinearLayout android:id="@+id/charactersheet_llDefenseWill" android:tag="Will" style="@style/charactersheet_defense_entry">
     		<TextView android:text="Will:" style="@style/charactersheet_defense_entry_label_text" />
     		<LinearLayout style="@style/charactersheet_defense_entry_label">
     			<ImageView android:src="@drawable/i_defense_will" style="@style/charactersheet_defense_entry_label_icon"/>
@@ -190,14 +190,14 @@
     			<TextView android:id="@+id/charactersheet_txtActionPoints" style="@style/charactersheet_defense_entry_value" />
     		</LinearLayout>    		
     	</LinearLayout>
-    	<LinearLayout style="@style/charactersheet_defense_entry">
+    	<LinearLayout android:id="@+id/charactersheet_llStatSpeed" android:tag="Speed" style="@style/charactersheet_defense_entry">
     		<TextView android:text="Speed" style="@style/charactersheet_defense_entry_label_text" />
     		<LinearLayout style="@style/charactersheet_defense_entry_label">
     			<ImageView android:src="@drawable/i_stat_speed" style="@style/charactersheet_defense_entry_label_icon"/>
     			<TextView android:id="@+id/charactersheet_txtSpeed" style="@style/charactersheet_defense_entry_value" />
     		</LinearLayout>    		
     	</LinearLayout>
-    	<LinearLayout style="@style/charactersheet_defense_entry">
+    	<LinearLayout android:id="@+id/charactersheet_llStatInitiative" android:tag="Initiative" style="@style/charactersheet_defense_entry">
     		<TextView android:text="Initiative" style="@style/charactersheet_defense_entry_label_text" />
     		<LinearLayout style="@style/charactersheet_defense_entry_label">
     			<ImageView android:src="@drawable/i_stat_initiative" style="@style/charactersheet_defense_entry_label_icon"/>
