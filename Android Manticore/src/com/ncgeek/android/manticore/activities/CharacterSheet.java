@@ -377,17 +377,25 @@ public class CharacterSheet extends Activity {
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 	    MenuInflater inflater = getMenuInflater();
-	    inflater.inflate(R.menu.loadcharacter, menu);
+	    inflater.inflate(R.menu.charactersheet, menu);
 	    return true;
 	}
 	
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 	    switch(item.getItemId()) {
-		    case R.id.loadcharacter_mnuPreferences:
+		    case R.id.charactersheet_mnuPreferences:
 		        Intent i = new Intent(this, Preferences.class);
 		        startActivity(i);
 		        return true;
+		    case R.id.charactersheet_mnuFullRest:
+		    	_pc.fullRest();
+		    	update();
+		    	return true;
+		    case R.id.charactersheet_mnuShortRest:
+		    	_pc.shortRest();
+		    	update();
+		    	return true;
 		    default:
 		        return super.onOptionsItemSelected(item);
 	    }

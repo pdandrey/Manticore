@@ -5,11 +5,9 @@ import java.util.Collections;
 import java.util.List;
 
 import com.ncgeek.android.manticore.R;
-import com.ncgeek.manticore.util.Logger;
 
 import android.content.Context;
 import android.content.res.TypedArray;
-import android.graphics.Color;
 import android.graphics.Rect;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;

@@ -1,5 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
 <menu
   xmlns:android="http://schemas.android.com/apk/res/android">
-    <item android:title="Preferences" android:id="@+id/loadcharacter_mnuPreferences" android:icon="@drawable/ic_menu_preferences"></item>
+    <item android:title="Preferences" android:icon="@drawable/ic_menu_preferences" android:id="@+id/charactersheet_mnuPreferences"></item>
+    <group android:id="@+id/charactersheet_mnugrpRest">
+        <item android:title="Short Rest" android:id="@+id/charactersheet_mnuShortRest"></item>
+        <item android:title="Full Rest" android:id="@+id/charactersheet_mnuFullRest"></item>
+    </group>
 </menu>
