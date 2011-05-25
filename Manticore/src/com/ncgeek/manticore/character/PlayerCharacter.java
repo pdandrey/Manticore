@@ -47,6 +47,8 @@ public class PlayerCharacter extends Observable implements Serializable, IRest{
 	
 	private int _actionPoints;
 	
+	private Object _portraitBitmap;
+	
 	public PlayerCharacter(Wallet moneyCarried, Wallet moneyStored, List<Rule> rules, List<Power> powers, StatBlock stats, EquipmentManager equipment, HitPoints hp) {
 		_name = null;
 		_level = 1;
@@ -75,6 +77,8 @@ public class PlayerCharacter extends Observable implements Serializable, IRest{
 		
 		_equipment.addObserver(_stats);
 		//this.addObserver(_stats);
+		
+		_portraitBitmap = null;
 	}
 	
 	public PlayerCharacter() {
@@ -135,6 +139,9 @@ public class PlayerCharacter extends Observable implements Serializable, IRest{
 	
 	public String getPortrait() { return _portrait; }
 	public void setPortrait(String portrait) { _portrait = portrait; }
+	
+	public Object getPortraitBitmap() { return _portraitBitmap; }
+	public void setPortraitBitmap(Object bm) { _portraitBitmap = bm; }
 	
 	public int getExperience() { return _exp; }
 	public void setExperience(int exp) { 
