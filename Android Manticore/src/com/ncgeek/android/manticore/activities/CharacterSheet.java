@@ -117,8 +117,6 @@ public class CharacterSheet extends Activity {
         v = findViewById(R.id.charactersheet_surgebar);
         v.setOnClickListener(ContextMenuClick);
         registerForContextMenu(v);
-       
-        //registerForContextMenu(findViewById(R.id.charactersheet_llDefenses));
         
         v = findViewById(R.id.charactersheet_llActionPoints);
         v.setOnClickListener(ContextMenuClick);
@@ -130,6 +128,10 @@ public class CharacterSheet extends Activity {
         findViewById(R.id.charactersheet_llDefenseWill).setOnLongClickListener(ExplainDefenseLongClick);
         findViewById(R.id.charactersheet_llStatSpeed).setOnLongClickListener(ExplainDefenseLongClick);
         findViewById(R.id.charactersheet_llStatInitiative).setOnLongClickListener(ExplainDefenseLongClick);
+        
+        LabelBar hp = (LabelBar)findViewById(R.id.charactersheet_hpbar);
+        
+        hp.addChange(50, "Bloodied", Color.RED, getResources().getDrawable(R.drawable.hp_bar_bloodied));
 	 }
 	 
 	@Override
@@ -316,10 +318,6 @@ public class CharacterSheet extends Activity {
 		MenuInflater inflater = getMenuInflater();
 		
 		switch(v.getId()) {
-			case R.id.charactersheet_llDefenses:
-				inflater.inflate(R.menu.charactersheet_explain_defense, menu);
-				break;
-				
 			case R.id.charactersheet_hpbar:
 			case R.id.charactersheet_surgebar:
 				inflater.inflate(R.menu.charactersheet_hitpoints, menu);
@@ -337,14 +335,6 @@ public class CharacterSheet extends Activity {
 	public boolean onContextItemSelected(MenuItem item) {
 		
 		switch(item.getGroupId()) {
-			case R.id.charactersheet_mnugrpExplainDefense:
-				Intent i = new Intent(CharacterSheet.this, DefenseBreakdown.class);
-		        i.setAction(Intent.ACTION_VIEW);
-		        i.addCategory(Intent.CATEGORY_DEFAULT);
-		        i.putExtra("defense", item.getTitle().toString());
-		        startActivity(i);
-		        return true;
-		        
 			case R.id.charactersheet_mnugrpHitpoints:
 			case R.id.charactersheet_mnugrpDeathSave:
 				switch(item.getItemId()){

@@ -48,6 +48,14 @@ theme attribute (in the form
 containing a value of this type.
          */
         public static final int separator=0x7f010005;
+        /** <p>Must be a string value, using '\\;' to escape characters such as '\\n' or '\\uxxxx' for a unicode character.
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+         */
+        public static final int status=0x7f010006;
         /** <p>Must be an integer value, such as "<code>100</code>".
 <p>This may also be a reference to a resource (in the form
 "<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
@@ -65,27 +73,28 @@ containing a value of this type.
         public static final int encounterpower_bar=0x7f020004;
         public static final int hp_background=0x7f020005;
         public static final int hp_bar=0x7f020006;
-        public static final int hp_bloodied_background=0x7f020007;
-        public static final int hp_dead_background=0x7f020008;
-        public static final int i_defense_ac=0x7f020009;
-        public static final int i_defense_fort=0x7f02000a;
-        public static final int i_defense_reflex=0x7f02000b;
-        public static final int i_defense_will=0x7f02000c;
-        public static final int i_stat_actionpoints=0x7f02000d;
-        public static final int i_stat_cha=0x7f02000e;
-        public static final int i_stat_con=0x7f02000f;
-        public static final int i_stat_dex=0x7f020010;
-        public static final int i_stat_initiative=0x7f020011;
-        public static final int i_stat_int=0x7f020012;
-        public static final int i_stat_speed=0x7f020013;
-        public static final int i_stat_str=0x7f020014;
-        public static final int i_stat_wis=0x7f020015;
-        public static final int ic_menu_preferences=0x7f020016;
-        public static final int icon=0x7f020017;
-        public static final int line=0x7f020018;
-        public static final int mtg_black=0x7f020019;
-        public static final int mtg_black_32=0x7f02001a;
-        public static final int surge_bar=0x7f02001b;
+        public static final int hp_bar_bloodied=0x7f020007;
+        public static final int hp_bloodied_background=0x7f020008;
+        public static final int hp_dead_background=0x7f020009;
+        public static final int i_defense_ac=0x7f02000a;
+        public static final int i_defense_fort=0x7f02000b;
+        public static final int i_defense_reflex=0x7f02000c;
+        public static final int i_defense_will=0x7f02000d;
+        public static final int i_stat_actionpoints=0x7f02000e;
+        public static final int i_stat_cha=0x7f02000f;
+        public static final int i_stat_con=0x7f020010;
+        public static final int i_stat_dex=0x7f020011;
+        public static final int i_stat_initiative=0x7f020012;
+        public static final int i_stat_int=0x7f020013;
+        public static final int i_stat_speed=0x7f020014;
+        public static final int i_stat_str=0x7f020015;
+        public static final int i_stat_wis=0x7f020016;
+        public static final int ic_menu_preferences=0x7f020017;
+        public static final int icon=0x7f020018;
+        public static final int line=0x7f020019;
+        public static final int mtg_black=0x7f02001a;
+        public static final int mtg_black_32=0x7f02001b;
+        public static final int surge_bar=0x7f02001c;
     }
     public static final class id {
         public static final int character_list_item_txtFile=0x7f090001;
@@ -236,6 +245,7 @@ containing a value of this type.
            <tr><td><code>{@link #LabelBar_label com.ncgeek.android.manticore:label}</code></td><td></td></tr>
            <tr><td><code>{@link #LabelBar_max com.ncgeek.android.manticore:max}</code></td><td></td></tr>
            <tr><td><code>{@link #LabelBar_separator com.ncgeek.android.manticore:separator}</code></td><td></td></tr>
+           <tr><td><code>{@link #LabelBar_status com.ncgeek.android.manticore:status}</code></td><td></td></tr>
            <tr><td><code>{@link #LabelBar_temporary com.ncgeek.android.manticore:temporary}</code></td><td></td></tr>
            </table>
            @see #LabelBar_barDrawable
@@ -243,11 +253,12 @@ containing a value of this type.
            @see #LabelBar_label
            @see #LabelBar_max
            @see #LabelBar_separator
+           @see #LabelBar_status
            @see #LabelBar_temporary
          */
         public static final int[] LabelBar = {
             0x7f010000, 0x7f010001, 0x7f010002, 0x7f010003,
-            0x7f010004, 0x7f010005
+            0x7f010004, 0x7f010005, 0x7f010006
         };
         /**
           <p>This symbol is the offset where the {@link com.ncgeek.android.manticore.R.attr#barDrawable}
@@ -315,6 +326,20 @@ containing a value of this type.
           @attr name android:separator
         */
         public static final int LabelBar_separator = 5;
+        /**
+          <p>This symbol is the offset where the {@link com.ncgeek.android.manticore.R.attr#status}
+          attribute's value can be found in the {@link #LabelBar} array.
+
+
+          <p>Must be a string value, using '\\;' to escape characters such as '\\n' or '\\uxxxx' for a unicode character.
+<p>This may also be a reference to a resource (in the form
+"<code>@[<i>package</i>:]<i>type</i>:<i>name</i></code>") or
+theme attribute (in the form
+"<code>?[<i>package</i>:][<i>type</i>:]<i>name</i></code>")
+containing a value of this type.
+          @attr name android:status
+        */
+        public static final int LabelBar_status = 6;
         /**
           <p>This symbol is the offset where the {@link com.ncgeek.android.manticore.R.attr#temporary}
           attribute's value can be found in the {@link #LabelBar} array.
