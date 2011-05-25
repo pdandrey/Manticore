@@ -29,6 +29,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Bitmap.CompressFormat;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -107,7 +108,9 @@ public class CharacterSheet extends Activity {
        
         registerForContextMenu(findViewById(R.id.charactersheet_llDefenses));
         
-        //registerForContextMenu(findViewById(R.id.charactersheet_frameActionPoints));
+        v = findViewById(R.id.charactersheet_llActionPoints);
+        v.setOnClickListener(ContextMenuClick);
+        registerForContextMenu(v);
         
 	 }
 	 
@@ -208,7 +211,14 @@ public class CharacterSheet extends Activity {
 					LinearLayout ll = new LinearLayout(this);
 					ll.setOrientation(LinearLayout.VERTICAL);
 					ll.addView(txt);
-					ll.addView(chk);
+					LinearLayout ll2 = new LinearLayout(this);
+					ll2.setOrientation(LinearLayout.HORIZONTAL);
+					ll2.addView(chk);
+					TextView tvSurgeValue = new TextView(this);
+					tvSurgeValue.setText(String.format("(+%d hp)", _pc.getHP().getSurgeValue()));
+					tvSurgeValue.setTextColor(Color.BLACK);
+					ll2.addView(tvSurgeValue);
+					ll.addView(ll2);
 					txt.setSelectAllOnFocus(true);
 					txt.setInputType(InputType.TYPE_CLASS_NUMBER);
 					builder.setView(ll);
@@ -217,7 +227,14 @@ public class CharacterSheet extends Activity {
 						@Override
 						public void onClick(DialogInterface dialog, int which) {
 							try {
-								int healing = Integer.parseInt(txt.getText().toString());
+								String s = txt.getText().toString();
+								if(s == null)
+									s = "0";
+								s = s.trim();
+								if(s.length() == 0)
+									s = "0";
+								
+								int healing = Integer.parseInt(s);
 								if(chk.isChecked()) {
 									_pc.getHP().useSurge(healing);
 								} else {
@@ -246,7 +263,7 @@ public class CharacterSheet extends Activity {
 					builder.setNegativeButton("Cancel", new OnClickListener() {
 						@Override
 						public void onClick(DialogInterface dialog, int which) {
-							CharacterSheet.this.dismissDialog(DIALOG_DAMAGE);
+							CharacterSheet.this.dismissDialog(DIALOG_HEALING);
 						}
 					});
 					
@@ -291,10 +308,10 @@ public class CharacterSheet extends Activity {
 				menu.setGroupVisible(R.id.charactersheet_mnugrpDeathSave, _pc.getHP().isBleedingOut());
 				break;
 				
-//			case R.id.charactersheet_frameActionPoints:
-//				inflater.inflate(R.menu.charactersheet_actionpoints, menu);
-//				menu.setGroupEnabled(R.id.charactersheet_mnugrpActionPoints, _pc.getActionPoints() > 0);
-//				break;
+			case R.id.charactersheet_llActionPoints:
+				inflater.inflate(R.menu.charactersheet_actionpoints, menu);
+				menu.setGroupEnabled(R.id.charactersheet_mnugrpActionPoints, _pc.getActionPoints() > 0);
+				break;
 		}
 	}
 
@@ -419,7 +436,7 @@ public class CharacterSheet extends Activity {
 		TextView txtName = (TextView)findViewById(R.id.charactersheet_txtName);
 		txtName.setText(_pc.getName());
 		
-		/*
+		
 		TextView txtLevel = (TextView)findViewById(R.id.charactersheet_txtLevel);
 		txtLevel.setText(_pc.getLevel() + "");
 		
@@ -428,7 +445,7 @@ public class CharacterSheet extends Activity {
 		
 		TextView txtClass = (TextView)findViewById(R.id.charactersheet_txtClass);
 		txtClass.setText(_pc.getHeroicClass());
-		*/
+		
 		
 		updateAbilityScores("STR", R.id.charactersheet_txtStr, R.id.charactersheet_txtStrMod);
 		updateAbilityScores("Con", R.id.charactersheet_txtCon, R.id.charactersheet_txtConMod);
@@ -442,9 +459,12 @@ public class CharacterSheet extends Activity {
 		updateDefenses("Reflex", R.id.charactersheet_txtReflex);
 		updateDefenses("Will", R.id.charactersheet_txtWill);
 		
-		updateActionPoints();
+		updateDefenses("Speed", R.id.charactersheet_txtSpeed);
+		updateDefenses("Initiative", R.id.charactersheet_txtInitiative);
 		
+		updateActionPoints();
 		updateHP();
+		
 	}
 	
 	private void updateAbilityScores(String stat, int txtID, int txtModID) {
@@ -463,7 +483,11 @@ public class CharacterSheet extends Activity {
 			txt.setText(abs + "");
 		
 		txt = (TextView)findViewById(txtModID);
-		txt.setText(s.getModifier() + "");
+		int mod = s.getModifier();
+		String sMod = mod + "";
+		if(mod >= 0)
+			sMod = "+" + mod;
+		txt.setText(sMod);
 	}
 	
 	private void updateDefenses(String stat, int txtID) {
@@ -516,7 +540,7 @@ public class CharacterSheet extends Activity {
 	}
 	
 	private void updateActionPoints() {
-		//TextView txt = (TextView)findViewById(R.id.charactersheet_txtActionPoints);
-		//txt.setText(_pc.getActionPoints() + "");
+		TextView txt = (TextView)findViewById(R.id.charactersheet_txtActionPoints);
+		txt.setText(_pc.getActionPoints() + "");
 	}
 }
