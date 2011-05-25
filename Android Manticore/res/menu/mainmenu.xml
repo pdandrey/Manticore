@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu
+  xmlns:android="http://schemas.android.com/apk/res/android">
+    <item android:title="Stats" android:id="@+id/mainmenu_mnuCharacter" android:icon="@drawable/icon"></item>
+    <item android:title="Items" android:id="@+id/mainmenu_mnuItems" android:icon="@drawable/i_mnu_items" android:visible="false"></item>
+    <item android:title="Backpack" android:id="@+id/mainmenu_mnuBackpack" android:icon="@drawable/i_mnu_items"></item>
+    <item android:title="Equipment" android:id="@+id/mainmenu_mnuEquipment" android:icon="@drawable/i_mnu_equipment"></item>
+    <item android:title="Party" android:id="@+id/mainmenu_mnuParty"></item>
+    <item android:title="Powers" android:id="@+id/mainmenu_mnuPowers" android:icon="@drawable/i_mnu_powers"></item>
+    <item android:title="Skills" android:id="@+id/mainmenu_mnuSkills" android:icon="@drawable/i_mnu_skills"></item>
+    <item android:title="Feats" android:id="@+id/mainmenu_mnuFeats"></item>
+    <item android:title="Rituals" android:id="@+id/mainmenu_mnuRituals" android:icon="@drawable/i_mnu_rituals"></item>
+</menu>

@@ -10,7 +10,9 @@ import com.ncgeek.android.manticore.ManticorePreferences;
 import com.ncgeek.android.manticore.ManticoreStatus;
 import com.ncgeek.android.manticore.MessageTypes;
 import com.ncgeek.android.manticore.R;
+import com.ncgeek.android.manticore.adapters.GalleryMenuAdapter;
 import com.ncgeek.android.manticore.database.DatabaseRepository;
+import com.ncgeek.android.manticore.menus.GalleryMenuItem;
 import com.ncgeek.android.manticore.threads.LoadCharacterThread;
 import com.ncgeek.android.manticore.util.Utility;
 import com.ncgeek.android.manticore.widgets.LabelBar;
@@ -30,6 +32,7 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Bitmap.CompressFormat;
 import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -41,11 +44,14 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.CheckBox;
 import android.widget.EditText;
+import android.widget.Gallery;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class CharacterSheet extends Activity {
 	
@@ -130,8 +136,19 @@ public class CharacterSheet extends Activity {
         findViewById(R.id.charactersheet_llStatInitiative).setOnLongClickListener(ExplainDefenseLongClick);
         
         LabelBar hp = (LabelBar)findViewById(R.id.charactersheet_hpbar);
-        
         hp.addChange(50, "Bloodied", Color.RED, getResources().getDrawable(R.drawable.hp_bar_bloodied));
+        
+        Gallery g = (Gallery)findViewById(R.id.mainmenu);
+        g.setAdapter(new GalleryMenuAdapter(this, R.menu.mainmenu));
+        g.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+
+			@Override
+			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+				GalleryMenuAdapter adapter = (GalleryMenuAdapter)parent.getAdapter();
+				GalleryMenuItem mi = (GalleryMenuItem)adapter.getItem(position);
+				Toast.makeText(CharacterSheet.this, "Clicked " + mi.getTitle(), Toast.LENGTH_SHORT).show();
+			}
+		});
 	 }
 	 
 	@Override
@@ -376,6 +393,7 @@ public class CharacterSheet extends Activity {
 	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
+		Logger.error(LOG_TAG, menu.getClass().getName());
 	    MenuInflater inflater = getMenuInflater();
 	    inflater.inflate(R.menu.charactersheet, menu);
 	    return true;
@@ -406,47 +424,60 @@ public class CharacterSheet extends Activity {
 			return;
 		
 		if(_pc.getPortrait() != null) {
-			try {
-				URL url = new URL(_pc.getPortrait());
-				
-				Bitmap bitmap = null;
-				String cachePortraitFilename = null;
-				File cacheDir = null; 
-				
-				
-				if(prefs.cacheImages() && Utility.isExternalAvailable()) {
-					cacheDir = new File(ManticoreStatus.getExternalStorageDirectory(), "cache/portraits/");
-					if(!cacheDir.exists() && !cacheDir.mkdirs()) {
-						Logger.error(LOG_TAG, "Failed to create portrait cache directory");
-					} else {
-						Pattern regexFilename = Pattern.compile("\\d+\\.png$");
-						Matcher m = regexFilename.matcher(_pc.getPortrait());
-						if(m.find()) {
-							File portrait = new File(cacheDir, m.group());
-							if(portrait.exists()) {
-								bitmap = BitmapFactory.decodeFile(portrait.toString());
-							} else {
-								cachePortraitFilename = portrait.toString();
+			Bitmap bitmap = (Bitmap)_pc.getPortraitBitmap();
+			
+			if(bitmap == null) {
+				try {
+					
+					URL url = new URL(_pc.getPortrait());
+					
+					String cachePortraitFilename = null;
+					File cacheDir = null; 
+					
+					if(prefs.cacheImages() && Utility.isExternalAvailable()) {
+						cacheDir = new File(ManticoreStatus.getExternalStorageDirectory(), "cache/portraits/");
+						if(!cacheDir.exists() && !cacheDir.mkdirs()) {
+							Logger.error(LOG_TAG, "Failed to create portrait cache directory");
+						} else {
+							Pattern regexFilename = Pattern.compile("\\d+\\.png$");
+							Matcher m = regexFilename.matcher(_pc.getPortrait());
+							if(m.find()) {
+								File portrait = new File(cacheDir, m.group());
+								if(portrait.exists()) {
+									bitmap = BitmapFactory.decodeFile(portrait.toString());
+								} else {
+									cachePortraitFilename = portrait.toString();
+								}
 							}
 						}
 					}
+					
+					if(bitmap == null) {
+						bitmap = BitmapFactory.decodeStream(url.openStream());
+					}
+					
+					if(cachePortraitFilename != null && cacheDir != null) {
+						FileOutputStream fos = new FileOutputStream(cachePortraitFilename);
+						bitmap.compress(CompressFormat.PNG, 100, fos);
+						fos.close();
+					}
+					
+					_pc.setPortraitBitmap(bitmap);
+				} catch(Exception ex) {
+					Logger.error(LOG_TAG, "Error loading portrait", ex);
 				}
-				
-				if(bitmap == null) {
-					bitmap = BitmapFactory.decodeStream(url.openStream());
-				}
-				
-				if(cachePortraitFilename != null && cacheDir != null) {
-					FileOutputStream fos = new FileOutputStream(cachePortraitFilename);
-					bitmap.compress(CompressFormat.PNG, 100, fos);
-					fos.close();
-				}
-				
-				ImageView iv = (ImageView)findViewById(R.id.charactersheet_img);
-				iv.setImageBitmap(bitmap);
-			} catch(Exception ex) {
-				Logger.error(LOG_TAG, "Error loading portrait", ex);
 			}
+			
+			ImageView iv = (ImageView)findViewById(R.id.charactersheet_img);
+			iv.setImageBitmap(bitmap);
+			
+			Gallery g = (Gallery)findViewById(R.id.mainmenu);
+			GalleryMenuAdapter adapter = (GalleryMenuAdapter)g.getAdapter();
+			GalleryMenuItem gmi = (GalleryMenuItem)adapter.getItem(0);
+			gmi.setIcon(new BitmapDrawable(bitmap));
+			
+			iv = ((ImageView)((LinearLayout)g.getChildAt(0)).getChildAt(0));
+			iv.setImageDrawable(gmi.getIcon());
 		}
 		
 		TextView txtName = (TextView)findViewById(R.id.charactersheet_txtName);
