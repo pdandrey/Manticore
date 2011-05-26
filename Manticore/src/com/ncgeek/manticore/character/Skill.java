@@ -2,6 +2,7 @@ package com.ncgeek.manticore.character;
 
 import com.ncgeek.manticore.character.stats.Addition;
 import com.ncgeek.manticore.character.stats.Stat;
+import com.ncgeek.manticore.util.Logger;
 
 public final class Skill {
 	
@@ -19,21 +20,23 @@ public final class Skill {
 		total = skill.getCalculatedValue();
 		
 		for(Addition add : skill.getAdditions()) {
-			String stat = add.getStatLink();
-			if(stat != null) {
-				stat = stat.trim().toLowerCase();
-				
-				if(stat.equals("half-level")) {
-					halfLevel = add.getValue();
-				} else if(stat.endsWith("trained")) {
-					trained = add.getValue();
-				} else if(stat.endsWith("misc")) {
-					misc = add.getValue();
-				} else if(stat.equals("armor penalty")) {
-					armorPenalty = add.getValue();
-				} else if(add.getType().equalsIgnoreCase("Ability")) {
-					abilityMod = add.getValue();
-					abilityModName = add.getStatLink();
+			if(add.getStat() != null) {
+				String stat = add.getStat().getAliases().get(0);
+				if(stat != null) {
+					stat = stat.trim().toLowerCase();
+					
+					if(stat.equals("half-level")) {
+						halfLevel = add.getValue();
+					} else if(stat.endsWith("trained")) {
+						trained = add.getValue();
+					} else if(stat.endsWith("misc")) {
+						misc = add.getValue();
+					} else if(stat.equals("armor penalty")) {
+						armorPenalty = add.getValue();
+					} else if(add.getType() != null && add.getType().equalsIgnoreCase("Ability")) {
+						abilityMod = add.getValue();
+						abilityModName = add.getStatLink();
+					}
 				}
 			}
 		}

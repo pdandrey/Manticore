@@ -5,6 +5,8 @@ import java.io.IOException;
 
 import android.content.Context;
 import android.os.Environment;
+import android.util.DisplayMetrics;
+import android.view.WindowManager;
 
 import com.ncgeek.android.manticore.util.ManticoreAndroidLogger;
 import com.ncgeek.android.manticore.util.Utility;
@@ -27,6 +29,10 @@ public final class ManticoreStatus {
 	
 	public static void initialize(Context context) { 
 		INSTANCE = new ManticoreStatus(context);
+		DisplayMetrics metrics = new DisplayMetrics();
+		WindowManager mgr = ((WindowManager)context.getSystemService(Context.WINDOW_SERVICE));
+		mgr.getDefaultDisplay().getMetrics(metrics);
+		Utility.setDensityDpi(metrics.densityDpi);
 	}
 	
 	private PlayerCharacter _pc;

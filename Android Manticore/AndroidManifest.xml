@@ -65,6 +65,16 @@
 			</intent-filter>
 		</activity>
 		<activity 
+			android:name="com.ncgeek.android.manticore.activities.SkillView"
+			android:label="@string/app_name" 
+			android:theme="@android:style/Theme.Light.NoTitleBar"
+			>
+			<intent-filter>
+				<action android:name="android.intent.action.VIEW" />
+				<category android:name="android.intent.category.DEFAULT" />
+			</intent-filter>
+		</activity>
+		<activity 
 			android:name="com.ncgeek.android.manticore.activities.Preferences"
 			android:label="@string/app_name" 
 			android:theme="@android:style/Theme.Light.NoTitleBar"

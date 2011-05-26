@@ -3,6 +3,7 @@ package com.ncgeek.android.manticore.widgets;
 import java.util.HashMap;
 
 import com.ncgeek.android.manticore.R;
+import com.ncgeek.android.manticore.util.Utility;
 import com.ncgeek.manticore.character.Skill;
 
 import android.content.Context;
@@ -76,15 +77,20 @@ public class SkillTableRow extends TableRow {
 	}
 	
 	private void init(Context context, AttributeSet attrs) {
-		tvName = new TextView(context, attrs);
-		tvTotal = new TextView(context, attrs);
-		tvHalfLevel = new TextView(context, attrs);
-		tvTrained = new TextView(context, attrs);
-		tvAbility = new TextView(context, attrs);
-		tvAbilityMod = new TextView(context, attrs);
-		tvMisc = new TextView(context, attrs);
-		tvArmorPenalty = new TextView(context, attrs);
-		ivIcon = new ImageView(context, attrs);
+		tvName = new TextView(context, attrs, R.style.charactersheet_stat_name);
+		tvTotal = new TextView(context, attrs, R.style.charactersheet_stat_value);
+		tvHalfLevel = new TextView(context, attrs, R.style.charactersheet_stat_value);
+		tvTrained = new TextView(context, attrs, R.style.charactersheet_stat_value);
+		tvAbility = new TextView(context, attrs, R.style.charactersheet_stat_value);
+		tvAbilityMod = new TextView(context, attrs, R.style.charactersheet_stat_value);
+		tvMisc = new TextView(context, attrs, R.style.charactersheet_stat_value);
+		tvArmorPenalty = new TextView(context, attrs, R.style.charactersheet_stat_value);
+		ivIcon = new ImageView(context, attrs, R.style.charactersheet_stat_icon);
+		
+		int px = Utility.dpToPx(30);
+		
+		TableRow.LayoutParams lp = new TableRow.LayoutParams(px, px);
+		ivIcon.setLayoutParams(lp);
 		
 		addView(ivIcon);
 		addView(tvName);
@@ -115,7 +121,7 @@ public class SkillTableRow extends TableRow {
 	
 	private String getValue(int value) {
 		if(value == 0)
-			return "";
+			return "0";
 		else
 			return value + "";
 	}

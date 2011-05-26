@@ -11,6 +11,7 @@ import com.ncgeek.manticore.character.stats.Stat;
 import com.ncgeek.manticore.character.stats.StatBlock;
 import com.ncgeek.manticore.powers.Power;
 import com.ncgeek.manticore.rules.Rule;
+import com.ncgeek.manticore.util.Logger;
 
 public class PlayerCharacter extends Observable implements Serializable, IRest{
 	
@@ -201,6 +202,11 @@ public class PlayerCharacter extends Observable implements Serializable, IRest{
 	public void add(Rule rule) {
 		if(rule == null)
 			throw new IllegalArgumentException("Rule cannot be null");
+		Logger.info("Rule", String.format("Adding rule %s", rule.getName()));
+		
+		if(_rules.contains(rule))
+			throw new RuntimeException("RDuplicate Rule");
+		
 		_rules.add(rule);
 		
 		switch(rule.getType()) {

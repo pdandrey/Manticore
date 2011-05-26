@@ -12,14 +12,12 @@ import com.ncgeek.manticore.rules.Rule;
 import com.ncgeek.manticore.rules.RuleTypes;
 
 import android.app.Activity;
-import android.graphics.Bitmap;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.Window;
 import android.widget.TableLayout;
-import android.widget.ImageView;
 import android.widget.TextView;
 
 public class SkillView extends Activity {
@@ -32,10 +30,6 @@ public class SkillView extends Activity {
         setContentView(R.layout.skillview);
         
         PlayerCharacter pc = ManticoreStatus.getPC();
-        
-        if(pc.getPortraitBitmap() != null) {
-        	((ImageView)findViewById(R.id.skillview_img)).setImageBitmap((Bitmap)pc.getPortraitBitmap());
-        }
         
         ((TextView)findViewById(R.id.skillview_txtName)).setText(pc.getName());
         
@@ -55,8 +49,8 @@ public class SkillView extends Activity {
         	if(!isFirst) {
 	        	View v = new View(this);
 	        	v.setBackgroundColor(Color.BLACK);
-	        	v.getLayoutParams().height = 2;
-	        	v.getLayoutParams().width = ViewGroup.LayoutParams.FILL_PARENT;
+	        	ViewGroup.LayoutParams params = new ViewGroup.LayoutParams(ViewGroup.LayoutParams.FILL_PARENT, 2);
+	        	v.setLayoutParams(params);
 	        	tbl.addView(v);
         	} else {
         		isFirst = false;

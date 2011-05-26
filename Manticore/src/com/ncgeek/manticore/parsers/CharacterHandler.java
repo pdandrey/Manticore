@@ -94,7 +94,7 @@ class CharacterHandler extends DefaultHandler {
 		if(sectionHandler != null) {
 			sectionHandler.endElement(pc, name, body);
 			
-			if(currentSection == Section.Rules) {
+			if(currentSection == Section.Rules && localName.equals("RulesElement")) {
 				pc.add(((RulesElementHandler)sectionHandler).getRule());
 			}
 		}

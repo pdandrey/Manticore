@@ -205,9 +205,9 @@
     		</LinearLayout>    		
     	</LinearLayout>
    	</LinearLayout>
-    <Gallery
-    	android:id="@+id/mainmenu"  
-    	android:layout_alignParentBottom="true" 
+   	<com.ncgeek.android.manticore.widgets.GalleryMenu
+   		android:id="@+id/mainmenu"
+   		android:layout_alignParentBottom="true" 
     	android:layout_alignParentRight="true"
     	android:layout_alignParentLeft="true"
     	android:layout_width="fill_parent" 

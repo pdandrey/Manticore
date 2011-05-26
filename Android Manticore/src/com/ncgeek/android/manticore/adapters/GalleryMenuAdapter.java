@@ -1,11 +1,14 @@
 package com.ncgeek.android.manticore.adapters;
 
 
+import com.ncgeek.android.manticore.ManticoreStatus;
 import com.ncgeek.android.manticore.R;
 import com.ncgeek.android.manticore.menus.GalleryMenu;
 import com.ncgeek.android.manticore.menus.GalleryMenuItem;
 
 import android.content.Context;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.view.LayoutInflater;
 import android.view.MenuInflater;
 import android.view.View;
@@ -54,9 +57,12 @@ public class GalleryMenuAdapter extends BaseAdapter {
     		holder = (ViewHolder)convertView.getTag();
     	}
     	
+    	if(item.getItemId() == R.id.mainmenu_mnuCharacter && ManticoreStatus.getPC() != null) {
+    		item.setIcon(new BitmapDrawable((Bitmap)ManticoreStatus.getPC().getPortraitBitmap()));
+    	}
+    	
     	holder.txtText.setText(item.getTitle());
     	holder.ivIcon.setImageDrawable(item.getIcon());
-    	//convertView.setTag(item.getItemId());
     	
     	return convertView;
     }

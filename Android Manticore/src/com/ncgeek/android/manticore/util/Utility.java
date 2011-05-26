@@ -31,5 +31,13 @@ public final class Utility {
 		}
 	}
 	
+	private static int density;
+	public static void setDensityDpi(int density) {
+		Utility.density = density;
+	}
+	public static int getDensityDpi() { return density; }
 	
+	public static int dpToPx(int dp) {
+		return  dp * (density / 160);
+	}
 }

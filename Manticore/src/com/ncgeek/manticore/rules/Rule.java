@@ -108,4 +108,19 @@ public class Rule implements Comparable<Rule> {
 	public String toString() {
 		return _name + " (" + _type.toString() + ")";
 	}
+	
+	public boolean equals(Object other) {
+		if(this == other)
+			return true;
+		
+		if(other != null && other instanceof Rule) {
+			Rule r = (Rule)other;
+			return _name.equals(r._name)
+				&& ((_type == null && r._type == null) || _type.equals(r._type))
+				&& ((_url == null && r._url == null) || _url.equals(r._url))
+				&& _internalID.equals(r._internalID);
+		}
+		
+		return false;
+	}
 }

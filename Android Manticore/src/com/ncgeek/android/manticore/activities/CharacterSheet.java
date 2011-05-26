@@ -15,6 +15,7 @@ import com.ncgeek.android.manticore.database.DatabaseRepository;
 import com.ncgeek.android.manticore.menus.GalleryMenuItem;
 import com.ncgeek.android.manticore.threads.LoadCharacterThread;
 import com.ncgeek.android.manticore.util.Utility;
+import com.ncgeek.android.manticore.widgets.GalleryMenu;
 import com.ncgeek.android.manticore.widgets.LabelBar;
 import com.ncgeek.manticore.character.HitPoints;
 import com.ncgeek.manticore.character.PlayerCharacter;
@@ -44,14 +45,11 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.AdapterView;
 import android.widget.CheckBox;
 import android.widget.EditText;
-import android.widget.Gallery;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 public class CharacterSheet extends Activity {
 	
@@ -141,18 +139,6 @@ public class CharacterSheet extends Activity {
         
         LabelBar hp = (LabelBar)findViewById(R.id.charactersheet_hpbar);
         hp.addChange(50, "Bloodied", Color.RED, getResources().getDrawable(R.drawable.hp_bar_bloodied));
-        
-        Gallery g = (Gallery)findViewById(R.id.mainmenu);
-        g.setAdapter(new GalleryMenuAdapter(this, R.menu.mainmenu));
-        g.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-
-			@Override
-			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-				GalleryMenuAdapter adapter = (GalleryMenuAdapter)parent.getAdapter();
-				GalleryMenuItem mi = (GalleryMenuItem)adapter.getItem(position);
-				Toast.makeText(CharacterSheet.this, "Clicked " + mi.getTitle(), Toast.LENGTH_SHORT).show();
-			}
-		});
 	 }
 	 
 	@Override
@@ -474,14 +460,8 @@ public class CharacterSheet extends Activity {
 			
 			ImageView iv = (ImageView)findViewById(R.id.charactersheet_img);
 			iv.setImageBitmap(bitmap);
-			
-			Gallery g = (Gallery)findViewById(R.id.mainmenu);
-			GalleryMenuAdapter adapter = (GalleryMenuAdapter)g.getAdapter();
-			GalleryMenuItem gmi = (GalleryMenuItem)adapter.getItem(0);
-			gmi.setIcon(new BitmapDrawable(bitmap));
-			
-			iv = ((ImageView)((LinearLayout)g.getChildAt(0)).getChildAt(0));
-			iv.setImageDrawable(gmi.getIcon());
+						
+			((GalleryMenu)findViewById(R.id.mainmenu)).setMenuItemIcon(0, new BitmapDrawable(bitmap));
 		}
 		
 		TextView txtName = (TextView)findViewById(R.id.charactersheet_txtName);
@@ -496,7 +476,6 @@ public class CharacterSheet extends Activity {
 		
 		TextView txtClass = (TextView)findViewById(R.id.charactersheet_txtClass);
 		txtClass.setText(_pc.getHeroicClass());
-		
 		
 		updateAbilityScores("STR", R.id.charactersheet_txtStr, R.id.charactersheet_txtStrMod);
 		updateAbilityScores("Con", R.id.charactersheet_txtCon, R.id.charactersheet_txtConMod);
