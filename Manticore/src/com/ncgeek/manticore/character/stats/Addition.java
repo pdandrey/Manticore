@@ -136,6 +136,8 @@ public class Addition implements Serializable {
 		_statlink = _statlink + " [linked]";
 	}
 	
+	public Stat getStat() { return _stat; }
+	
 	public boolean isAbilityModified() {
 		return _abilityMod;
 	}

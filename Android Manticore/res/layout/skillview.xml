@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:ncgeek="http://schemas.android.com/apk/res/com.ncgeek.android.manticore"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:background="#FFFFFF"
+    >
+    <ImageView 
+    	android:id="@+id/skillview_img"
+    	android:src="@drawable/icon"  
+    	android:layout_height="130dp" 
+    	android:layout_width="130dp" 
+    	android:layout_alignParentLeft="true" 
+    	android:layout_alignParentTop="true"
+    	android:layout_marginRight="5dp"
+    	/>
+    <TextView
+    	android:id="@+id/skillview_txtName" 
+    	android:layout_height="wrap_content" 
+    	android:layout_width="match_parent" 
+    	android:textSize="24sp" 
+    	android:textColor="#000000" 
+    	android:text="Char Name" 
+    	android:layout_toRightOf="@id/charactersheet_img" 
+    	android:layout_alignParentTop="true" 
+    	/>
+    <TableLayout
+    	android:id="@+id/skillview_tbl"
+    	android:layout_width="wrap_content"
+    	android:layout_height="wrap_content"
+    	android:layout_below="@id/skillview_img"
+    	android:layout_alignLeft="@id/skillview_img"
+    	>
+   	</TableLayout>
+    <Gallery
+    	android:id="@+id/mainmenu"  
+    	android:layout_alignParentBottom="true" 
+    	android:layout_alignParentRight="true"
+    	android:layout_alignParentLeft="true"
+    	android:layout_width="fill_parent" 
+    	android:layout_height="wrap_content"
+    	android:layout_marginBottom="5dp"
+    	/>
+   	
+</RelativeLayout>

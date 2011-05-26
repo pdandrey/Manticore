@@ -97,28 +97,28 @@
     	<LinearLayout android:id="@+id/charactersheet_llDefenseAC" android:tag="AC" style="@style/charactersheet_defense_entry">
     		<TextView android:text="AC:" style="@style/charactersheet_defense_entry_label_text" />
     		<LinearLayout style="@style/charactersheet_defense_entry_label">
-    			<ImageView android:src="@drawable/i_defense_ac" style="@style/charactersheet_defense_entry_label_icon"/>
+    			<ImageView android:src="@drawable/i_stat_ac" style="@style/charactersheet_defense_entry_label_icon"/>
     			<TextView android:id="@+id/charactersheet_txtAC" style="@style/charactersheet_defense_entry_value" />
     		</LinearLayout>    		
     	</LinearLayout>
     	<LinearLayout android:id="@+id/charactersheet_llDefenseFort" android:tag="Fortitude" style="@style/charactersheet_defense_entry">
     		<TextView android:text="Fort:" style="@style/charactersheet_defense_entry_label_text" />
     		<LinearLayout style="@style/charactersheet_defense_entry_label">
-    			<ImageView android:src="@drawable/i_defense_fort" style="@style/charactersheet_defense_entry_label_icon"/>
+    			<ImageView android:src="@drawable/i_stat_fortitude" style="@style/charactersheet_defense_entry_label_icon"/>
     			<TextView android:id="@+id/charactersheet_txtFort" style="@style/charactersheet_defense_entry_value" />
     		</LinearLayout>
     	</LinearLayout>
     	<LinearLayout android:id="@+id/charactersheet_llDefenseReflex" android:tag="Reflex" style="@style/charactersheet_defense_entry">
     		<TextView android:text="Reflex:" style="@style/charactersheet_defense_entry_label_text" />
     		<LinearLayout style="@style/charactersheet_defense_entry_label">
-    			<ImageView android:src="@drawable/i_defense_reflex" style="@style/charactersheet_defense_entry_label_icon"/>
+    			<ImageView android:src="@drawable/i_stat_reflex" style="@style/charactersheet_defense_entry_label_icon"/>
     			<TextView android:id="@+id/charactersheet_txtReflex" style="@style/charactersheet_defense_entry_value" />
     		</LinearLayout>
     	</LinearLayout>
     	<LinearLayout android:id="@+id/charactersheet_llDefenseWill" android:tag="Will" style="@style/charactersheet_defense_entry">
     		<TextView android:text="Will:" style="@style/charactersheet_defense_entry_label_text" />
     		<LinearLayout style="@style/charactersheet_defense_entry_label">
-    			<ImageView android:src="@drawable/i_defense_will" style="@style/charactersheet_defense_entry_label_icon"/>
+    			<ImageView android:src="@drawable/i_stat_will" style="@style/charactersheet_defense_entry_label_icon"/>
     			<TextView android:id="@+id/charactersheet_txtWill" style="@style/charactersheet_defense_entry_value" />
     		</LinearLayout>
     	</LinearLayout>
