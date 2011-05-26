@@ -55,7 +55,7 @@
 			</intent-filter>
 		</activity>
 		<activity 
-			android:name="com.ncgeek.android.manticore.activities.DefenseBreakdown"
+			android:name="com.ncgeek.android.manticore.activities.StatBreakdown"
 			android:label="@string/app_name" 
 			android:theme="@android:style/Theme.Light.NoTitleBar"
 			>

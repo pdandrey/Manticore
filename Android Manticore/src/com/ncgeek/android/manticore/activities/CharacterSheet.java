@@ -100,10 +100,14 @@ public class CharacterSheet extends Activity {
 	private android.view.View.OnLongClickListener ExplainDefenseLongClick = new android.view.View.OnLongClickListener() {
 		@Override
 		public boolean onLongClick(View v) {
-			Intent i = new Intent(CharacterSheet.this, DefenseBreakdown.class);
+			Intent i = new Intent(CharacterSheet.this, StatBreakdown.class);
 	        i.setAction(Intent.ACTION_VIEW);
 	        i.addCategory(Intent.CATEGORY_DEFAULT);
 	        i.putExtra("defense", (String)v.getTag());
+	        LinearLayout ll = (LinearLayout)v;
+	        ll = (LinearLayout)ll.getChildAt(1);
+	        ImageView iv = (ImageView)ll.getChildAt(0);
+	        i.putExtra("icon", ((BitmapDrawable)iv.getDrawable()).getBitmap());
 	        startActivity(i);
 			return true;
 		}
