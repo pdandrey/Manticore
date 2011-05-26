@@ -9,32 +9,37 @@ import com.ncgeek.manticore.character.stats.Addition;
 import com.ncgeek.manticore.character.stats.Stat;
 
 import android.app.Activity;
+import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Window;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-public class DefenseBreakdown extends Activity {
+public class StatBreakdown extends Activity {
 
 	@Override
     public void onCreate(Bundle savedInstanceState) {
 		requestWindowFeature(Window.FEATURE_NO_TITLE);
 		
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.defense_breakdown);
+        setContentView(R.layout.stat_breakdown);
         
         Bundle extras = this.getIntent().getExtras();
         String defense = extras.getString("defense");
         
-        LinearLayout layoutApplied = (LinearLayout)findViewById(R.id.defensebreakdown_layoutApplied);
-        LinearLayout layoutNotApplied = (LinearLayout)findViewById(R.id.defensebreakdown_layoutNotApplied);
+        LinearLayout layoutApplied = (LinearLayout)findViewById(R.id.statbreakdown_layoutApplied);
+        LinearLayout layoutNotApplied = (LinearLayout)findViewById(R.id.statbreakdown_layoutNotApplied);
         
         PlayerCharacter pc = ManticoreStatus.getPC();
         Stat s = pc.getStats().get(defense);
         
-        TextView tv = (TextView)findViewById(R.id.defensebreakdown_txtDefense);
+        TextView tv = (TextView)findViewById(R.id.statbreakdown_txtStat);
         tv.setText(String.format("%s %d Breakdown", defense, s.getCalculatedValue()));
+        
+        ImageView iv = (ImageView)findViewById(R.id.statbreakdown_img);
+        iv.setImageBitmap((Bitmap)extras.getParcelable("icon"));
         
         List<Addition> applied = s.getAppliedAdditions();
         

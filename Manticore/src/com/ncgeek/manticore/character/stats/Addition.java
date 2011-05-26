@@ -103,7 +103,10 @@ public class Addition implements Serializable {
 	}
 	
 	public int getAbsoluteValue() {
-		return _value;
+		if(_abilityMod && _stat != null)
+			return _stat.getModifier();
+		else
+			return _value;
 	}
 	
 	public Integer getLevel() {
