@@ -4,10 +4,15 @@ import java.util.HashMap;
 
 import com.ncgeek.android.manticore.R;
 import com.ncgeek.android.manticore.util.Utility;
+import com.ncgeek.android.manticore.widgets.GalleryMenu.SavedState;
 import com.ncgeek.manticore.character.Skill;
 
 import android.content.Context;
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.util.AttributeSet;
+import android.view.Gravity;
+import android.view.View.BaseSavedState;
 import android.widget.ImageView;
 import android.widget.TableRow;
 import android.widget.TextView;
@@ -95,6 +100,7 @@ public class SkillTableRow extends TableRow {
 		addView(ivIcon);
 		addView(tvName);
 		addView(tvTotal);
+		tvTotal.setGravity(Gravity.RIGHT | Gravity.CENTER_VERTICAL);
 		addView(createStaticTextView("=", context, attrs));
 		addView(tvHalfLevel);
 		addView(createStaticTextView("+", context, attrs));
@@ -131,4 +137,55 @@ public class SkillTableRow extends TableRow {
 		tv.setText(text);
 		return tv;
 	}
+	
+	@Override
+	  public Parcelable onSaveInstanceState() {
+	    //begin boilerplate code that allows parent classes to save state
+	    Parcelable superState = super.onSaveInstanceState();
+
+	    SavedState ss = new SavedState(superState);
+	    //end
+
+	    return ss;
+	  }
+
+	  @Override
+	  public void onRestoreInstanceState(Parcelable state) {
+	    //begin boilerplate code so parent classes can restore state
+	    if(!(state instanceof SavedState)) {
+	      super.onRestoreInstanceState(state);
+	      return;
+	    }
+
+	    SavedState ss = (SavedState)state;
+	    super.onRestoreInstanceState(ss.getSuperState());
+	    //end
+	  }
+
+	  static class SavedState extends BaseSavedState {
+	   
+	    SavedState(Parcelable superState) {
+	      super(superState);
+	    }
+
+	    private SavedState(Parcel in) {
+	      super(in);
+	      //this.stateToSave = in.readInt();
+	    }
+
+	    @Override
+	    public void writeToParcel(Parcel out, int flags) {
+	      super.writeToParcel(out, flags);
+	      //out.writeInt(this.stateToSave);
+	    }
+
+		public static final Parcelable.Creator<SavedState> CREATOR = new Parcelable.Creator<SavedState>() {
+	          public SavedState createFromParcel(Parcel in) {
+	            return new SavedState(in);
+	          }
+	          public SavedState[] newArray(int size) {
+	            return new SavedState[size];
+	          }
+	    };
+	  }
 }

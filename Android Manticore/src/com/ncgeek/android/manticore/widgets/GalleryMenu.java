@@ -11,6 +11,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.util.AttributeSet;
 import android.view.View;
 import android.widget.AdapterView;
@@ -113,4 +115,55 @@ public class GalleryMenu extends LinearLayout implements AdapterView.OnItemClick
 			Toast.makeText(context, String.format("%s clicked", ((GalleryMenuItem)adapter.getItem(position)).getTitle()), Toast.LENGTH_SHORT).show();
 		}
 	}
+	
+	  @Override
+	  public Parcelable onSaveInstanceState() {
+	    //begin boilerplate code that allows parent classes to save state
+	    Parcelable superState = super.onSaveInstanceState();
+
+	    SavedState ss = new SavedState(superState);
+	    //end
+
+	    return ss;
+	  }
+
+	  @Override
+	  public void onRestoreInstanceState(Parcelable state) {
+	    //begin boilerplate code so parent classes can restore state
+	    if(!(state instanceof SavedState)) {
+	      super.onRestoreInstanceState(state);
+	      return;
+	    }
+
+	    SavedState ss = (SavedState)state;
+	    super.onRestoreInstanceState(ss.getSuperState());
+	    //end
+	  }
+
+	  static class SavedState extends BaseSavedState {
+	   
+	    SavedState(Parcelable superState) {
+	      super(superState);
+	    }
+
+	    private SavedState(Parcel in) {
+	      super(in);
+	      //this.stateToSave = in.readInt();
+	    }
+
+	    @Override
+	    public void writeToParcel(Parcel out, int flags) {
+	      super.writeToParcel(out, flags);
+	      //out.writeInt(this.stateToSave);
+	    }
+
+		public static final Parcelable.Creator<SavedState> CREATOR = new Parcelable.Creator<SavedState>() {
+	          public SavedState createFromParcel(Parcel in) {
+	            return new SavedState(in);
+	          }
+	          public SavedState[] newArray(int size) {
+	            return new SavedState[size];
+	          }
+	    };
+	  }
 }

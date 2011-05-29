@@ -17,6 +17,7 @@ import com.ncgeek.android.manticore.threads.LoadCharacterThread;
 import com.ncgeek.android.manticore.util.Utility;
 import com.ncgeek.android.manticore.widgets.GalleryMenu;
 import com.ncgeek.android.manticore.widgets.LabelBar;
+import com.ncgeek.android.manticore.widgets.StatView;
 import com.ncgeek.manticore.character.HitPoints;
 import com.ncgeek.manticore.character.PlayerCharacter;
 import com.ncgeek.manticore.character.stats.Stat;
@@ -144,6 +145,8 @@ public class CharacterSheet extends Activity {
 	@Override
 	public void onStart() {
 		super.onStart();
+		
+		Logger.debug(LOG_TAG, "CharacterSheet.onStart");
 		
 		if(prefs == null)
 			prefs = new ManticorePreferences(this);
@@ -461,7 +464,7 @@ public class CharacterSheet extends Activity {
 			ImageView iv = (ImageView)findViewById(R.id.charactersheet_img);
 			iv.setImageBitmap(bitmap);
 						
-			((GalleryMenu)findViewById(R.id.mainmenu)).setMenuItemIcon(0, new BitmapDrawable(bitmap));
+			//((GalleryMenu)findViewById(R.id.mainmenu)).setMenuItemIcon(0, new BitmapDrawable(bitmap));
 		}
 		
 		TextView txtName = (TextView)findViewById(R.id.charactersheet_txtName);
@@ -483,8 +486,9 @@ public class CharacterSheet extends Activity {
 		updateAbilityScores("Int", R.id.charactersheet_txtInt, R.id.charactersheet_txtIntMod);
 		updateAbilityScores("Wis", R.id.charactersheet_txtWis, R.id.charactersheet_txtWisMod);
 		updateAbilityScores("Cha", R.id.charactersheet_txtCha, R.id.charactersheet_txtChaMod);
-		
-		updateDefenses("AC", R.id.charactersheet_txtAC);
+	
+		((StatView)findViewById(R.id.charactersheet_llDefenseAC)).setStat(_pc.getStats().get("AC"));
+//		updateDefenses("AC", R.id.charactersheet_txtAC);
 		updateDefenses("Fortitude", R.id.charactersheet_txtFort);
 		updateDefenses("Reflex", R.id.charactersheet_txtReflex);
 		updateDefenses("Will", R.id.charactersheet_txtWill);

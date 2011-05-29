@@ -8,6 +8,7 @@
 </PreferenceCategory>
     <PreferenceCategory android:key="Character" android:title="Character Display">
         <CheckBoxPreference android:summary="Calculate stat values based on the character's selected rules and equipped items." android:title="Display Calculated Stats" android:defaultValue="true" android:key="UseCalculatedStats"></CheckBoxPreference>
+        <CheckBoxPreference android:title="Skill Display" android:summaryOff="Skills will be displayed in a table." android:defaultValue="true" android:summaryOn="Skills will be displayed in a grid" android:key="SkillsInGrid"></CheckBoxPreference>
     </PreferenceCategory>
     <PreferenceCategory android:key="Logs">
         <CheckBoxPreference android:summary="Write log information to SDCard/Manticore/Logs" android:title="Write log files" android:key="FileLogs"></CheckBoxPreference>

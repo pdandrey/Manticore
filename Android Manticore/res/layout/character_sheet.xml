@@ -94,13 +94,18 @@
     	android:layout_alignLeft="@id/charactersheet_img"
     	android:layout_below="@id/charactersheet_img"
     	>
-    	<LinearLayout android:id="@+id/charactersheet_llDefenseAC" android:tag="AC" style="@style/charactersheet_defense_entry">
+    	<!-- <LinearLayout android:id="@+id/charactersheet_llDefenseAC" android:tag="AC" style="@style/charactersheet_defense_entry">
     		<TextView android:text="AC:" style="@style/charactersheet_defense_entry_label_text" />
     		<LinearLayout style="@style/charactersheet_defense_entry_label">
     			<ImageView android:src="@drawable/i_stat_ac" style="@style/charactersheet_defense_entry_label_icon"/>
     			<TextView android:id="@+id/charactersheet_txtAC" style="@style/charactersheet_defense_entry_value" />
     		</LinearLayout>    		
     	</LinearLayout>
+    	-->
+    	<com.ncgeek.android.manticore.widgets.StatView
+    		android:id="@+id/charactersheet_llDefenseAC"
+    		style="@style/charactersheet_defense_entry"
+    		/>
     	<LinearLayout android:id="@+id/charactersheet_llDefenseFort" android:tag="Fortitude" style="@style/charactersheet_defense_entry">
     		<TextView android:text="Fort:" style="@style/charactersheet_defense_entry_label_text" />
     		<LinearLayout style="@style/charactersheet_defense_entry_label">
@@ -206,7 +211,7 @@
     	</LinearLayout>
    	</LinearLayout>
    	<com.ncgeek.android.manticore.widgets.GalleryMenu
-   		android:id="@+id/mainmenu"
+   		android:id="@+id/charactersheet_mainmenu"
    		android:layout_alignParentBottom="true" 
     	android:layout_alignParentRight="true"
     	android:layout_alignParentLeft="true"

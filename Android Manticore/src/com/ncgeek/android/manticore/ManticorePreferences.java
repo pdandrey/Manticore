@@ -44,4 +44,8 @@ public final class ManticorePreferences {
 	public final boolean logToFile() {
 		return Utility.isExternalWritable() && prefs.getBoolean("FileLogs", true);
 	}
+	
+	public final boolean SkillsInGrid() {
+		return prefs.getBoolean("SkillsInGrid", true);
+	}
 }
