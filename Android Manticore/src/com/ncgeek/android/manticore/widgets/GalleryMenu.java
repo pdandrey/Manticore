@@ -2,6 +2,7 @@ package com.ncgeek.android.manticore.widgets;
 
 import com.ncgeek.android.manticore.R;
 import com.ncgeek.android.manticore.activities.CharacterSheet;
+import com.ncgeek.android.manticore.activities.FeatView;
 import com.ncgeek.android.manticore.activities.SkillView;
 import com.ncgeek.android.manticore.adapters.GalleryMenuAdapter;
 import com.ncgeek.android.manticore.menus.GalleryMenuItem;
@@ -86,6 +87,10 @@ public class GalleryMenu extends LinearLayout implements AdapterView.OnItemClick
 				
 			case R.id.mainmenu_mnuSkills:
 				cls = SkillView.class;
+				break;
+				
+			case R.id.mainmenu_mnuFeats:
+				cls = FeatView.class;
 				break;
 		}
 		

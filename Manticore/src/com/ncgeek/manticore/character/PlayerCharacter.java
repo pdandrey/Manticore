@@ -6,11 +6,14 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Observable;
 
+import com.ncgeek.manticore.Tier;
 import com.ncgeek.manticore.character.inventory.EquipmentManager;
 import com.ncgeek.manticore.character.stats.Stat;
 import com.ncgeek.manticore.character.stats.StatBlock;
 import com.ncgeek.manticore.powers.Power;
 import com.ncgeek.manticore.rules.Rule;
+import com.ncgeek.manticore.rules.RuleTypes;
+import com.ncgeek.manticore.rules.Specific;
 import com.ncgeek.manticore.util.Logger;
 
 public class PlayerCharacter extends Observable implements Serializable, IRest{
@@ -40,6 +43,7 @@ public class PlayerCharacter extends Observable implements Serializable, IRest{
 	
 	private List<Rule> _rules;
 	private List<Power> _powers;
+	private List<Feat> _feats;
 	private StatBlock _stats;
 	private EquipmentManager _equipment;
 	private HitPoints _hp;
@@ -50,7 +54,7 @@ public class PlayerCharacter extends Observable implements Serializable, IRest{
 	
 	private Object _portraitBitmap;
 	
-	public PlayerCharacter(Wallet moneyCarried, Wallet moneyStored, List<Rule> rules, List<Power> powers, StatBlock stats, EquipmentManager equipment, HitPoints hp) {
+	public PlayerCharacter(Wallet moneyCarried, Wallet moneyStored, List<Rule> rules, List<Power> powers, List<Feat> feats, StatBlock stats, EquipmentManager equipment, HitPoints hp) {
 		_name = null;
 		_level = 1;
 		_player = null;
@@ -75,6 +79,7 @@ public class PlayerCharacter extends Observable implements Serializable, IRest{
 		_hp = hp;
 		_hpSet = _surgeSet = false;
 		_actionPoints = 1;
+		_feats = feats;
 		
 		_equipment.addObserver(_stats);
 		//this.addObserver(_stats);
@@ -83,7 +88,7 @@ public class PlayerCharacter extends Observable implements Serializable, IRest{
 	}
 	
 	public PlayerCharacter() {
-		this(new Wallet(), new Wallet(), new ArrayList<Rule>(), new ArrayList<Power>(), new StatBlock(), new EquipmentManager(), new HitPoints());
+		this(new Wallet(), new Wallet(), new ArrayList<Rule>(), new ArrayList<Power>(), new ArrayList<Feat>(), new StatBlock(), new EquipmentManager(), new HitPoints());
 	}
 	
 	public String getRace() { return _race; }
@@ -196,16 +201,25 @@ public class PlayerCharacter extends Observable implements Serializable, IRest{
 		return _hp; 
 	}
 	
+	public List<Feat> getFeats() {
+		return Collections.unmodifiableList(_feats);
+	}
+	
 	public List<Rule> getRules() {
 		 return Collections.unmodifiableList(_rules);
 	}
+	
 	public void add(Rule rule) {
 		if(rule == null)
 			throw new IllegalArgumentException("Rule cannot be null");
-		Logger.info("Rule", String.format("Adding rule %s", rule.getName()));
 		
 		if(_rules.contains(rule))
-			throw new RuntimeException("RDuplicate Rule");
+			throw new RuntimeException("Duplicate Rule");
+		
+		if(rule.getType() == RuleTypes.FEAT) {
+			_feats.add(getFeat(rule));
+			return;
+		}
 		
 		_rules.add(rule);
 		
@@ -235,6 +249,36 @@ public class PlayerCharacter extends Observable implements Serializable, IRest{
 		_stats.update(this, new RuleEventArgs(RuleEventType.RuleAdded, rule));
 	}
 	
+	private Feat getFeat(Rule rule) {
+		Feat f = new Feat();
+		
+		f.setName(rule.getName());
+		f.setDescription(rule.getBody());
+		
+		for(Specific s : rule.getSpecifics()) {
+			if(s.getName().equals("Tier")) {
+				f.setTier(Tier.forName("Heroic"));
+			}
+            else if(s.getName().equals("Short Description")) {
+            	f.setShortDescription(s.getValue());
+            }
+            else if(s.getName().equals("Special")) {
+            	f.setSpecial(s.getValue());
+            }
+            else if(s.getName().equals("Type")) {
+            	f.setType(s.getValue());
+            }
+            else if(s.getName().equals("Associated Power Info")) {
+            	f.setAssociatedPowerInfo(s.getValue());
+            }
+            else if(s.getName().equals("Associated Powers")) {
+            	f.setAssociatedPowers(s.getValue());
+            }
+		}
+		
+		return f;
+	}
+
 	public List<Power> getPowers() {
 		return Collections.unmodifiableList(_powers);
 	}
