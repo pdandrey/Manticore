@@ -1,10 +1,12 @@
 package com.ncgeek.manticore;
 
+import java.io.Serializable;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class Money implements Comparable<Money>{
+public class Money implements Comparable<Money>, Serializable {
 	
+	private static final long serialVersionUID = 1L;
 	private static final long COPPER_PER_GOLD = 100;
     private static final long COPPER_PER_SILVER = 10;
     private static final long COPPER_PER_PLAT = 10000;

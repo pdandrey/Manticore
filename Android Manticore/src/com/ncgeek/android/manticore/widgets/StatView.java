@@ -1,8 +1,9 @@
 package com.ncgeek.android.manticore.widgets;
 
 import com.ncgeek.android.manticore.ManticorePreferences;
+import com.ncgeek.android.manticore.ManticoreStatus;
 import com.ncgeek.android.manticore.R;
-import com.ncgeek.android.manticore.activities.StatBreakdown;
+import com.ncgeek.android.manticore.activities.DetailsView;
 import com.ncgeek.android.manticore.widgets.GalleryMenu.SavedState;
 import com.ncgeek.manticore.character.stats.Stat;
 
@@ -103,11 +104,10 @@ public class StatView extends LinearLayout implements OnLongClickListener {
 
 	@Override
 	public boolean onLongClick(View v) {
-		Intent i = new Intent(context, StatBreakdown.class);
+		Intent i = new Intent(context, DetailsView.class);
         i.setAction(Intent.ACTION_VIEW);
         i.addCategory(Intent.CATEGORY_DEFAULT);
-        i.putExtra("defense", (String)getTag());
-        i.putExtra("icon", ((BitmapDrawable)ivIcon.getDrawable()).getBitmap());
+        i.putExtra("item", ManticoreStatus.getPC().getStats().get((String)v.getTag()));
         context.startActivity(i);
 		return true;
 	}

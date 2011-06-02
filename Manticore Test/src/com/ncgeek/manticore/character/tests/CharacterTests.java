@@ -9,6 +9,7 @@ import org.junit.Before;
 import org.junit.Test;
 import org.mockito.ArgumentCaptor;
 
+import com.ncgeek.manticore.Ritual;
 import com.ncgeek.manticore.character.Alignment;
 import com.ncgeek.manticore.character.Feat;
 import com.ncgeek.manticore.character.HitPoints;
@@ -31,6 +32,7 @@ public class CharacterTests {
 	private List<Rule> rules;
 	private List<Power> powers;
 	private List<Feat> feats;
+	private List<Ritual> rituals;
 	private StatBlock stats;
 	private EquipmentManager equipment;
 	private HitPoints hp;
@@ -43,10 +45,11 @@ public class CharacterTests {
 		rules = mock(List.class);
 		powers = mock(List.class);
 		feats = mock(List.class);
+		rituals = mock(List.class);
 		stats = mock(StatBlock.class);
 		equipment = mock(EquipmentManager.class);
 		hp = mock(HitPoints.class);
-		character = new PlayerCharacter(moneyCarried, moneyStored, rules, powers, feats, stats, equipment, hp);
+		character = new PlayerCharacter(moneyCarried, moneyStored, rules, powers, feats, rituals, stats, equipment, hp);
 	}
 
 	@Test

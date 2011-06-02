@@ -6,6 +6,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Observable;
 
+import com.ncgeek.manticore.Ritual;
 import com.ncgeek.manticore.Tier;
 import com.ncgeek.manticore.character.inventory.EquipmentManager;
 import com.ncgeek.manticore.character.stats.Stat;
@@ -14,7 +15,6 @@ import com.ncgeek.manticore.powers.Power;
 import com.ncgeek.manticore.rules.Rule;
 import com.ncgeek.manticore.rules.RuleTypes;
 import com.ncgeek.manticore.rules.Specific;
-import com.ncgeek.manticore.util.Logger;
 
 public class PlayerCharacter extends Observable implements Serializable, IRest{
 	
@@ -44,6 +44,7 @@ public class PlayerCharacter extends Observable implements Serializable, IRest{
 	private List<Rule> _rules;
 	private List<Power> _powers;
 	private List<Feat> _feats;
+	private List<Ritual> _rituals;
 	private StatBlock _stats;
 	private EquipmentManager _equipment;
 	private HitPoints _hp;
@@ -54,7 +55,7 @@ public class PlayerCharacter extends Observable implements Serializable, IRest{
 	
 	private Object _portraitBitmap;
 	
-	public PlayerCharacter(Wallet moneyCarried, Wallet moneyStored, List<Rule> rules, List<Power> powers, List<Feat> feats, StatBlock stats, EquipmentManager equipment, HitPoints hp) {
+	public PlayerCharacter(Wallet moneyCarried, Wallet moneyStored, List<Rule> rules, List<Power> powers, List<Feat> feats, List<Ritual> rituals, StatBlock stats, EquipmentManager equipment, HitPoints hp) {
 		_name = null;
 		_level = 1;
 		_player = null;
@@ -80,6 +81,7 @@ public class PlayerCharacter extends Observable implements Serializable, IRest{
 		_hpSet = _surgeSet = false;
 		_actionPoints = 1;
 		_feats = feats;
+		_rituals = rituals;
 		
 		_equipment.addObserver(_stats);
 		//this.addObserver(_stats);
@@ -88,7 +90,7 @@ public class PlayerCharacter extends Observable implements Serializable, IRest{
 	}
 	
 	public PlayerCharacter() {
-		this(new Wallet(), new Wallet(), new ArrayList<Rule>(), new ArrayList<Power>(), new ArrayList<Feat>(), new StatBlock(), new EquipmentManager(), new HitPoints());
+		this(new Wallet(), new Wallet(), new ArrayList<Rule>(), new ArrayList<Power>(), new ArrayList<Feat>(), null, new StatBlock(), new EquipmentManager(), new HitPoints());
 	}
 	
 	public String getRace() { return _race; }
@@ -203,6 +205,19 @@ public class PlayerCharacter extends Observable implements Serializable, IRest{
 	
 	public List<Feat> getFeats() {
 		return Collections.unmodifiableList(_feats);
+	}
+	
+	public List<Ritual> getRituals() {
+		if(_rituals == null)
+			return Collections.emptyList();
+		else
+			return Collections.unmodifiableList(_rituals);
+	}
+	
+	public void add(Ritual ritual) {
+		if(_rituals == null)
+			_rituals = new ArrayList<Ritual>(2);
+		_rituals.add(ritual);
 	}
 	
 	public List<Rule> getRules() {

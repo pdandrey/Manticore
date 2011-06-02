@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+	<style name="ritualdetails_base">
+		<item name="android:layout_width">wrap_content</item>
+  		<item name="android:layout_height">wrap_content</item>
+  		<item name="android:layout_marginLeft">5dp</item>
+	</style>
+	<style name="ritualdetails_name" parent="@style/ritualdetails_base">
+		<item name="android:layout_width">fill_parent</item>
+  		<item name="android:layout_span">4</item>
+  		<item name="android:textSize">24sp</item>
+  		<item name="android:textStyle">bold</item>
+  		<item name="android:text">Ritual Name</item>
+	</style>
+	<style name="ritualdetails_typeAndCategory" parent="@style/ritualdetails_base">
+		<item name="android:layout_width">fill_parent</item>
+		<item name="android:layout_span">4</item>
+	  	<item name="android:textSize">18sp</item>
+	  	<item name="android:text">Type (Category)</item>
+	</style>
+	<style name="ritualdetails_flavor" parent="@style/ritualdetails_base">
+		<item name="android:layout_width">fill_parent</item>
+		<item name="android:layout_span">4</item>
+  		<item name="android:textStyle">italic</item>
+  		<item name="android:text">Flavor Text</item>
+	</style>
+	<style name="ritualdetails_label" parent="@style/ritualdetails_base">
+		<item name="android:gravity">left</item>
+	</style>
+	<style name="ritualdetails_value" parent="@style/ritualdetails_base">
+		<item name="android:layout_marginRight">5dp</item>
+		<item name="android:text">value</item>
+	</style>
+	<style name="ritualdetails_description" parent="@style/ritualdetails_base">
+		<item name="android:layout_span">4</item>
+		<item name="android:text">Very Long Description</item>
+	</style>
+</resources>

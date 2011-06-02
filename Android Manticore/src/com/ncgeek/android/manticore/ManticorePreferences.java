@@ -48,4 +48,8 @@ public final class ManticorePreferences {
 	public final boolean SkillsInGrid() {
 		return prefs.getBoolean("SkillsInGrid", true);
 	}
+	
+	public final String CharacterBuilderVersion() {
+		return prefs.getString("CharBuilderVersion", "223.241754");
+	}
 }

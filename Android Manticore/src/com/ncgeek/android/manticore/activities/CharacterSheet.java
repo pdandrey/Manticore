@@ -99,14 +99,10 @@ public class CharacterSheet extends Activity {
 	private android.view.View.OnLongClickListener ExplainDefenseLongClick = new android.view.View.OnLongClickListener() {
 		@Override
 		public boolean onLongClick(View v) {
-			Intent i = new Intent(CharacterSheet.this, StatBreakdown.class);
+			Intent i = new Intent(CharacterSheet.this, DetailsView.class);
 	        i.setAction(Intent.ACTION_VIEW);
 	        i.addCategory(Intent.CATEGORY_DEFAULT);
-	        i.putExtra("defense", (String)v.getTag());
-	        LinearLayout ll = (LinearLayout)v;
-	        ll = (LinearLayout)ll.getChildAt(1);
-	        ImageView iv = (ImageView)ll.getChildAt(0);
-	        i.putExtra("icon", ((BitmapDrawable)iv.getDrawable()).getBitmap());
+	        i.putExtra("item", _pc.getStats().get((String)v.getTag()));
 	        startActivity(i);
 			return true;
 		}
@@ -422,7 +418,7 @@ public class CharacterSheet extends Activity {
 			if(bitmap == null) {
 				try {
 					
-					URL url = new URL(_pc.getPortrait());
+					URL url = new URL(String.format(_pc.getPortrait(), prefs.CharacterBuilderVersion()));
 					
 					String cachePortraitFilename = null;
 					File cacheDir = null; 

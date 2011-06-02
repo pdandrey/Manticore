@@ -5,6 +5,7 @@ import java.util.ArrayList;
 import org.xml.sax.Attributes;
 
 import com.ncgeek.manticore.ICompendiumRepository;
+import com.ncgeek.manticore.Ritual;
 import com.ncgeek.manticore.character.PlayerCharacter;
 import com.ncgeek.manticore.character.inventory.EquipmentManager;
 import com.ncgeek.manticore.items.EnchantedItem;
@@ -81,8 +82,10 @@ public class LootHandler implements IElementHandler {
 			if(name.equals("RulesElement")) {
 				if(current == null) {
 					Rule rule = ruleHandler.getRule();
-					if(rule.getType() == RuleTypes.RITUAL)
+					if(rule.getType() == RuleTypes.RITUAL) {
+						pc.add(Ritual.fromRule(rule));
 						return;
+					}
 					current = ItemUtilities.itemFromRule(ruleHandler.getRule());
 				}
 				items.add(current);

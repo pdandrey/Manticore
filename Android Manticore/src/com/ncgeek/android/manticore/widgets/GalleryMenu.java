@@ -78,7 +78,9 @@ public class GalleryMenu extends LinearLayout implements AdapterView.OnItemClick
 
 	@Override
 	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+		Intent intent = new Intent();
 		Class<? extends Context> cls = null;
+		intent.putExtra("gallerymenu_previous", id);
 		
 		switch((int)id) {
 			case R.id.mainmenu_mnuCharacter:
@@ -91,34 +93,44 @@ public class GalleryMenu extends LinearLayout implements AdapterView.OnItemClick
 				
 			case R.id.mainmenu_mnuFeats:
 				cls = FeatView.class;
+				intent.putExtra("type", "feat");
 				break;
+				
+			case R.id.mainmenu_mnuRituals:
+				cls = FeatView.class;
+				intent.putExtra("type", "ritual");
+				break;
+				
+			default: 
+				Toast.makeText(context, String.format("%s clicked", ((GalleryMenuItem)adapter.getItem(position)).getTitle()), Toast.LENGTH_SHORT).show();
+				return;
 		}
 		
-		if(cls != null) {
-			if(cls.equals(context.getClass())) {
-				// do nothing since we clicked the menu item for the current activity
+		intent.setClass(context, cls);
+		
+		if(context instanceof Activity) {
+			Activity act = (Activity)context;
+			Intent i = act.getIntent();
+			Bundle extras = i.getExtras();
+			long previous = -1;
+			Object prevCls = null;
+			
+			if(extras != null) {
+				previous = extras.getLong("gallerymenu_previous");
+				prevCls = extras.get("gallerymenu_class");
 			}
-			else if(context instanceof Activity) {
-				Activity act = (Activity)context;
-				Intent i = act.getIntent();
-				Bundle extras = i.getExtras();
-				Object previous = null;
-				
-				if(extras != null)
-					previous = extras.get("gallerymenu_previous");
-				
-				if(previous != null && cls.equals(previous)) {
-					((Activity)context).finish();
-				} else {
-					i = new Intent(context, cls);
-					i.putExtra("gallerymenu_previous", context.getClass());
-					i.putExtra("gallerymenu_index", position);
-					context.startActivity(i);
-				}
+			
+			if(prevCls != null && prevCls.equals(cls) && id == previous) {
+				// do nothing
+			} else if(previous != -1 && id == previous) {
+				((Activity)context).finish();
+			} else {
+				intent.putExtra("gallerymenu_class", context.getClass());
+				intent.putExtra("gallerymenu_index", position);
+				context.startActivity(intent);
 			}
-		} else {
-			Toast.makeText(context, String.format("%s clicked", ((GalleryMenuItem)adapter.getItem(position)).getTitle()), Toast.LENGTH_SHORT).show();
 		}
+		
 	}
 	
 	  @Override

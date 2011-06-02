@@ -94,7 +94,7 @@ class CharacterHandler extends DefaultHandler {
 		if(sectionHandler != null) {
 			sectionHandler.endElement(pc, name, body);
 			
-			if(currentSection == Section.Rules && localName.equals("RulesElement")) {
+			if(currentSection == Section.Rules && name.equals("RulesElement")) {
 				pc.add(((RulesElementHandler)sectionHandler).getRule());
 			}
 		}
@@ -106,7 +106,7 @@ class CharacterHandler extends DefaultHandler {
 		
 		TextStringHandler misc = (TextStringHandler)Section.Misc.getHandler();
 		if(misc.getPortraitID() != null) {
-			pc.setPortrait(String.format("http://media.wizards.com/downloads/dnd/CharacterBuilder/Client/223.241754/CDNContent/Portraits/%d.png", misc.getPortraitID()));
+			pc.setPortrait(String.format("http://media.wizards.com/downloads/dnd/CharacterBuilder/Client/%s/CDNContent/Portraits/%d.png", "%s", misc.getPortraitID()));
 		}
 		
 		parser.finished(pc);

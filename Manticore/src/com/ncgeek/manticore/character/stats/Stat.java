@@ -1,11 +1,14 @@
 package com.ncgeek.manticore.character.stats;
 
+import java.io.Serializable;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.ArrayList;
 
-public class Stat {
+public class Stat implements Serializable {
+	
+	private static final long serialVersionUID = 1L;
 	
 	private List<String> _aliases;
 	private List<Addition> _additions;
