@@ -3,6 +3,9 @@ package com.ncgeek.android.manticore.activities;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.net.URL;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -10,18 +13,23 @@ import com.ncgeek.android.manticore.ManticorePreferences;
 import com.ncgeek.android.manticore.ManticoreStatus;
 import com.ncgeek.android.manticore.MessageTypes;
 import com.ncgeek.android.manticore.R;
-import com.ncgeek.android.manticore.adapters.GalleryMenuAdapter;
+import com.ncgeek.android.manticore.adapters.FeatListAdapter;
+import com.ncgeek.android.manticore.adapters.RitualListAdapter;
 import com.ncgeek.android.manticore.database.DatabaseRepository;
-import com.ncgeek.android.manticore.menus.GalleryMenuItem;
+import com.ncgeek.android.manticore.widgets.GalleryMenu;
+import com.ncgeek.android.manticore.partial.ListPartial;
+import com.ncgeek.android.manticore.partial.Partial;
+import com.ncgeek.android.manticore.partial.SkillPartial;
+import com.ncgeek.android.manticore.partial.StatPartial;
 import com.ncgeek.android.manticore.threads.LoadCharacterThread;
 import com.ncgeek.android.manticore.util.Utility;
-import com.ncgeek.android.manticore.widgets.GalleryMenu;
 import com.ncgeek.android.manticore.widgets.LabelBar;
-import com.ncgeek.android.manticore.widgets.StatView;
+import com.ncgeek.manticore.Ritual;
+import com.ncgeek.manticore.character.Feat;
 import com.ncgeek.manticore.character.HitPoints;
 import com.ncgeek.manticore.character.PlayerCharacter;
-import com.ncgeek.manticore.character.stats.Stat;
 import com.ncgeek.manticore.util.Logger;
+import com.ncgeek.manticore.util.Tuple;
 
 import android.app.Activity;
 import android.app.AlertDialog;
@@ -34,7 +42,6 @@ import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Bitmap.CompressFormat;
 import android.graphics.Color;
-import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -46,11 +53,13 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.ViewAnimator;
 
 public class CharacterSheet extends Activity {
 	
@@ -65,6 +74,12 @@ public class CharacterSheet extends Activity {
 	private AlertDialog dlgDamage;
 	private AlertDialog dlgHealing;
 	private ManticorePreferences prefs;
+	
+	private Partial currentPartial;
+	private HashMap<Integer,Tuple<Partial,Integer>> mapPartials;
+	
+	private FeatListAdapter adpFeats;
+	private RitualListAdapter adpRituals;
 	
 	private Handler dialogHandler = new Handler() {
 		public void handleMessage(Message msg) {
@@ -89,24 +104,16 @@ public class CharacterSheet extends Activity {
 		}
 	};
 	
-	private android.view.View.OnClickListener ContextMenuClick = new android.view.View.OnClickListener() {
+	private final android.view.View.OnClickListener ContextMenuClick = new android.view.View.OnClickListener() {
 		@Override
 		public void onClick(View v) {
 			v.performLongClick();
 		}
 	};
 	
-	private android.view.View.OnLongClickListener ExplainDefenseLongClick = new android.view.View.OnLongClickListener() {
-		@Override
-		public boolean onLongClick(View v) {
-			Intent i = new Intent(CharacterSheet.this, DetailsView.class);
-	        i.setAction(Intent.ACTION_VIEW);
-	        i.addCategory(Intent.CATEGORY_DEFAULT);
-	        i.putExtra("item", _pc.getStats().get((String)v.getTag()));
-	        startActivity(i);
-			return true;
-		}
-	};
+	public android.view.View.OnClickListener getContextMenuClickListener() {
+		return ContextMenuClick;
+	}
 	
 	@Override
     public void onCreate(Bundle savedInstanceState) {
@@ -123,26 +130,44 @@ public class CharacterSheet extends Activity {
         v.setOnClickListener(ContextMenuClick);
         registerForContextMenu(v);
         
-        v = findViewById(R.id.charactersheet_llActionPoints);
-        v.setOnClickListener(ContextMenuClick);
-        registerForContextMenu(v);
-        
-        findViewById(R.id.charactersheet_llDefenseAC).setOnLongClickListener(ExplainDefenseLongClick);
-        findViewById(R.id.charactersheet_llDefenseFort).setOnLongClickListener(ExplainDefenseLongClick);
-        findViewById(R.id.charactersheet_llDefenseReflex).setOnLongClickListener(ExplainDefenseLongClick);
-        findViewById(R.id.charactersheet_llDefenseWill).setOnLongClickListener(ExplainDefenseLongClick);
-        findViewById(R.id.charactersheet_llStatSpeed).setOnLongClickListener(ExplainDefenseLongClick);
-        findViewById(R.id.charactersheet_llStatInitiative).setOnLongClickListener(ExplainDefenseLongClick);
-        
         LabelBar hp = (LabelBar)findViewById(R.id.charactersheet_hpbar);
         hp.addChange(50, "Bloodied", Color.RED, getResources().getDrawable(R.drawable.hp_bar_bloodied));
+        
+        final GalleryMenu gallery = (GalleryMenu)findViewById(R.id.charactersheet_mainmenu);
+        gallery.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+			@Override
+			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+				
+				Logger.debug(LOG_TAG, String.format("Menu click: %x (%s)", id, gallery.getMenuItem(position).getTitle()));
+				ViewAnimator va = (ViewAnimator)findViewById(R.id.charactersheet_children);
+				Tuple<Partial,Integer> t = mapPartials.get((int)id);
+				if(t != null) {
+					currentPartial = t.getItem1();
+					currentPartial.update();
+					va.setDisplayedChild(t.getItem2());
+				}
+			}
+		});
+        
+        mapPartials = new HashMap<Integer, Tuple<Partial,Integer>>(); 
+        
+        currentPartial = new StatPartial(this);
+        addPartial(currentPartial, R.id.mainmenu_mnuCharacter);
+        addPartial(new SkillPartial(this), R.id.mainmenu_mnuSkills);
+        addPartial(new ListPartial(this, adpFeats = new FeatListAdapter(this, R.layout.feat_list_item)), R.id.mainmenu_mnuFeats);
+        addPartial(new ListPartial(this, adpRituals = new RitualListAdapter(this, R.layout.ritual_listitem)), R.id.mainmenu_mnuRituals);
 	 }
+	
+	private void addPartial(Partial partial, int menuID) {
+		ViewAnimator va = (ViewAnimator)findViewById(R.id.charactersheet_children);
+		Logger.debug(LOG_TAG, String.format("Adding partial: id=%x, class=%s, vaPosition=%s", menuID, partial.getClass().getSimpleName(), va.getChildCount()));
+		mapPartials.put(menuID, new Tuple<Partial, Integer>(partial, va.getChildCount()));
+        va.addView(partial.getView());
+	}
 	 
 	@Override
 	public void onStart() {
 		super.onStart();
-		
-		Logger.debug(LOG_TAG, "CharacterSheet.onStart");
 		
 		if(prefs == null)
 			prefs = new ManticorePreferences(this);
@@ -330,9 +355,9 @@ public class CharacterSheet extends Activity {
 				menu.setGroupVisible(R.id.charactersheet_mnugrpDeathSave, _pc.getHP().isBleedingOut());
 				break;
 				
-			case R.id.charactersheet_llActionPoints:
-				inflater.inflate(R.menu.charactersheet_actionpoints, menu);
-				menu.setGroupEnabled(R.id.charactersheet_mnugrpActionPoints, _pc.getActionPoints() > 0);
+			default:
+				inflater.inflate(currentPartial.getContextMenuID(), menu);
+				currentPartial.setupContextMenu(menu);
 				break;
 		}
 	}
@@ -340,9 +365,8 @@ public class CharacterSheet extends Activity {
 	@Override
 	public boolean onContextItemSelected(MenuItem item) {
 		
-		switch(item.getGroupId()) {
-			case R.id.charactersheet_mnugrpHitpoints:
-			case R.id.charactersheet_mnugrpDeathSave:
+		if(item.getGroupId() == R.id.charactersheet_mnugrpHitpoints
+				|| item.getGroupId() == R.id.charactersheet_mnugrpDeathSave) {
 				switch(item.getItemId()){
 					case R.id.charactersheet_mnuDamage:
 						showDialog(DIALOG_DAMAGE);
@@ -362,19 +386,8 @@ public class CharacterSheet extends Activity {
 						updateHP();
 						return true;
 				}
-				break;
-				
-			case R.id.charactersheet_mnugrpActionPoints:
-				_pc.useActionPoint();
-				updateActionPoints();
-				return true;
-		}
-		
-		switch(item.getItemId()) {
-			case R.id.charactersheet_mnuMilestone:
-				_pc.milestone();
-				updateActionPoints();
-				return true;
+		} else {
+			return currentPartial.onContextItemSelected(item);
 		}
 		
 		return super.onContextItemSelected(item);
@@ -476,63 +489,13 @@ public class CharacterSheet extends Activity {
 		TextView txtClass = (TextView)findViewById(R.id.charactersheet_txtClass);
 		txtClass.setText(_pc.getHeroicClass());
 		
-		updateAbilityScores("STR", R.id.charactersheet_txtStr, R.id.charactersheet_txtStrMod);
-		updateAbilityScores("Con", R.id.charactersheet_txtCon, R.id.charactersheet_txtConMod);
-		updateAbilityScores("Dex", R.id.charactersheet_txtDex, R.id.charactersheet_txtDexMod);
-		updateAbilityScores("Int", R.id.charactersheet_txtInt, R.id.charactersheet_txtIntMod);
-		updateAbilityScores("Wis", R.id.charactersheet_txtWis, R.id.charactersheet_txtWisMod);
-		updateAbilityScores("Cha", R.id.charactersheet_txtCha, R.id.charactersheet_txtChaMod);
-	
-		((StatView)findViewById(R.id.charactersheet_llDefenseAC)).setStat(_pc.getStats().get("AC"));
-//		updateDefenses("AC", R.id.charactersheet_txtAC);
-		updateDefenses("Fortitude", R.id.charactersheet_txtFort);
-		updateDefenses("Reflex", R.id.charactersheet_txtReflex);
-		updateDefenses("Will", R.id.charactersheet_txtWill);
-		
-		updateDefenses("Speed", R.id.charactersheet_txtSpeed);
-		updateDefenses("Initiative", R.id.charactersheet_txtInitiative);
-		
-		updateActionPoints();
 		updateHP();
+		currentPartial.update();
 		
-	}
-	
-	private void updateAbilityScores(String stat, int txtID, int txtModID) {
-		Stat s = _pc.getStats().get(stat);
-		TextView txt = (TextView)findViewById(txtID);
-		
-		int calc = s.getCalculatedValue();
-		int abs = s.getAbsoluteValue();
-		
-		if(calc != abs)
-			Logger.warn(LOG_TAG, String.format("%s %d != %d", stat, calc, abs));
-		
-		if(prefs.useCalculatedStats())
-			txt.setText(calc + "");
-		else
-			txt.setText(abs + "");
-		
-		txt = (TextView)findViewById(txtModID);
-		int mod = s.getModifier();
-		String sMod = mod + "";
-		if(mod >= 0)
-			sMod = "+" + mod;
-		txt.setText(sMod);
-	}
-	
-	private void updateDefenses(String stat, int txtID) {
-		Stat s = _pc.getStats().get(stat);
-		TextView txt = (TextView)findViewById(txtID);
-		int calc = s.getCalculatedValue();
-		int abs = s.getAbsoluteValue();
-		
-		if(calc != abs)
-			Logger.warn(LOG_TAG, String.format("%s %d != %d", stat, calc, abs));
-		
-		if(prefs.useCalculatedStats())
-			txt.setText(calc + "");
-		else
-			txt.setText(abs + "");
+		if(adpFeats.getCount() == 0)
+			adpFeats.add(_pc.getFeats());
+		if(adpRituals.getCount() == 0)
+			adpRituals.add(_pc.getRituals());
 	}
 	
 	private void updateHP() {
@@ -567,10 +530,5 @@ public class CharacterSheet extends Activity {
 		
 		findViewById(R.id.charactersheet_frameHP).setBackgroundResource(background);
 		*/
-	}
-	
-	private void updateActionPoints() {
-		TextView txt = (TextView)findViewById(R.id.charactersheet_txtActionPoints);
-		txt.setText(_pc.getActionPoints() + "");
 	}
 }

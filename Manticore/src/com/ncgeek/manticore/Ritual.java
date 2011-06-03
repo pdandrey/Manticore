@@ -7,7 +7,7 @@ import com.ncgeek.manticore.rules.Rule;
 import com.ncgeek.manticore.rules.Specific;
 import com.ncgeek.manticore.util.Logger;
 
-public class Ritual implements Serializable {
+public class Ritual implements Serializable, Comparable<Ritual> {
 	
 	private static final long serialVersionUID = 1L;
 
@@ -136,6 +136,10 @@ public class Ritual implements Serializable {
 	}
 	public final void setKeySkills(String keySkills) {
 		this.keySkills = keySkills;
+	}
+	@Override
+	public int compareTo(Ritual other) {
+		return getName().compareToIgnoreCase(other.getName());
 	}
 	
 }

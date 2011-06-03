@@ -1,9 +1,12 @@
 package com.ncgeek.manticore.character;
 
+import java.io.Serializable;
+
 import com.ncgeek.manticore.Tier;
 
-public class Feat {
+public class Feat implements Comparable<Feat>, Serializable {
 	
+	private static final long serialVersionUID = 1L;
 	private String name;
 	private Tier tier;
 	private String Prerequisites;
@@ -67,6 +70,10 @@ public class Feat {
 	}
 	public final void setDescription(String description) {
 		this.description = description;
+	}
+	@Override
+	public int compareTo(Feat other) {
+		return getName().compareToIgnoreCase(other.getName());
 	}
 	
 }

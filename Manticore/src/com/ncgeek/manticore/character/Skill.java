@@ -1,10 +1,14 @@
 package com.ncgeek.manticore.character;
 
+import java.io.Serializable;
+
 import com.ncgeek.manticore.character.stats.Addition;
 import com.ncgeek.manticore.character.stats.Stat;
 import com.ncgeek.manticore.util.Logger;
 
-public final class Skill {
+public final class Skill implements Serializable {
+	
+	private static final long serialVersionUID = 1L;
 	
 	private String name;
 	private int total;
@@ -36,6 +40,8 @@ public final class Skill {
 					} else if(add.getType() != null && add.getType().equalsIgnoreCase("Ability")) {
 						abilityMod = add.getValue();
 						abilityModName = add.getStatLink();
+					} else {
+						Logger.debug("Skill", String.format("Unknown stat add found: %s", stat.toString()));
 					}
 				}
 			}

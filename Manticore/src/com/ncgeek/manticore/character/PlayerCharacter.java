@@ -217,7 +217,11 @@ public class PlayerCharacter extends Observable implements Serializable, IRest{
 	public void add(Ritual ritual) {
 		if(_rituals == null)
 			_rituals = new ArrayList<Ritual>(2);
-		_rituals.add(ritual);
+		int index = Collections.binarySearch(_rituals, ritual);
+		if(index< 0) {
+			index = -index - 1;
+			_rituals.add(index, ritual);
+		}
 	}
 	
 	public List<Rule> getRules() {
@@ -232,7 +236,12 @@ public class PlayerCharacter extends Observable implements Serializable, IRest{
 			throw new RuntimeException("Duplicate Rule");
 		
 		if(rule.getType() == RuleTypes.FEAT) {
-			_feats.add(getFeat(rule));
+			Feat f = getFeat(rule);
+			int index = Collections.binarySearch(_feats, f);
+			if(index < 0) {
+				index = -index - 1;
+				_feats.add(index, f);
+			}
 			return;
 		}
 		

@@ -1,9 +1,6 @@
 package com.ncgeek.android.manticore.widgets;
 
 import com.ncgeek.android.manticore.R;
-import com.ncgeek.android.manticore.activities.CharacterSheet;
-import com.ncgeek.android.manticore.activities.FeatView;
-import com.ncgeek.android.manticore.activities.SkillView;
 import com.ncgeek.android.manticore.adapters.GalleryMenuAdapter;
 import com.ncgeek.android.manticore.menus.GalleryMenuItem;
 
@@ -11,34 +8,36 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.drawable.Drawable;
-import android.os.Bundle;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.util.AttributeSet;
-import android.view.View;
 import android.widget.AdapterView;
 import android.widget.Gallery;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
-public class GalleryMenu extends LinearLayout implements AdapterView.OnItemClickListener {
+public class GalleryMenu extends LinearLayout {
 
-	private final Context context;
 	private GalleryMenuAdapter adapter;
 	private Gallery gallery;
 	
 	public GalleryMenu(Context context) {
 		super(context);
 		init(context, null);
-		this.context = context;
 	}
 	
 	public GalleryMenu(Context context, AttributeSet attrs) {
 		super(context, attrs);
 		init(context, attrs);
-		this.context = context;
+	}
+	
+	public void setOnItemClickListener(AdapterView.OnItemClickListener listener) {
+		gallery.setOnItemClickListener(listener);
+	}
+	
+	public GalleryMenuItem getMenuItem(int position) {
+		return (GalleryMenuItem)adapter.getItem(position);
 	}
 	
 	private void init(Context context, AttributeSet attrs) {
@@ -52,7 +51,7 @@ public class GalleryMenu extends LinearLayout implements AdapterView.OnItemClick
 			adapter = new GalleryMenuAdapter(context, R.menu.mainmenu);
 			gallery.setLayoutParams(new LinearLayout.LayoutParams(LinearLayout.LayoutParams.FILL_PARENT, LinearLayout.LayoutParams.FILL_PARENT));
 			gallery.setAdapter(adapter);
-			gallery.setOnItemClickListener(this);
+			//gallery.setOnItemClickListener(this);
 			
 			if(context instanceof Activity) {
 				Intent i = ((Activity)context).getIntent();
@@ -76,63 +75,6 @@ public class GalleryMenu extends LinearLayout implements AdapterView.OnItemClick
 		((ImageView)ll.getChildAt(position)).setImageDrawable(icon);
 	}
 
-	@Override
-	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-		Intent intent = new Intent();
-		Class<? extends Context> cls = null;
-		intent.putExtra("gallerymenu_previous", id);
-		
-		switch((int)id) {
-			case R.id.mainmenu_mnuCharacter:
-				cls = CharacterSheet.class;
-				break;
-				
-			case R.id.mainmenu_mnuSkills:
-				cls = SkillView.class;
-				break;
-				
-			case R.id.mainmenu_mnuFeats:
-				cls = FeatView.class;
-				intent.putExtra("type", "feat");
-				break;
-				
-			case R.id.mainmenu_mnuRituals:
-				cls = FeatView.class;
-				intent.putExtra("type", "ritual");
-				break;
-				
-			default: 
-				Toast.makeText(context, String.format("%s clicked", ((GalleryMenuItem)adapter.getItem(position)).getTitle()), Toast.LENGTH_SHORT).show();
-				return;
-		}
-		
-		intent.setClass(context, cls);
-		
-		if(context instanceof Activity) {
-			Activity act = (Activity)context;
-			Intent i = act.getIntent();
-			Bundle extras = i.getExtras();
-			long previous = -1;
-			Object prevCls = null;
-			
-			if(extras != null) {
-				previous = extras.getLong("gallerymenu_previous");
-				prevCls = extras.get("gallerymenu_class");
-			}
-			
-			if(prevCls != null && prevCls.equals(cls) && id == previous) {
-				// do nothing
-			} else if(previous != -1 && id == previous) {
-				((Activity)context).finish();
-			} else {
-				intent.putExtra("gallerymenu_class", context.getClass());
-				intent.putExtra("gallerymenu_index", position);
-				context.startActivity(intent);
-			}
-		}
-		
-	}
-	
 	  @Override
 	  public Parcelable onSaveInstanceState() {
 	    //begin boilerplate code that allows parent classes to save state
