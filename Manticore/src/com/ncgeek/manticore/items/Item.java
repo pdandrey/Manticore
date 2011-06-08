@@ -61,9 +61,26 @@ public abstract class Item implements Comparable<Item> {
 		_weight = weight;
 	}
 	
+	public ItemType getType() {
+		String type = getClass().getSimpleName().toLowerCase();
+		
+		if(type.equals("armor"))
+			return ItemType.Armor;
+		else if(type.equals("gear"))
+			return ItemType.Gear;
+		else if(type.equals("magicitem"))
+			return ((MagicItem)this).getType();
+		else if(type.equals("weapon"))
+			return ItemType.Weapon;
+		else if(type.equals("enchanteditem"))
+			return ((EnchantedItem)this).getEnchantment().getType();
+		else
+			return ItemType.Any;
+	}
+	
 	@Override
 	public int compareTo(Item other) {
-		return _name.compareTo(other._name);
+		return _name.compareToIgnoreCase(other._name);
 	}
 	
 	@Override

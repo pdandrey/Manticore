@@ -14,6 +14,7 @@ import com.ncgeek.android.manticore.ManticoreStatus;
 import com.ncgeek.android.manticore.MessageTypes;
 import com.ncgeek.android.manticore.R;
 import com.ncgeek.android.manticore.adapters.FeatListAdapter;
+import com.ncgeek.android.manticore.adapters.ItemListAdapter;
 import com.ncgeek.android.manticore.adapters.RitualListAdapter;
 import com.ncgeek.android.manticore.database.DatabaseRepository;
 import com.ncgeek.android.manticore.widgets.GalleryMenu;
@@ -80,6 +81,7 @@ public class CharacterSheet extends Activity {
 	
 	private FeatListAdapter adpFeats;
 	private RitualListAdapter adpRituals;
+	private ItemListAdapter adpItems;
 	
 	private Handler dialogHandler = new Handler() {
 		public void handleMessage(Message msg) {
@@ -156,6 +158,7 @@ public class CharacterSheet extends Activity {
         addPartial(new SkillPartial(this), R.id.mainmenu_mnuSkills);
         addPartial(new ListPartial(this, adpFeats = new FeatListAdapter(this, R.layout.feat_list_item)), R.id.mainmenu_mnuFeats);
         addPartial(new ListPartial(this, adpRituals = new RitualListAdapter(this, R.layout.ritual_listitem)), R.id.mainmenu_mnuRituals);
+        addPartial(new ListPartial(this, adpItems = new ItemListAdapter(this)), R.id.mainmenu_mnuBackpack);
 	 }
 	
 	private void addPartial(Partial partial, int menuID) {
@@ -496,6 +499,8 @@ public class CharacterSheet extends Activity {
 			adpFeats.add(_pc.getFeats());
 		if(adpRituals.getCount() == 0)
 			adpRituals.add(_pc.getRituals());
+		if(adpItems.getCount() == 0)
+			adpItems.setInventory(_pc.getEquipment());
 	}
 	
 	private void updateHP() {

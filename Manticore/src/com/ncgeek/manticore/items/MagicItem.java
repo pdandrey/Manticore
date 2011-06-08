@@ -8,7 +8,7 @@ public class MagicItem extends EquippableItem {
 	
 	private String _flavor;
 	private MagicItemRarity _rarity;
-	private MagicItemType _type;
+	private ItemType _type;
 	private int _level;
 	private int _gold;
 	private String _powers;
@@ -46,11 +46,11 @@ public class MagicItem extends EquippableItem {
 		_rarity = rarity;
 	}
 
-	public MagicItemType getType() {
+	public ItemType getType() {
 		return _type;
 	}
 
-	public void setType(MagicItemType type) {
+	public void setType(ItemType type) {
 		_type = type;
 	}
 

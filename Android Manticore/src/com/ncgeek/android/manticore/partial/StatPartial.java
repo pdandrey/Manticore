@@ -1,5 +1,6 @@
 package com.ncgeek.android.manticore.partial;
 
+import com.ncgeek.android.manticore.ManticorePreferences;
 import com.ncgeek.android.manticore.ManticoreStatus;
 import com.ncgeek.android.manticore.R;
 import com.ncgeek.android.manticore.activities.CharacterSheet;
@@ -34,6 +35,14 @@ public class StatPartial extends Partial {
 		setStat(R.id.partialstats_svStatInitiative, stats.get("Initiative"));
 		setStat(R.id.partialstats_svStatSpeed, stats.get("Speed"));
 		
+		ManticorePreferences prefs = new ManticorePreferences(getContext());
+		setAbility(R.id.partialstats_txtStr, R.id.partialstats_txtStrMod, stats.get("Strength"), prefs.useCalculatedStats());
+		setAbility(R.id.partialstats_txtCon, R.id.partialstats_txtConMod, stats.get("Con"), prefs.useCalculatedStats());
+		setAbility(R.id.partialstats_txtDex, R.id.partialstats_txtDexMod, stats.get("Dex"), prefs.useCalculatedStats());
+		setAbility(R.id.partialstats_txtInt, R.id.partialstats_txtIntMod, stats.get("Int"), prefs.useCalculatedStats());
+		setAbility(R.id.partialstats_txtWis, R.id.partialstats_txtWisMod, stats.get("Wis"), prefs.useCalculatedStats());
+		setAbility(R.id.partialstats_txtCha, R.id.partialstats_txtChaMod, stats.get("Cha"), prefs.useCalculatedStats());
+		
 		updateActionPoints();
 	}
 	
@@ -43,6 +52,23 @@ public class StatPartial extends Partial {
 	
 	private void setStat(int id, Stat stat) {
 		((StatView)getView().findViewById(id)).setStat(stat);
+	}
+	
+	private void setAbility(int id, int modId, Stat ability, boolean useCalculated) {
+		View v = getView();
+		TextView tvMain = (TextView)v.findViewById(id);
+		TextView tvMod = (TextView)v.findViewById(modId);
+		
+		if(useCalculated) {
+			tvMain.setText(ability.getCalculatedValue() + "");
+		} else {
+			tvMain.setText(ability.getAbsoluteValue() + "");
+		}
+		int mod = ability.getModifier();
+		String sMod = "+" + mod;
+		if(mod < 0)
+			sMod = mod + "";
+		tvMod.setText(sMod);
 	}
 
 	@Override

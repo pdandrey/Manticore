@@ -1,6 +1,5 @@
 package com.ncgeek.android.manticore.widgets;
 
-import java.util.HashMap;
 
 import com.ncgeek.android.manticore.R;
 import com.ncgeek.android.manticore.util.Utility;
@@ -19,48 +18,6 @@ import android.widget.TextView;
 
 public class SkillTableRow extends TableRow {
 
-	private static final HashMap<String,Integer> STAT_ICONS = new HashMap<String, Integer>();
-	
-	static {
-		STAT_ICONS.put("ac", R.drawable.i_stat_ac);
-		STAT_ICONS.put("acrobatics", R.drawable.i_stat_acrobatics);
-		STAT_ICONS.put("arcana", R.drawable.i_stat_arcana);
-		STAT_ICONS.put("athletics", R.drawable.i_stat_athletics);
-		STAT_ICONS.put("bluff", R.drawable.i_stat_bluff);
-		STAT_ICONS.put("cha", R.drawable.i_stat_cha);
-		STAT_ICONS.put("con", R.drawable.i_stat_con);
-		STAT_ICONS.put("dex", R.drawable.i_stat_dex);
-		STAT_ICONS.put("diplomacy", R.drawable.i_stat_diplomacy);
-		STAT_ICONS.put("dungeoneering", R.drawable.i_stat_dungeoneering);
-		STAT_ICONS.put("endurance", R.drawable.i_stat_endurance);
-		STAT_ICONS.put("fortitude", R.drawable.i_stat_fortitude);
-		STAT_ICONS.put("heal", R.drawable.i_stat_heal);
-		STAT_ICONS.put("history", R.drawable.i_stat_history);
-		STAT_ICONS.put("initiative", R.drawable.i_stat_initiative);
-		STAT_ICONS.put("insight", R.drawable.i_stat_insight);
-		STAT_ICONS.put("int", R.drawable.i_stat_int);
-		STAT_ICONS.put("intimidate", R.drawable.i_stat_intimidate);
-		STAT_ICONS.put("nature", R.drawable.i_stat_nature);
-		STAT_ICONS.put("perception", R.drawable.i_stat_perception);
-		STAT_ICONS.put("reflex", R.drawable.i_stat_reflex);
-		STAT_ICONS.put("religion", R.drawable.i_stat_religion);
-		STAT_ICONS.put("speed", R.drawable.i_stat_speed);
-		STAT_ICONS.put("stealth", R.drawable.i_stat_stealth);
-		STAT_ICONS.put("str", R.drawable.i_stat_str);
-		STAT_ICONS.put("streetwise", R.drawable.i_stat_streetwise);
-		STAT_ICONS.put("thievery", R.drawable.i_stat_thievery);
-		STAT_ICONS.put("will", R.drawable.i_stat_will);
-		STAT_ICONS.put("wis", R.drawable.i_stat_wis);
-	}
-	
-	public static final int getStatIcon(String stat) {
-		stat = stat.toLowerCase().trim();
-		if(STAT_ICONS.containsKey(stat))
-			return STAT_ICONS.get(stat);
-		else
-			return 0;
-	}
-	
 	private TextView tvName;
 	private TextView tvTotal;
 	private TextView tvHalfLevel;
@@ -122,7 +79,7 @@ public class SkillTableRow extends TableRow {
 		tvAbility.setText(skill.getAbilityModName());
 		tvMisc.setText(getValue(skill.getMisc()));
 		tvArmorPenalty.setText(getValue(skill.getArmorPenalty()));
-		ivIcon.setImageResource(SkillTableRow.getStatIcon(skill.getName()));
+		ivIcon.setImageResource(Utility.getStatIcon(skill.getName()));
 	}
 	
 	private String getValue(int value) {

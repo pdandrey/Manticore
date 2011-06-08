@@ -93,7 +93,7 @@ public final class ItemUtilities {
 		
 		mi.setFlavor(getSpecificString(rule, "Flavor"));
 		mi.setRarity(MagicItemRarity.forName(getSpecificString(rule, "_Rarity")));
-		mi.setType(MagicItemType.forName(getSpecificString(rule, "Magic Item Type")));
+		mi.setType(ItemType.forName(getSpecificString(rule, "Magic Item Type")));
 		mi.setLevel(getSpecificInt(rule, "Level"));
 		mi.setPowers(getSpecificString(rule, "Power"));
 		mi.setEnhancement(getSpecificString(rule, "Enhancement"));

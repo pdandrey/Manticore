@@ -4,7 +4,7 @@ import java.io.Serializable;
 import java.util.List;
 
 import com.ncgeek.android.manticore.R;
-import com.ncgeek.android.manticore.widgets.SkillTableRow;
+import com.ncgeek.android.manticore.util.Utility;
 import com.ncgeek.manticore.Ritual;
 import com.ncgeek.manticore.character.stats.Addition;
 import com.ncgeek.manticore.character.stats.Stat;
@@ -74,7 +74,7 @@ public class DetailsView extends Activity {
         tv.setText(String.format("%s %d Breakdown", s.getAliases().get(0), s.getCalculatedValue()));
         
         ImageView iv = (ImageView)findViewById(R.id.statbreakdown_img);
-        iv.setImageResource(SkillTableRow.getStatIcon(s.getAliases().get(0)));
+        iv.setImageResource(Utility.getStatIcon(s.getAliases().get(0)));
         
         List<Addition> applied = s.getAppliedAdditions();
         

@@ -4,20 +4,23 @@ import com.ncgeek.android.manticore.ManticorePreferences;
 import com.ncgeek.android.manticore.ManticoreStatus;
 import com.ncgeek.android.manticore.R;
 import com.ncgeek.android.manticore.activities.DetailsView;
-import com.ncgeek.android.manticore.widgets.GalleryMenu.SavedState;
+import com.ncgeek.android.manticore.util.Utility;
 import com.ncgeek.manticore.character.stats.Stat;
 
+import android.R.color;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.Typeface;
-import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.ShapeDrawable;
+import android.graphics.drawable.shapes.RectShape;
+import android.graphics.drawable.shapes.Shape;
 import android.os.Parcel;
 import android.os.Parcelable;
 import android.util.AttributeSet;
 import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
-import android.view.View.BaseSavedState;
 import android.view.View.OnLongClickListener;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -62,7 +65,7 @@ public class StatView extends LinearLayout implements OnLongClickListener {
 		tvName.setTypeface(font);
 		
 		LinearLayout ll = new LinearLayout(context);
-		lp =  new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
+		lp =  new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT);
 		ll.setLayoutParams(lp);
 		ll.setOrientation(LinearLayout.HORIZONTAL);
 		
@@ -73,11 +76,12 @@ public class StatView extends LinearLayout implements OnLongClickListener {
 		ivIcon.setLayoutParams(lp);
 				
 		lp =  new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
-		lp.weight = 1;
+		lp.weight = 2;
 		lp.gravity = Gravity.CENTER_HORIZONTAL | Gravity.CENTER_VERTICAL;
 		tvValue.setLayoutParams(lp);
 		tvValue.setTypeface(tvValue.getTypeface(), Typeface.BOLD);
 		tvValue.setTextSize(TypedValue.COMPLEX_UNIT_SP, 24);
+		tvValue.setGravity(Gravity.CENTER);
 		
 		ll.addView(ivIcon);
 		ll.addView(tvValue);
@@ -90,7 +94,7 @@ public class StatView extends LinearLayout implements OnLongClickListener {
 	
 	public void setStat(Stat stat) {
 		String name = stat.getAliases().get(0);
-		ivIcon.setImageResource(SkillTableRow.getStatIcon(name));
+		ivIcon.setImageResource(Utility.getStatIcon(name));
 		tvName.setText(name + ":");
 		setTag(name);
 		

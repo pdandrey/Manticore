@@ -1,6 +1,6 @@
 package com.ncgeek.manticore.items;
 
-public enum MagicItemType {
+public enum ItemType {
 	Alchemical("Alchemical", 1),
 	Ammunition("Ammunition", 2),
 	Any("Any", 3),
@@ -48,17 +48,19 @@ public enum MagicItemType {
 	WanderersSecret("Wanderer's Secret", 45),
 	Weapon("Weapon", 46),
 	Whetstones("Whetstones", 47),
-	WondrousItem("Wondrous Item", 48);
+	WondrousItem("Wondrous Item", 48),
+	Gear("Gear", -1)
+	;
 
-	public static MagicItemType forName(String name) {
-		for(MagicItemType item : MagicItemType.values())
+	public static ItemType forName(String name) {
+		for(ItemType item : ItemType.values())
 			if(name.equals(item._name))
 				return item;
 		return null;
 	}
 	private String _name;
 	private int _id;
-	MagicItemType(String name, int id) {
+	ItemType(String name, int id) {
 		_name = name;
 		_id = id;
 	}

@@ -12,6 +12,7 @@ import java.util.Set;
 
 import com.ncgeek.manticore.items.EquippableItem;
 import com.ncgeek.manticore.items.Item;
+import com.ncgeek.manticore.items.ItemType;
 
 public class EquipmentManager extends Observable implements Serializable {
 	
@@ -292,5 +293,15 @@ public class EquipmentManager extends Observable implements Serializable {
 	
 	public Map<EquipmentSlot,EquippableItem> getEquippedItems() {
 		return Collections.unmodifiableMap(_equippedItems);
+	}
+	
+	public Set<ItemType> getTypes() {
+		EnumSet<ItemType> types = EnumSet.noneOf(ItemType.class);
+		
+		for(ItemStack i : _items) {
+			types.add(i.getItem().getType());
+		}
+		
+		return types;
 	}
 }
