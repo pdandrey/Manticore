@@ -82,6 +82,7 @@ public class CharacterSheet extends Activity {
 	private FeatListAdapter adpFeats;
 	private RitualListAdapter adpRituals;
 	private ItemListAdapter adpItems;
+	private ItemListAdapter adpEquipment;
 	
 	private Handler dialogHandler = new Handler() {
 		public void handleMessage(Message msg) {
@@ -158,7 +159,8 @@ public class CharacterSheet extends Activity {
         addPartial(new SkillPartial(this), R.id.mainmenu_mnuSkills);
         addPartial(new ListPartial(this, adpFeats = new FeatListAdapter(this, R.layout.feat_list_item)), R.id.mainmenu_mnuFeats);
         addPartial(new ListPartial(this, adpRituals = new RitualListAdapter(this, R.layout.ritual_listitem)), R.id.mainmenu_mnuRituals);
-        addPartial(new ListPartial(this, adpItems = new ItemListAdapter(this)), R.id.mainmenu_mnuBackpack);
+        addPartial(new ListPartial(this, adpItems = new ItemListAdapter(this, true)), R.id.mainmenu_mnuBackpack);
+        addPartial(new ListPartial(this, adpEquipment = new ItemListAdapter(this, false)), R.id.mainmenu_mnuEquipment);
 	 }
 	
 	private void addPartial(Partial partial, int menuID) {
@@ -501,6 +503,8 @@ public class CharacterSheet extends Activity {
 			adpRituals.add(_pc.getRituals());
 		if(adpItems.getCount() == 0)
 			adpItems.setInventory(_pc.getEquipment());
+		if(adpEquipment.getCount() == 0)
+			adpEquipment.setInventory(_pc.getEquipment());
 	}
 	
 	private void updateHP() {
