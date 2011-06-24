@@ -5,6 +5,7 @@ import java.util.HashMap;
 
 import com.ncgeek.android.manticore.R;
 import com.ncgeek.manticore.items.ArmorCategories;
+import com.ncgeek.manticore.items.ItemType;
 import com.ncgeek.manticore.items.WeaponGroups;
 
 import android.os.Environment;
@@ -14,6 +15,7 @@ public final class Utility {
 	private static final HashMap<String,Integer> STAT_ICONS = new HashMap<String, Integer>();
 	private static final HashMap<WeaponGroups,Integer> WEAPON_ICONS = new HashMap<WeaponGroups, Integer>();
 	private static final HashMap<ArmorCategories,Integer> ARMOR_ICONS = new HashMap<ArmorCategories, Integer>();
+	private static final HashMap<ItemType,Integer> ITEM_ICONS = new HashMap<ItemType, Integer>(); 
 	
 	static {
 		STAT_ICONS.put("ac", R.drawable.i_stat_ac);
@@ -71,6 +73,24 @@ public final class Utility {
 		WEAPON_ICONS.put(WeaponGroups.Spear, R.drawable.i_weapon_spear);
 		WEAPON_ICONS.put(WeaponGroups.Staff, R.drawable.i_weapon_staff);
 		WEAPON_ICONS.put(WeaponGroups.Unarmed, R.drawable.i_weapon_unarmed);
+		
+		ITEM_ICONS.put(ItemType.Alchemical, R.drawable.i_item_alchemical);
+		ITEM_ICONS.put(ItemType.Ammunition, R.drawable.i_item_ammo);
+		ITEM_ICONS.put(ItemType.Consumable, R.drawable.i_item_consumable);
+		ITEM_ICONS.put(ItemType.Elixir, R.drawable.i_item_elixir);
+		ITEM_ICONS.put(ItemType.FeetSlotItem, R.drawable.i_item_feet);
+		ITEM_ICONS.put(ItemType.HandsSlotItem, R.drawable.i_item_hand);
+		ITEM_ICONS.put(ItemType.HeadSlotItem, R.drawable.i_item_head);
+		ITEM_ICONS.put(ItemType.HolySymbol, R.drawable.i_item_holysymbol);
+		ITEM_ICONS.put(ItemType.NeckSlotItem, R.drawable.i_item_neck);
+		ITEM_ICONS.put(ItemType.Orb, R.drawable.i_item_orb);
+		ITEM_ICONS.put(ItemType.Potion, R.drawable.i_item_potion);
+		ITEM_ICONS.put(ItemType.Reagent, R.drawable.i_item_reagent);
+		ITEM_ICONS.put(ItemType.Ring, R.drawable.i_item_ring);
+		ITEM_ICONS.put(ItemType.Rod, R.drawable.i_item_rod);
+		ITEM_ICONS.put(ItemType.Staff, R.drawable.i_weapon_staff);
+		ITEM_ICONS.put(ItemType.Tome, R.drawable.i_item_tome);
+		ITEM_ICONS.put(ItemType.Wand, R.drawable.i_item_wand);
 	}
 
 	public static boolean isExternalAvailable() {
@@ -132,6 +152,13 @@ public final class Utility {
 				return WEAPON_ICONS.get(g);
 		}
 		return 0;
+	}
+	
+	public static final int getIcon(ItemType type) {
+		if(ITEM_ICONS.containsKey(type))
+			return ITEM_ICONS.get(type);
+		else
+			return 0;
 	}
 	
 	

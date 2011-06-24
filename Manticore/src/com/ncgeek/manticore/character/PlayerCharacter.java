@@ -11,7 +11,6 @@ import com.ncgeek.manticore.Tier;
 import com.ncgeek.manticore.character.inventory.EquipmentManager;
 import com.ncgeek.manticore.character.stats.Stat;
 import com.ncgeek.manticore.character.stats.StatBlock;
-import com.ncgeek.manticore.powers.Power;
 import com.ncgeek.manticore.rules.Rule;
 import com.ncgeek.manticore.rules.RuleTypes;
 import com.ncgeek.manticore.rules.Specific;
@@ -42,7 +41,7 @@ public class PlayerCharacter extends Observable implements Serializable, IRest{
 	private String _notes;
 	
 	private List<Rule> _rules;
-	private List<Power> _powers;
+	private List<CharacterPower> _powers;
 	private List<Feat> _feats;
 	private List<Ritual> _rituals;
 	private StatBlock _stats;
@@ -55,7 +54,7 @@ public class PlayerCharacter extends Observable implements Serializable, IRest{
 	
 	private Object _portraitBitmap;
 	
-	public PlayerCharacter(Wallet moneyCarried, Wallet moneyStored, List<Rule> rules, List<Power> powers, List<Feat> feats, List<Ritual> rituals, StatBlock stats, EquipmentManager equipment, HitPoints hp) {
+	public PlayerCharacter(Wallet moneyCarried, Wallet moneyStored, List<Rule> rules, List<CharacterPower> powers, List<Feat> feats, List<Ritual> rituals, StatBlock stats, EquipmentManager equipment, HitPoints hp) {
 		_name = null;
 		_level = 1;
 		_player = null;
@@ -90,7 +89,7 @@ public class PlayerCharacter extends Observable implements Serializable, IRest{
 	}
 	
 	public PlayerCharacter() {
-		this(new Wallet(), new Wallet(), new ArrayList<Rule>(), new ArrayList<Power>(), new ArrayList<Feat>(), null, new StatBlock(), new EquipmentManager(), new HitPoints());
+		this(new Wallet(), new Wallet(), new ArrayList<Rule>(), new ArrayList<CharacterPower>(), new ArrayList<Feat>(), null, new StatBlock(), new EquipmentManager(), new HitPoints());
 	}
 	
 	public String getRace() { return _race; }
@@ -303,13 +302,14 @@ public class PlayerCharacter extends Observable implements Serializable, IRest{
 		return f;
 	}
 
-	public List<Power> getPowers() {
+	public List<CharacterPower> getPowers() {
 		return Collections.unmodifiableList(_powers);
 	}
 	
-	public void add(Power power) {
+	public void add(CharacterPower power) {
 		if(power == null)
 			throw new IllegalArgumentException("Power cannot be null");
+		
 		_powers.add(power);
 	}
 	
@@ -321,15 +321,22 @@ public class PlayerCharacter extends Observable implements Serializable, IRest{
 	public void fullRest() {
 		_hp.fullRest();
 		_actionPoints = 1;
+		
+		for(IRest r : _powers)
+			r.fullRest();
 	}
 
 	@Override
 	public void shortRest() {
 		_hp.shortRest();
+		for(IRest r : _powers)
+			r.shortRest();
 	}
 
 	@Override
 	public void milestone() {
 		++_actionPoints;
+		for(IRest r : _powers)
+			r.milestone();
 	}
 }

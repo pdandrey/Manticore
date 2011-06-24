@@ -1,7 +1,10 @@
 package com.ncgeek.manticore.powers;
 
-public class PowerAttack {
+import java.io.Serializable;
 
+public class PowerAttack implements Serializable {
+
+	private static final long serialVersionUID = 1L;
 	private AttackTypes _type;
 	private String _range1;
 	private String _range2;

@@ -25,6 +25,7 @@ public class DiceTest {
 		Dice d = new Dice(count, sides);
 		assertEquals("count", count, d.getCount());
 		assertEquals("sides", sides, d.getSides());
+		assertEquals("modifier", 0, d.getModifier());
 	}
 	
 	@Test
@@ -35,6 +36,43 @@ public class DiceTest {
 		Dice d = new Dice(dice);
 		assertEquals("count", count, d.getCount());
 		assertEquals("sides", sides, d.getSides());
+		assertEquals("modifier", 0, d.getModifier());
+	}
+	
+	@Test
+	public void testNewDiceStringWithModifier() {
+		final String dice = "2d4+3";
+		final int count = 2;
+		final int sides = 4;
+		final int modifier = 3;
+		Dice d = new Dice(dice);
+		assertEquals("count", count, d.getCount());
+		assertEquals("sides", sides, d.getSides());
+		assertEquals("modifier", modifier, d.getModifier());
+	}
+	
+	@Test
+	public void testNewDiceStringWithModifierWithSpaces() {
+		final String dice = "2d4 + 3";
+		final int count = 2;
+		final int sides = 4;
+		final int modifier = 3;
+		Dice d = new Dice(dice);
+		assertEquals("count", count, d.getCount());
+		assertEquals("sides", sides, d.getSides());
+		assertEquals("modifier", modifier, d.getModifier());
+	}
+	
+	@Test
+	public void testNewDiceStringWithNegModifier() {
+		final String dice = "2d4-3";
+		final int count = 2;
+		final int sides = 4;
+		final int modifier = -3;
+		Dice d = new Dice(dice);
+		assertEquals("count", count, d.getCount());
+		assertEquals("sides", sides, d.getSides());
+		assertEquals("modifier", modifier, d.getModifier());
 	}
 	
 	@Test(expected=IllegalArgumentException.class) 
@@ -48,6 +86,26 @@ public class DiceTest {
 		final int sides = 12;
 		final String expected = "3d12";
 		Dice d = new Dice(count, sides);
+		assertEquals(expected, d.toString());
+	}
+	
+	@Test
+	public void testToStringWithModifier() {
+		final int count = 2;
+		final int sides = 8;
+		final int modifier = 2;
+		final String expected = "2d8 + 2";
+		Dice d = new Dice(count, sides, modifier);
+		assertEquals(expected, d.toString());
+	}
+	
+	@Test
+	public void testToStringWithNegModifier() {
+		final int count = 1;
+		final int sides = 6;
+		final int modifier = -1;
+		final String expected = "1d6 - 1";
+		Dice d = new Dice(count, sides, modifier);
 		assertEquals(expected, d.toString());
 	}
 	
@@ -77,6 +135,22 @@ public class DiceTest {
 		
 		Dice d = new Dice(count, sides);
 		assertEquals(6, d.roll());
+		
+		verify(r, times(3)).nextInt(sides);
+	}
+	
+	@Test
+	public void testRollModifier() {
+		int sides = 6;
+		int count = 3;
+		int modifier = 2;
+		
+		Random r = mock(Random.class);
+		when(r.nextInt(sides)).thenReturn(0, 1, 2);
+		Dice.setRandom(r);
+		
+		Dice d = new Dice(count, sides, modifier);
+		assertEquals(8, d.roll());
 		
 		verify(r, times(3)).nextInt(sides);
 	}

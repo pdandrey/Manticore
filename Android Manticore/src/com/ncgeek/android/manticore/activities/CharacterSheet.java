@@ -15,6 +15,7 @@ import com.ncgeek.android.manticore.MessageTypes;
 import com.ncgeek.android.manticore.R;
 import com.ncgeek.android.manticore.adapters.FeatListAdapter;
 import com.ncgeek.android.manticore.adapters.ItemListAdapter;
+import com.ncgeek.android.manticore.adapters.PowerListAdapter;
 import com.ncgeek.android.manticore.adapters.RitualListAdapter;
 import com.ncgeek.android.manticore.database.DatabaseRepository;
 import com.ncgeek.android.manticore.widgets.GalleryMenu;
@@ -83,6 +84,7 @@ public class CharacterSheet extends Activity {
 	private RitualListAdapter adpRituals;
 	private ItemListAdapter adpItems;
 	private ItemListAdapter adpEquipment;
+	private PowerListAdapter adpPowerListAdapter;
 	
 	private Handler dialogHandler = new Handler() {
 		public void handleMessage(Message msg) {
@@ -161,6 +163,7 @@ public class CharacterSheet extends Activity {
         addPartial(new ListPartial(this, adpRituals = new RitualListAdapter(this, R.layout.ritual_listitem)), R.id.mainmenu_mnuRituals);
         addPartial(new ListPartial(this, adpItems = new ItemListAdapter(this, true)), R.id.mainmenu_mnuBackpack);
         addPartial(new ListPartial(this, adpEquipment = new ItemListAdapter(this, false)), R.id.mainmenu_mnuEquipment);
+        addPartial(new ListPartial(this, adpPowerListAdapter = new PowerListAdapter(this)), R.id.mainmenu_mnuPowers);
 	 }
 	
 	private void addPartial(Partial partial, int menuID) {
@@ -505,6 +508,8 @@ public class CharacterSheet extends Activity {
 			adpItems.setInventory(_pc.getEquipment());
 		if(adpEquipment.getCount() == 0)
 			adpEquipment.setInventory(_pc.getEquipment());
+		if(adpPowerListAdapter.getCount() == 0)
+			adpPowerListAdapter.setPower(_pc.getPowers());
 	}
 	
 	private void updateHP() {

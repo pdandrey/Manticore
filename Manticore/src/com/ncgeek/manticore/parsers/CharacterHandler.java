@@ -13,7 +13,7 @@ class CharacterHandler extends DefaultHandler {
 
 	private enum Section { 
 		Misc("textstring", TextStringHandler.getInstance(), null),
-		Powers("PowerStats", null, Misc),
+		Powers("PowerStats", PowerHandler.getInstance(), Misc),
 		Loot("LootTally", LootHandler.getInstance(), Powers),
 		Rules("RulesElementTally", RulesElementHandler.getInstance(), Loot),
 		Stats("StatBlock", StatBlockHandler.getInstance(), Rules),

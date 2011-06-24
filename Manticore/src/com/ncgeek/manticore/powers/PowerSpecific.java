@@ -1,14 +1,15 @@
 package com.ncgeek.manticore.powers;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.EnumSet;
 import java.util.List;
 import java.util.Set;
 
-public class PowerSpecific {
+public class PowerSpecific implements Serializable {
 	
-	private PowerUsages _usage;
+	private static final long serialVersionUID = 1L;
 	private boolean _isSpecial;
 	private List<PowerSpecificAttribute> _attributes;
 	private EnumSet<PowerKeywords> _keywords;
@@ -16,7 +17,6 @@ public class PowerSpecific {
 	private PowerAttack _attack;
 	
 	public PowerSpecific(List<PowerSpecificAttribute> lstAttr, EnumSet<PowerKeywords> lstKeywords, EnumSet<PowerKeywords> lstAltKeywords) {
-		_usage = null;
 		_isSpecial = false;
 		_attributes = lstAttr;
 		_keywords = lstKeywords;
@@ -27,9 +27,6 @@ public class PowerSpecific {
 	public PowerSpecific() {
 		this(new ArrayList<PowerSpecificAttribute>(), EnumSet.noneOf(PowerKeywords.class), null);
 	}
-	
-	public PowerUsages getUsage() { return _usage; }
-	public void setUsage(PowerUsages usage) { _usage = usage; }
 	
 	public boolean isSpecial() { return _isSpecial; }
 	public void setSpecial(boolean special) { _isSpecial = special; }

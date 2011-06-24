@@ -33,13 +33,6 @@ public class PowerSpecificTests {
 	}
 
 	@Test
-	public void testGetUsage() {
-		assertNull(spec.getUsage());
-		spec.setUsage(PowerUsages.AtWill);
-		assertSame(PowerUsages.AtWill, spec.getUsage());
-	}
-
-	@Test
 	public void testIsSpecial() {
 		assertFalse(spec.isSpecial());
 		spec.setSpecial(true);

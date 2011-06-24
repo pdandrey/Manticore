@@ -30,6 +30,18 @@ public class EquipmentManager extends Observable implements Serializable {
 		this(new ArrayList<ItemStack>(), new EnumMap<EquipmentSlot, EquippableItem>(EquipmentSlot.class));
 	}
 	
+	public Item getById(String id) {
+		for(ItemStack stack : _items) {
+			if(stack.getItem().getID().equals(id)) {
+				if(stack.getCount() > 0)
+					return stack.getItem();
+				else
+					return null;
+			}
+		}
+		return null;
+	}
+	
 	public void add(Item item) {
 		add(item, 1);
 	}

@@ -11,6 +11,7 @@ import org.mockito.ArgumentCaptor;
 
 import com.ncgeek.manticore.Ritual;
 import com.ncgeek.manticore.character.Alignment;
+import com.ncgeek.manticore.character.CharacterPower;
 import com.ncgeek.manticore.character.Feat;
 import com.ncgeek.manticore.character.HitPoints;
 import com.ncgeek.manticore.character.PlayerCharacter;
@@ -30,7 +31,7 @@ public class CharacterTests {
 	private Wallet moneyCarried;
 	private Wallet moneyStored;
 	private List<Rule> rules;
-	private List<Power> powers;
+	private List<CharacterPower> powers;
 	private List<Feat> feats;
 	private List<Ritual> rituals;
 	private StatBlock stats;
@@ -297,14 +298,14 @@ public class CharacterTests {
 	
 	@Test
 	public void testAddPower() {
-		Power power = mock(Power.class);
+		CharacterPower power = mock(CharacterPower.class);
 		character.add(power);
 		verify(powers).add(power);
 	}
 	
 	@Test(expected=IllegalArgumentException.class)
 	public void testAddPower_Null() {
-		Power power = null;
+		CharacterPower power = null;
 		character.add(power);
 	}
 

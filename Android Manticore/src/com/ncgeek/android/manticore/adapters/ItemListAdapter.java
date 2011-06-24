@@ -175,6 +175,8 @@ public class ItemListAdapter extends BaseAdapter implements Observer {
 				imgID = Utility.getIcon(((Armor)item).getArmorCategory());
 			} else if(item instanceof Weapon) {
 				imgID = Utility.getIcon(((Weapon)item).getGroups());
+			} else {
+				imgID = Utility.getIcon(item.getType());
 			}
 			if(imgID > 0) {
 				holder.img.setImageResource(imgID);

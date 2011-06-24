@@ -1,7 +1,10 @@
 package com.ncgeek.manticore.powers;
 
-public final class PowerSpecificAttribute {
+import java.io.Serializable;
+
+public final class PowerSpecificAttribute implements Serializable {
 	
+	private static final long serialVersionUID = 1L;
 	private String _name;
 	private String _value;
 	

@@ -1,19 +1,22 @@
 package com.ncgeek.manticore.powers;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
 import com.ncgeek.manticore.Source;
 
-public class Power {
+public class Power implements Serializable {
 	
+	private static final long serialVersionUID = 1L;
 	private String _name;
 	private String _flavor;
 	private PowerActions _action;
 	private PowerTypes _type;
 	private String _display;
 	private int _level;
+	private PowerUsages _usage;
 	
 	private List<Source> _sources;
 	private List<PowerSpecific> _specifics;
@@ -44,6 +47,9 @@ public class Power {
 	
 	public int getLevel() { return _level; }
 	public void setLevel(int level) { _level = level; }
+	
+	public PowerUsages getUsage() { return _usage; }
+	public void setUsage(PowerUsages usage) { _usage = usage; }
 	
 	public List<Source> getSources() {
 		return Collections.unmodifiableList(_sources);

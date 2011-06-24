@@ -29,8 +29,8 @@ public class ManticoreAndroidLogger implements ILog {
 		
 		Date now = new Date();
 		SimpleDateFormat sdf= new SimpleDateFormat("MM-dd-yyyy");
-		
-		_log = new File(logDirectory, sdf.format(now) + ".log");
+		String filename = String.format("%s.log", sdf.format(now));
+		_log = new File(logDirectory, filename);
 	}
 	
 	@Override
@@ -83,11 +83,11 @@ public class ManticoreAndroidLogger implements ILog {
 		ensureLogDirectory();
 		
 		try {
-			BufferedWriter writer = new BufferedWriter(new FileWriter(_log, true));
+			BufferedWriter writer = new BufferedWriter(new FileWriter(_log, true), 512);
 			writer.write(String.format("%s\t%s\t%s\t%s\n", priority.toString(), sdf.format(now), tag, msg));
 			
 			while(tr != null) {
-				writer.write("\t" + tr.getMessage() + "\n");
+				writer.write(String.format("\t%s\n", tr.getMessage()));
 				
 				for(StackTraceElement s : tr.getStackTrace()) {
 					writer.write(String.format("\t at %s.%s :%d\n", s.getFileName(), s.getMethodName(), s.getLineNumber()));
