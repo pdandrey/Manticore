@@ -15,8 +15,11 @@ import com.ncgeek.manticore.items.ItemUtilities;
 import com.ncgeek.manticore.items.MagicItem;
 import com.ncgeek.manticore.rules.Rule;
 import com.ncgeek.manticore.rules.RuleTypes;
+import com.ncgeek.manticore.util.Logger;
 
 public class LootHandler implements IElementHandler {
+
+	private static final String LOG_TAG = "LootHandler";
 	
 	private static final IElementHandler instance = new LootHandler();
 	public static final IElementHandler getInstance() { return instance; }
@@ -42,12 +45,15 @@ public class LootHandler implements IElementHandler {
 
 	@Override
 	public void startElement(PlayerCharacter pc, String name, Attributes attributes) {
+		Logger.debug(LOG_TAG, String.format("<%s>", name));
 		if(name.equals("loot")) {
 			count = Integer.parseInt(attributes.getValue("count"));
 			equipped = Integer.parseInt(attributes.getValue("equip-count"));
 			current = null;
 			items.clear();
 		} else if(current == null) {
+			if(count == 0)
+				return;
 			ruleHandler.startElement(pc, name, attributes);
 			if(name.equals("RulesElement") && repository != null) {
 				current = repository.getItem(ruleHandler.getRule());
@@ -59,6 +65,10 @@ public class LootHandler implements IElementHandler {
 
 	@Override
 	public void endElement(PlayerCharacter pc, String name, String body) {
+		Logger.debug(LOG_TAG, String.format("</%s>", name));
+		if(count == 0)
+			return;
+		
 		if(name.equals("loot")) {
 			
 			if(items.size() == 0)
@@ -68,6 +78,8 @@ public class LootHandler implements IElementHandler {
 			
 			if(items.size() > 1)
 				current = new EnchantedItem((EquippableItem)current, (MagicItem)items.get(1));
+			
+			Logger.debug(LOG_TAG, String.format("Adding %s %s", current.getClass().getSimpleName(), current.getName()));
 			
 			EquipmentManager mgr = pc.getEquipment();
 			mgr.add(current, count);
@@ -80,16 +92,17 @@ public class LootHandler implements IElementHandler {
 			ruleHandler.endElement(pc, name, body);
 			
 			if(name.equals("RulesElement")) {
-				if(current == null) {
-					Rule rule = ruleHandler.getRule();
-					if(rule.getType() == RuleTypes.RITUAL) {
-						pc.add(Ritual.fromRule(rule));
-						return;
-					}
-					current = ItemUtilities.itemFromRule(ruleHandler.getRule());
+				Rule rule = ruleHandler.getRule();
+				if(rule.getType() == RuleTypes.RITUAL) {
+					pc.add(Ritual.fromRule(rule));
+					return;
 				}
+				current = ItemUtilities.itemFromRule(ruleHandler.getRule());
 				items.add(current);
 			}
 		}
+		
+		if(name.equals("RulesElement"))
+			current = null;
 	}
 }

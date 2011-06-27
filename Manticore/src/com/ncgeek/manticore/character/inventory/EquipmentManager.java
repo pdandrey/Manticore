@@ -32,7 +32,7 @@ public class EquipmentManager extends Observable implements Serializable {
 	
 	public Item getById(String id) {
 		for(ItemStack stack : _items) {
-			if(stack.getItem().getID().equals(id)) {
+			if(stack.getItem().isID(id)) {
 				if(stack.getCount() > 0)
 					return stack.getItem();
 				else

@@ -7,7 +7,7 @@ public final class Logger {
 	
 	private Logger() {}
 	
-	public static void verbose(String tag, String msg) { verbose(tag, msg); }
+	public static void verbose(String tag, String msg) { verbose(tag, msg, null); }
 	public static void verbose(String tag, String msg, Throwable tr) {
 		log(LogPriority.Verbose, tag, msg, tr);
 	}

@@ -28,7 +28,7 @@ public class PortraitTest extends BaseIntegrationTest {
 	
 	@Override
 	protected void test(PlayerCharacter pc) {
-		final String format = "http://media.wizards.com/downloads/dnd/CharacterBuilder/Client/223.241754/CDNContent/Portraits/%d.png";
+		final String format = "http://media.wizards.com/downloads/dnd/CharacterBuilder/Client/%%s/CDNContent/Portraits/%d.png";
 		assertEquals(String.format(format, id), pc.getPortrait());
 	}
 
