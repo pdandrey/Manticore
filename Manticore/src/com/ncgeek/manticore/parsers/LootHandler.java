@@ -45,7 +45,7 @@ public class LootHandler implements IElementHandler {
 
 	@Override
 	public void startElement(PlayerCharacter pc, String name, Attributes attributes) {
-		Logger.debug(LOG_TAG, String.format("<%s>", name));
+		Logger.verbose(LOG_TAG, String.format("<%s>", name));
 		if(name.equals("loot")) {
 			count = Integer.parseInt(attributes.getValue("count"));
 			equipped = Integer.parseInt(attributes.getValue("equip-count"));
@@ -65,7 +65,7 @@ public class LootHandler implements IElementHandler {
 
 	@Override
 	public void endElement(PlayerCharacter pc, String name, String body) {
-		Logger.debug(LOG_TAG, String.format("</%s>", name));
+		Logger.verbose(LOG_TAG, String.format("</%s>", name));
 		if(count == 0)
 			return;
 		
@@ -79,7 +79,7 @@ public class LootHandler implements IElementHandler {
 			if(items.size() > 1)
 				current = new EnchantedItem((EquippableItem)current, (MagicItem)items.get(1));
 			
-			Logger.debug(LOG_TAG, String.format("Adding %s %s", current.getClass().getSimpleName(), current.getName()));
+			Logger.verbose(LOG_TAG, String.format("Adding %s %s", current.getClass().getSimpleName(), current.getName()));
 			
 			EquipmentManager mgr = pc.getEquipment();
 			mgr.add(current, count);

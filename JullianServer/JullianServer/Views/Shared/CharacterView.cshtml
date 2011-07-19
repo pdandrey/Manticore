@@ -1,0 +1,12 @@
+﻿@model JullianServer.Models.Character
+
+<div class="character">
+    <div class="portrait">
+        <img src="@Url.Content(Model.CachedPortrait)" alt="@Model.Name" class="portrait" />
+    </div>
+    <div class="stats">
+        <span class="name">@Model.Name</span>
+        @{Html.RenderPartial("BarPartial", JullianServer.Models.BarModel.HPBarModel(Model));}
+        @{Html.RenderPartial("BarPartial", JullianServer.Models.BarModel.SurgeBarModel(Model));}
+    </div>
+</div>

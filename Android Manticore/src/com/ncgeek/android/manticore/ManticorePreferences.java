@@ -1,5 +1,7 @@
 package com.ncgeek.android.manticore;
 
+import java.util.Map;
+
 import com.ncgeek.android.manticore.util.Utility;
 
 import android.content.Context;
@@ -51,5 +53,25 @@ public final class ManticorePreferences {
 	
 	public final String CharacterBuilderVersion() {
 		return prefs.getString("CharBuilderVersion", "223.241754");
+	}
+	
+	public final int getPartyPollInterval() {
+		try {
+			return prefs.getInt("PartyPollInterval", 30);
+		} catch(ClassCastException ccex) {
+			int val = Integer.parseInt(prefs.getString("PartyPollInterval", "30"));
+			Editor edit = prefs.edit();
+			edit.putInt("PartyPollInterval", val);
+			edit.commit();
+			return val;
+		}
+	}
+	
+	public final String getJullianServer() {
+		return prefs.getString("JullianServer", "http://10.0.2.2/JullianServer/Party/");
+	}
+	
+	public final Map<String,?> getAll() {
+		return prefs.getAll();
 	}
 }

@@ -98,7 +98,7 @@ public class PowerHandler implements IElementHandler {
 		body = body.trim();
 		
 		if(spec != null) {
-			Logger.debug(LOG_TAG, String.format("Parsing specific %s, value=%s", spec, body));
+			Logger.verbose(LOG_TAG, String.format("Parsing specific %s, value=%s", spec, body));
 			switch(spec) {
 				case ActionType:
 					power.setAction(PowerActions.forName(body.trim()));

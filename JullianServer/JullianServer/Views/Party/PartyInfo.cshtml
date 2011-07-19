@@ -1,0 +1,32 @@
+﻿@model IEnumerable<JullianServer.Models.Character>
+
+<div class="party">
+@foreach (var item in Model) {
+    Html.RenderPartial("CharacterView", item);
+        @*<td>
+            <ul>
+                @foreach (var evt in item.EventQueue)
+                {
+                    <li>@evt.ToString()</li>
+                }
+                </ul>
+        </td>
+        <td>
+            @Ajax.ActionLink("Leave Party", "Leave", new { token = item.Token }, new AjaxOptions { HttpMethod = "post", OnSuccess = "JoinComplete" })
+            @Ajax.ActionLink("Get Events", "GetEvents", new { token = item.Token }, new AjaxOptions { HttpMethod = "post", OnSuccess = "JoinComplete" })
+        </td>*@
+    
+}
+
+</div>
+
+<script>
+    $(function () {
+        var bar = $("div.barpartial");
+        for (var i = 0; i < bar.length; ++i) {
+            var curr = bar.eq(i).children("div");
+            var value = parseInt(curr.attr("data-value"));
+            curr.progressbar({ value: value });
+        }
+    });
+</script>

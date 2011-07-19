@@ -11,6 +11,7 @@ import android.view.WindowManager;
 import com.ncgeek.android.manticore.util.ManticoreAndroidLogger;
 import com.ncgeek.android.manticore.util.Utility;
 import com.ncgeek.manticore.character.PlayerCharacter;
+import com.ncgeek.manticore.party.Party;
 import com.ncgeek.manticore.util.Logger;
 
 public final class ManticoreStatus {
@@ -24,6 +25,9 @@ public final class ManticoreStatus {
 	
 	public static File getPCFile() { return INSTANCE._filePC; }
 	public static void setPCFile(File file) { INSTANCE._filePC = file; }
+	
+	public static void setParty(Party party) { INSTANCE.party = party; }
+	public static Party getParty() { return INSTANCE.party; }
 	
 	public static File getExternalStorageDirectory() { return INSTANCE._externalDirectory; }
 	
@@ -40,6 +44,7 @@ public final class ManticoreStatus {
 	private ManticoreAndroidLogger _logger;
 	private File _externalDirectory;
 	private ManticorePreferences prefs;
+	private Party party;
 	
 	private ManticoreStatus(Context context) {
 		setupExternalDirectory();

@@ -15,9 +15,10 @@ import com.ncgeek.manticore.rules.Rule;
 import com.ncgeek.manticore.rules.RuleTypes;
 import com.ncgeek.manticore.rules.Specific;
 
-public class PlayerCharacter extends Observable implements Serializable, IRest{
+public class PlayerCharacter extends Observable implements Serializable, IRest {
 	
 	private static final long serialVersionUID = 1L;
+	private String _id;
 	private String _race;
 	private String _heroicClass;
 	private String _paragonPath;
@@ -91,6 +92,9 @@ public class PlayerCharacter extends Observable implements Serializable, IRest{
 	public PlayerCharacter() {
 		this(new Wallet(), new Wallet(), new ArrayList<Rule>(), new ArrayList<CharacterPower>(), new ArrayList<Feat>(), null, new StatBlock(), new EquipmentManager(), new HitPoints());
 	}
+	
+	public String getID() { return _id; }
+	public void setID(String id) { _id = id; }
 	
 	public String getRace() { return _race; }
 	public void setRace(String race) { _race = race; }

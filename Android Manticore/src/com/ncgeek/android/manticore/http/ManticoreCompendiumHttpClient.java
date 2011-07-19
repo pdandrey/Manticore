@@ -31,7 +31,7 @@ import android.net.http.AndroidHttpClient;
 import android.os.AsyncTask;
 import android.util.Log;
 
-class ManticoreHttpClient extends AsyncTask<String, Void, String> {
+class ManticoreCompendiumHttpClient extends AsyncTask<String, Void, String> {
 
 	private static final String USER_AGENT = "mozilla/5.0 (linux; u; android 2.2; en-us; sprint apa9292kt build/frf91) applewebkit/533.1 (khtml, like gecko) version/4.0 mobile safari/533.1";
 	private static final String LOGIN_PAGE = "login.aspx";
@@ -59,7 +59,7 @@ class ManticoreHttpClient extends AsyncTask<String, Void, String> {
 	private String _password;
 	private int _statusCode;
 	
-	public ManticoreHttpClient(String email, String password) {
+	public ManticoreCompendiumHttpClient(String email, String password) {
 		_email = email;
 		_password = password;
 	}

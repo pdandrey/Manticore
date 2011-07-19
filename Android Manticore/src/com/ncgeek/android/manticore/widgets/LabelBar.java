@@ -6,6 +6,7 @@ import java.util.List;
 
 import com.ncgeek.android.manticore.R;
 import com.ncgeek.android.manticore.widgets.GalleryMenu.SavedState;
+import com.ncgeek.manticore.util.Logger;
 
 import android.content.Context;
 import android.content.res.TypedArray;
@@ -63,29 +64,45 @@ public class LabelBar extends LinearLayout {
 		txtStatus = new TextView(context, attrs);
 		bar = new ProgressBar(context, attrs, android.R.attr.progressBarStyleHorizontal);
 		
+		TypedArray styles = context.obtainStyledAttributes(attrs, R.styleable.LabelBar);
+		
 		Typeface font = Typeface.createFromAsset(context.getAssets(), "centaur.ttf");
 		txtLabel.setTypeface(font, Typeface.BOLD);
-		txtLabel.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18);
 		txtCurrent.setTypeface(font, Typeface.BOLD);
-		txtCurrent.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18);
 		txtTemp.setTypeface(font, Typeface.BOLD);
-		txtTemp.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18);
 		txtMax.setTypeface(font, Typeface.BOLD);
-		txtMax.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18);
 		txtSeparator.setTypeface(font, Typeface.BOLD);
-		txtSeparator.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18);
 		txtStatus.setTypeface(font, Typeface.BOLD);
-		txtStatus.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18);
 		
+		float size = styles.getDimension(R.styleable.LabelBar_textSize, 0);
+		Logger.verbose("LabelBar", "Using text size " + size);
+		if(size > 0) {
+			txtLabel.setTextSize(size);
+			txtCurrent.setTextSize(size);
+			txtTemp.setTextSize(size);
+			txtMax.setTextSize(size);
+			txtSeparator.setTextSize(size);
+			txtStatus.setTextSize(size);
+		} else {
+			txtLabel.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18);
+			txtCurrent.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18);
+			txtTemp.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18);
+			txtMax.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18);
+			txtSeparator.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18);
+			txtStatus.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18);
+		}
 		bar.setIndeterminate(false);
 		
-		int height = 15;
+		int height = styles.getDimensionPixelSize(R.styleable.LabelBar_barHeight, 0);
 		
-		if(!this.isInEditMode()) {
-			DisplayMetrics metrics = new DisplayMetrics();
-			WindowManager mgr = ((WindowManager)context.getSystemService(Context.WINDOW_SERVICE));
-			mgr.getDefaultDisplay().getMetrics(metrics);
-			height = 15 * (metrics.densityDpi / 160);
+		if(height == 0) {
+			height = 15;
+			if(!this.isInEditMode()) {
+				DisplayMetrics metrics = new DisplayMetrics();
+				WindowManager mgr = ((WindowManager)context.getSystemService(Context.WINDOW_SERVICE));
+				mgr.getDefaultDisplay().getMetrics(metrics);
+				height = 15 * (metrics.densityDpi / 160);
+			}
 		}
 		bar.setLayoutParams(new ViewGroup.LayoutParams(LayoutParams.FILL_PARENT, height));
 		
@@ -100,8 +117,6 @@ public class LabelBar extends LinearLayout {
 		llText.addView(txtStatus);
 		addView(llText);
 		addView(bar);
-		
-		TypedArray styles = context.obtainStyledAttributes(attrs, R.styleable.LabelBar);
 		
 		if(styles.hasValue(R.styleable.LabelBar_barDrawable)) {
 			int barStyle = styles.getResourceId(R.styleable.LabelBar_barDrawable, -1);
@@ -171,6 +186,7 @@ public class LabelBar extends LinearLayout {
 
 	public void setMax(int max) { 
 		this.max = max;
+		this.current = Math.min(max, current);
 		calculateChange();
 		
 		txtMax.setText(max + "");
