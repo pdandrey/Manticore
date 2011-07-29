@@ -21,6 +21,7 @@ import com.ncgeek.android.manticore.database.DatabaseRepository;
 import com.ncgeek.android.manticore.widgets.GalleryMenu;
 import com.ncgeek.android.manticore.partial.ListPartial;
 import com.ncgeek.android.manticore.partial.Partial;
+import com.ncgeek.android.manticore.partial.PartyPartial;
 import com.ncgeek.android.manticore.partial.SkillPartial;
 import com.ncgeek.android.manticore.partial.StatPartial;
 import com.ncgeek.android.manticore.threads.LoadCharacterThread;
@@ -37,9 +38,12 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
+import android.content.ComponentName;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.DialogInterface.OnClickListener;
 import android.content.Intent;
+import android.content.ServiceConnection;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Bitmap.CompressFormat;
@@ -47,7 +51,9 @@ import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.IBinder;
 import android.os.Message;
+import android.os.Messenger;
 import android.text.InputType;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
@@ -164,6 +170,7 @@ public class CharacterSheet extends Activity {
         addPartial(new ListPartial(this, adpItems = new ItemListAdapter(this, true)), R.id.mainmenu_mnuBackpack);
         addPartial(new ListPartial(this, adpEquipment = new ItemListAdapter(this, false)), R.id.mainmenu_mnuEquipment);
         addPartial(new ListPartial(this, adpPowerListAdapter = new PowerListAdapter(this)), R.id.mainmenu_mnuPowers);
+        addPartial(new PartyPartial(this), R.id.mainmenu_mnuParty);
 	 }
 	
 	private void addPartial(Partial partial, int menuID) {
@@ -215,6 +222,14 @@ public class CharacterSheet extends Activity {
 	    	_pc = thdLoad.getCharacter();
 	    	update();
 	    }
+	}
+	
+	@Override
+	protected void onPause() {
+		super.onPause();
+		for(Tuple<Partial,Integer> t : mapPartials.values()) {
+			t.getItem1().onPause();
+		}
 	}
 	
 	@Override
@@ -437,45 +452,9 @@ public class CharacterSheet extends Activity {
 			Bitmap bitmap = (Bitmap)_pc.getPortraitBitmap();
 			
 			if(bitmap == null) {
-				try {
-					
-					URL url = new URL(String.format(_pc.getPortrait(), prefs.CharacterBuilderVersion()));
-					
-					String cachePortraitFilename = null;
-					File cacheDir = null; 
-					
-					if(prefs.cacheImages() && Utility.isExternalAvailable()) {
-						cacheDir = new File(ManticoreStatus.getExternalStorageDirectory(), "cache/portraits/");
-						if(!cacheDir.exists() && !cacheDir.mkdirs()) {
-							Logger.error(LOG_TAG, "Failed to create portrait cache directory");
-						} else {
-							Pattern regexFilename = Pattern.compile("\\d+\\.png$");
-							Matcher m = regexFilename.matcher(_pc.getPortrait());
-							if(m.find()) {
-								File portrait = new File(cacheDir, m.group());
-								if(portrait.exists()) {
-									bitmap = BitmapFactory.decodeFile(portrait.toString());
-								} else {
-									cachePortraitFilename = portrait.toString();
-								}
-							}
-						}
-					}
-					
-					if(bitmap == null) {
-						bitmap = BitmapFactory.decodeStream(url.openStream());
-					}
-					
-					if(cachePortraitFilename != null && cacheDir != null) {
-						FileOutputStream fos = new FileOutputStream(cachePortraitFilename);
-						bitmap.compress(CompressFormat.PNG, 100, fos);
-						fos.close();
-					}
-					
-					_pc.setPortraitBitmap(bitmap);
-				} catch(Exception ex) {
-					Logger.error(LOG_TAG, "Error loading portrait", ex);
-				}
+				//String.format(_pc.getPortrait(), prefs.CharacterBuilderVersion())
+				bitmap = Utility.getPortrait(_pc.getPortrait(), prefs);
+				_pc.setPortraitBitmap(bitmap);
 			}
 			
 			ImageView iv = (ImageView)findViewById(R.id.charactersheet_img);

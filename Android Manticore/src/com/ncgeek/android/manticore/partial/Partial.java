@@ -38,4 +38,8 @@ public abstract class Partial {
 	public abstract void setupContextMenu(Menu menu);
 	
 	public abstract boolean onContextItemSelected(MenuItem item);
+	
+	public void onPause() {}
+	
+	public void onStart() {}
 }

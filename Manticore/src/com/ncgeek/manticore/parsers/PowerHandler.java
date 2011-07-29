@@ -98,7 +98,7 @@ public class PowerHandler implements IElementHandler {
 		body = body.trim();
 		
 		if(spec != null) {
-			Logger.debug(LOG_TAG, String.format("Parsing specific %s, value=%s", spec, body));
+			Logger.verbose(LOG_TAG, String.format("Parsing specific %s, value=%s", spec, body));
 			switch(spec) {
 				case ActionType:
 					power.setAction(PowerActions.forName(body.trim()));
@@ -154,11 +154,13 @@ public class PowerHandler implements IElementHandler {
 					break;
 					
 				case AttackStat:
-					weapon.setAttackStat(pc.getStats().get(body));
+					if(body.length() > 0)
+						weapon.setAttackStat(pc.getStats().get(body));
 					break;
 					
 				case Damage:
-					weapon.setDamage(new Dice(body));
+					if(body.length() > 0)
+						weapon.setDamage(new Dice(body));
 					break;
 					
 				case DamageComponents:
@@ -190,11 +192,14 @@ public class PowerHandler implements IElementHandler {
 			String [] keys = p.split(",| or ");
 			boolean isAlt = p.contains(" or ");
 			for(String k : keys) {
-				PowerKeywords keyword = PowerKeywords.forName(k.trim());
-				if(keyword == null) {
-					throw new IllegalArgumentException(String.format("Cannot find keyword %s. (%s)", k, keywords));
-				} 
-				specific.add(keyword, isAlt);
+				k = k.trim();
+				if(k.length() > 0) {
+					PowerKeywords keyword = PowerKeywords.forName(k.trim());
+					if(keyword == null) {
+						throw new IllegalArgumentException(String.format("Cannot find keyword %s. (%s)", k, keywords));
+					} 
+					specific.add(keyword, isAlt);
+				}
 			}
 		}
 	}

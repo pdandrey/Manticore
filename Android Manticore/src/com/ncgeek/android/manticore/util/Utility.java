@@ -1,17 +1,31 @@
 package com.ncgeek.android.manticore.util;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.net.URL;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
+import com.ncgeek.android.manticore.ManticorePreferences;
+import com.ncgeek.android.manticore.ManticoreStatus;
 import com.ncgeek.android.manticore.R;
 import com.ncgeek.manticore.items.ArmorCategories;
 import com.ncgeek.manticore.items.ItemType;
 import com.ncgeek.manticore.items.WeaponGroups;
+import com.ncgeek.manticore.util.Logger;
 
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.graphics.Bitmap.CompressFormat;
 import android.os.Environment;
+import android.util.Log;
 
 public final class Utility {
 
+	private static final String LOG_TAG = "Utility";
+	
 	private static final HashMap<String,Integer> STAT_ICONS = new HashMap<String, Integer>();
 	private static final HashMap<WeaponGroups,Integer> WEAPON_ICONS = new HashMap<WeaponGroups, Integer>();
 	private static final HashMap<ArmorCategories,Integer> ARMOR_ICONS = new HashMap<ArmorCategories, Integer>();
@@ -161,5 +175,47 @@ public final class Utility {
 			return 0;
 	}
 	
-	
+	public static Bitmap getPortrait(String strUrl, ManticorePreferences prefs) {
+		Log.v(LOG_TAG, "Looking for portrait " + strUrl);
+		try {
+			URL url = new URL(String.format(strUrl, prefs.CharacterBuilderVersion()));
+			Bitmap bitmap = null;
+			String cachePortraitFilename = null;
+			File cacheDir = null; 
+			
+			if(prefs.cacheImages() && Utility.isExternalAvailable()) {
+				cacheDir = new File(ManticoreStatus.getExternalStorageDirectory(), "cache/portraits/");
+				if(!cacheDir.exists() && !cacheDir.mkdirs()) {
+					Logger.error(LOG_TAG, "Failed to create portrait cache directory");
+				} else {
+					Pattern regexFilename = Pattern.compile("\\d+\\.png$");
+					Matcher m = regexFilename.matcher(strUrl);
+					if(m.find()) {
+						File portrait = new File(cacheDir, m.group());
+						Log.v(LOG_TAG, "Found " + portrait.getName());
+						if(portrait.exists()) {
+							bitmap = BitmapFactory.decodeFile(portrait.toString());
+						} else {
+							cachePortraitFilename = portrait.toString();
+						}
+					}
+				}
+			}
+			
+			if(bitmap == null) {
+				Log.v(LOG_TAG, "Downloading from " + url.toString());
+				bitmap = BitmapFactory.decodeStream(url.openStream());
+			}
+			
+			if(cachePortraitFilename != null && cacheDir != null) {
+				FileOutputStream fos = new FileOutputStream(cachePortraitFilename);
+				bitmap.compress(CompressFormat.PNG, 100, fos);
+				fos.close();
+			}
+			return bitmap;
+		} catch(Exception ex) {
+			Logger.error(LOG_TAG, "Error loading portrait", ex);
+		}
+		return null;
+	}
 }

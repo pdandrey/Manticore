@@ -10,23 +10,27 @@ import org.apache.http.impl.client.BasicResponseHandler;
 public class ManticoreResponseHandler extends BasicResponseHandler {
 
 	private String _location;
+	private Header[] headers;
 	
 	public String getRedirectLocation() { return _location; }
+	public Header[] getHeaders() { return headers; }
 	
 	@Override
 	public String handleResponse(HttpResponse response) throws HttpResponseException, IOException {
 		_location = null;
+		headers = response.getAllHeaders();
 		
 		try {
-			return super.handleResponse(response);
+			String ret = super.handleResponse(response);
+			return ret;
 		} catch(HttpResponseException httpEx) {
 			int code = httpEx.getStatusCode();
 			
 			if(code >= 300 && code < 400) {
-				Header[] headers = response.getHeaders("location");
+				Header[] h = response.getHeaders("location");
 				
-				if(headers.length > 0) 
-					_location = headers[0].getValue();
+				if(h.length > 0) 
+					_location = h[0].getValue();
 			}
 			
 			throw httpEx;

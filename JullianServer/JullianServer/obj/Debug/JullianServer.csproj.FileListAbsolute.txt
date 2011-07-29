@@ -1,0 +1,7 @@
+C:\Users\WalynKyle\Documents\eclipse\Workspaces\Manticore\JullianServer\JullianServer\bin\JullianServer.dll
+C:\Users\WalynKyle\Documents\eclipse\Workspaces\Manticore\JullianServer\JullianServer\bin\JullianServer.pdb
+C:\Users\WalynKyle\Documents\eclipse\Workspaces\Manticore\JullianServer\JullianServer\bin\EntityFramework.dll
+C:\Users\WalynKyle\Documents\eclipse\Workspaces\Manticore\JullianServer\JullianServer\bin\EntityFramework.xml
+C:\Users\WalynKyle\Documents\eclipse\Workspaces\Manticore\JullianServer\JullianServer\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\WalynKyle\Documents\eclipse\Workspaces\Manticore\JullianServer\JullianServer\obj\Debug\JullianServer.dll
+C:\Users\WalynKyle\Documents\eclipse\Workspaces\Manticore\JullianServer\JullianServer\obj\Debug\JullianServer.pdb

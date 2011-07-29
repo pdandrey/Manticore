@@ -162,21 +162,25 @@ public class ItemListAdapter extends BaseAdapter implements Observer {
 		} else {
 			int imgID = 0;
 			Item item = null;
+			Item itemForImage = null;
 			
 			if(li.isInventory())
 				item = li.getItemStack().getItem();
 			else
 				item = li.getEquippableItem();
 			
+			itemForImage = item;
+			
 			if(item instanceof EnchantedItem) {
-				item = ((EnchantedItem)item).getItem();
+				itemForImage = ((EnchantedItem)item).getItem();
 			}
-			if(item instanceof Armor) {
-				imgID = Utility.getIcon(((Armor)item).getArmorCategory());
-			} else if(item instanceof Weapon) {
-				imgID = Utility.getIcon(((Weapon)item).getGroups());
+			
+			if(itemForImage instanceof Armor) {
+				imgID = Utility.getIcon(((Armor)itemForImage).getArmorCategory());
+			} else if(itemForImage instanceof Weapon) {
+				imgID = Utility.getIcon(((Weapon)itemForImage).getGroups());
 			} else {
-				imgID = Utility.getIcon(item.getType());
+				imgID = Utility.getIcon(itemForImage.getType());
 			}
 			if(imgID > 0) {
 				holder.img.setImageResource(imgID);

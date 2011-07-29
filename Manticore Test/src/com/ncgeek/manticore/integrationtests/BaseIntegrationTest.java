@@ -21,9 +21,9 @@ public abstract class BaseIntegrationTest {
 	@Before
 	public void setup() {
 		directory = new File(".\\docs\\");
-		File dbFile = new File("c:\\users\\walynkyle\\documents\\my dropbox\\manticore\\manticore.db");
-		if(dbFile.exists())
-			db = new ManticoreDatabase(dbFile);
+//		File dbFile = new File("c:\\users\\walynkyle\\documents\\my dropbox\\manticore\\manticore.db");
+//		if(dbFile.exists())
+//			db = new ManticoreDatabase(dbFile);
 		parser = new CharacterParser(db);
 		file = null;
 		Logger.setLogger(new TestLogger());
@@ -37,6 +37,7 @@ public abstract class BaseIntegrationTest {
 	
 	@Test
 	public void testChase() {
+		Logger.verbose("BaseIntegerationTest", "Starting Chase");
 		file = new File(directory, "chase2.dnd4e");
 		setupCharacterValues();
 		test(parser.parse(file));
@@ -44,6 +45,7 @@ public abstract class BaseIntegrationTest {
 	
 	@Test
 	public void testPynder() {
+		Logger.verbose("BaseIntegerationTest", "Starting Pynder");
 		file = new File(directory, "pynder2.dnd4e");
 		setupCharacterValues();
 		test(parser.parse(file));
@@ -51,6 +53,7 @@ public abstract class BaseIntegrationTest {
 	
 	@Test
 	public void testAlek() {
+		Logger.verbose("BaseIntegerationTest", "Starting Alek");
 		file = new File(directory, "alek2.dnd4e");
 		setupCharacterValues();
 		test(parser.parse(file));
@@ -58,6 +61,7 @@ public abstract class BaseIntegrationTest {
 	
 	@Test
 	public void testChristof() {
+		Logger.verbose("BaseIntegerationTest", "Starting Christof");
 		file = new File(directory, "christof2.dnd4e");
 		setupCharacterValues();
 		test(parser.parse(file));
@@ -65,6 +69,7 @@ public abstract class BaseIntegrationTest {
 	
 	@Test
 	public void testGreyson() {
+		Logger.verbose("BaseIntegerationTest", "Starting Greyson");
 		file = new File(directory, "greyson2.dnd4e");
 		setupCharacterValues();
 		test(parser.parse(file));

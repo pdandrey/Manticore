@@ -8,6 +8,8 @@
         <attr name="temporary" format="integer"/>
         <attr name="separator" format="string"/>
         <attr name="status" format="string"/>
+        <attr name="textSize" format="dimension"/>
+        <attr name="barHeight" format="dimension"/>
     </declare-styleable>
 	<declare-styleable name="VerticalLabelView">
         <attr name="text" format="string" />

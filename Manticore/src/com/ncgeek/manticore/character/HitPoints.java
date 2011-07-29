@@ -1,8 +1,9 @@
 package com.ncgeek.manticore.character;
 
 import java.io.Serializable;
+import java.util.Observable;
 
-public class HitPoints implements Serializable, IRest {
+public class HitPoints extends Observable implements Serializable, IRest {
 
 	private static final long serialVersionUID = 1L;
 
@@ -24,6 +25,33 @@ public class HitPoints implements Serializable, IRest {
 		_deathSaves = 0;
 	}
 	
+	public void setCurrent(int hp, int tempHP, int surges, int deathSaves) {
+		
+		if(hp != _current) {
+			_current = hp;
+			setChanged();
+		}
+		
+		if(tempHP != _temp) {
+			_temp = tempHP;
+			setChanged();
+		}
+		
+		if(surges != _remainingSurges) {
+			_remainingSurges = surges;
+			setChanged();
+		}
+		
+		if(deathSaves != _deathSaves) {
+			_deathSaves = deathSaves;
+			setChanged();
+		}
+		
+		if(hasChanged()) {
+			notifyObservers();
+		}
+	}
+	
 	public int getMax() { return _max; }
 	public void setMax(int max) {
 		if(max <= 0)
@@ -36,6 +64,8 @@ public class HitPoints implements Serializable, IRest {
 		if(current > _max)
 			throw new IllegalArgumentException("Cannot set HP over max");
 		_current = current;
+		setChanged();
+		notifyObservers();
 	}
 	
 	public int getTemp() { return _temp; }
@@ -43,7 +73,11 @@ public class HitPoints implements Serializable, IRest {
 		if(temp < 0)
 			throw new IllegalArgumentException("Temp HP cannot be below 0");
 		
-		_temp = Math.max(temp, _temp);
+		if(temp > _temp) {
+			_temp = temp;
+			setChanged();
+			notifyObservers();
+		}
 	}
 	
 	public int getTotalSurges() { return _maxSurges; }
@@ -54,9 +88,13 @@ public class HitPoints implements Serializable, IRest {
 	}
 	
 	public int getDeathSaves() { return _deathSaves; }
-	
+	public void setDeathSaves(int deaths) { _deathSaves = deaths; }
 	public void failDeathSave() { 
-		_deathSaves = Math.min(3, _deathSaves + 1);
+		if(_deathSaves < 3) {
+			++_deathSaves;
+			setChanged();
+			notifyObservers();
+		}
 	}
 	
 	public boolean isDead() { return _deathSaves >= 3; }
@@ -64,6 +102,7 @@ public class HitPoints implements Serializable, IRest {
 	public boolean isBleedingOut() { return _current < 0; }
 	
 	public int getRemainingSurges() { return _remainingSurges; }
+	public void setRemainingSurges(int surges) { _remainingSurges = surges; }
 	
 	public int getBloodiedValue() { return _max / 2; }
 	
@@ -76,15 +115,19 @@ public class HitPoints implements Serializable, IRest {
 		_temp = 0;
 		_current = _max;
 		_remainingSurges = _maxSurges;
+		setChanged();
+		notifyObservers();
 	}
 	
 	public void shortRest() {
 		_deathSaves = 0;
 		_temp = 0;
+		setChanged();
+		notifyObservers();
 	}
 	
 	public void takeDamage(int damage) {
-		if(damage < 0)
+		if(damage <= 0)
 			throw new IllegalArgumentException("damage must be > 0");
 		
 		if(_temp >= damage) {
@@ -93,10 +136,12 @@ public class HitPoints implements Serializable, IRest {
 			_current += (_temp - damage);
 			_temp = 0;
 		}
+		setChanged();
+		notifyObservers();
 	}
 	
 	public void heal(int healing) {
-		if(healing < 0)
+		if(healing <= 0)
 			throw new IllegalArgumentException("Healing must be > 0");
 		
 		if(_current < 0) {
@@ -105,22 +150,35 @@ public class HitPoints implements Serializable, IRest {
 		} else {
 			_current = Math.min(_max, _current + healing);
 		}
+		
+		setChanged();
+		notifyObservers();
 	}
 	
 	public void useSurge(int extraHealing) {
 		if(_remainingSurges > 0) {
 			heal(getSurgeValue() + extraHealing);
 			expendSurge();
+			setChanged();
+			notifyObservers();
 		}
 	}
 	
 	public void expendSurge() {
-		if(_remainingSurges > 0)
+		if(_remainingSurges > 0) {
 			--_remainingSurges;
+			setChanged();
+			notifyObservers();
+		}
 	}
 
 	@Override
 	public void milestone() {
 		// Nothing to do for milestone
+	}
+	
+	@Override
+	public String toString() {
+		return String.format("HP: %d+%d/%d, Surges: %d/%d, Death Saves: %d", _current, _temp, _max, _remainingSurges, _maxSurges, _deathSaves);
 	}
 }

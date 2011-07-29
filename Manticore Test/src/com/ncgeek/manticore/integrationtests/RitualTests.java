@@ -18,7 +18,7 @@ public class RitualTests extends BaseIntegrationTest {
 		String name = super.getFile().getName().toLowerCase();
 		
 		if(name.equals("alek2.dnd4e")) {
-			ritualCount = 3;
+			ritualCount = 2;
 		} else {
 			ritualCount = 0;
 		}

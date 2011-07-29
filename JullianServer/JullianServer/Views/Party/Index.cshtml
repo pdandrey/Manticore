@@ -1,0 +1,155 @@
+﻿@model List<JullianServer.Models.Character>
+           
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<div id="divParty">
+    @Html.Action("PartyInfo")
+</div>
+<button id="btnToggleRefresh" onclick="return ToggleRefresh();">Stop Refresh</button>
+
+<div id="divTabs">
+    <ul>
+        <li><a href="#Join">Join Party</a></li>
+        <li><a href="#Message">Messages</a></li>
+        <li><a href="#Update">Update</a></li>
+        <li><a href="#Chat">Chat</a></li>
+    </ul>
+    
+    <div id="Join">
+        Name: @Html.TextBox("Name")<br />
+        HP: @Html.TextBox("CurrentHP") / @Html.TextBox("MaxHP")<br />
+        Surges: @Html.TextBox("CurrentSurges") / @Html.TextBox("MaxSurges")<br />
+        Portrait URL: @Html.TextBox("Portrait", string.Empty, new { size = 125 })<br />
+        @foreach (string file in Directory.GetFiles(Server.MapPath("~/Cache")))
+        {
+            <img src="@Url.Content("~/" + file.Substring(file.IndexOf("Cache")))" alt="" style="width: 50px; height:50px;" onclick="setImage(this);"/>
+        }
+        <br />
+        <input type="submit" value="Join Party" />
+    </div>
+    
+    <div id="Message">
+        @Html.Label("from", "From:")
+        @Html.DropDownList("from", Model.Select(m => new SelectListItem { Text = m.Name, Value = m.Token }), new { @class = "characters", dataType="token" })
+        <br />
+        @Html.Label("to", "To:")
+        @Html.DropDownList("to", Model.Select(m => new SelectListItem { Text = m.Name, Value = m.ID.ToString() }), new { @class = "characters", dataType = "id" })
+        <br />
+        @Html.TextArea("message")
+        <br />
+        <input type="submit" value="Send Message" />
+    </div>
+
+    <div id="Update">
+        @Html.Label("token", "Character:")
+        @Html.DropDownList("token", Model.Select(m => new SelectListItem { Text = m.Name, Value = m.Token }), new { @class = "characters", dataType = "token" })
+        <br />
+        @Html.Label("hp", "HP:")
+        @Html.TextBox("hp")
+        <br />
+        @Html.Label("temphp", "Temp HP:")
+        @Html.TextBox("temphp")
+        <br />
+        @Html.Label("surges", "Surges:")
+        @Html.TextBox("surges")
+        <br />
+        @Html.Label("deathsaves", "Death Saves:")
+        @Html.TextBox("deathsaves")
+        <br />
+        <input type="submit" value="Update" />
+    </div>
+
+    <div id="Chat">
+        @Html.Label("token", "From:")
+        @Html.DropDownList("token", Model.Select(m => new SelectListItem { Text = m.Name, Value = m.Token }), new { @class = "characters", dataType = "token" })
+        <br />
+        @Html.TextArea("message")
+        <br />
+        <input type="submit" value="Chat" />
+    </div>
+</div>
+<script>
+    function submitForm() {
+        var btn = $(this);
+        var frm = btn.closest("div");
+        jsonTarget = {};
+        $.map(frm.find(":input:not([type=submit])"), jsonMap);
+        console.log(jsonTarget);
+
+        $.ajax({
+            url: '@Url.Action("Index")/' + frm.attr("id"),
+            type: "PUT",
+            data: JSON.stringify(jsonTarget),
+            dataType: "json",
+            contentType: "application/json; charset=utf-8",
+            success: function (ret) {
+                JoinComplete();
+                console.log(ret);
+                if (ret.EventName == "PartyJoined" && !ret.ExistingMember) {
+                    var ddls = $("select.characters");
+                    var token = ret.Token;
+                    var id = ret.ID;
+                    var name = $("#Name").val();
+                    for (var i = 0; i < ddls.length; ++i) {
+                        var ddl = ddls.eq(i);
+                        var type = ddl.attr("dataType");
+                        if (type == "token") {
+                            ddl.append("<option value='" + token + "'>" + name + "</option>");
+                        } else {
+                            ddl.append("<option value='" + id + "'>" + name + "</option>");
+                        }
+                    }
+                }
+            }
+        });
+
+        return false;
+    }
+    var jsonTarget = {};
+    function jsonMap(n, i)
+    {
+        jsonTarget[n.name] = $(n).val();
+        return null;
+    }
+
+    function JoinComplete() {
+        $.ajax({
+            method: 'get',
+            url: '@Url.Action("PartyInfo")',
+            data: {},
+            success: function(html) {
+                $("#divParty").html(html);
+            }
+        });
+    }
+
+    var refreshTimer = null;
+
+    $(function () {
+        $("#divTabs").tabs();
+        $("input[type=submit]").click(submitForm);
+        refreshTimer = setInterval(JoinComplete, 30000);
+    });
+
+    function ToggleRefresh() {
+        var btn = $("#btnToggleRefresh");
+        if (refreshTimer) {
+            clearInterval(refreshTimer);
+            refreshTimer = null;
+            btn.text("Start Refresh");
+        } else {
+            refreshTimer = setInterval(JoinComplete, 30000);
+            btn.text("Stop Refresh");
+        }
+    }
+
+    function setImage(img) {
+        img = $(img);
+        var target = img.closest("div").find("input:text[name=Portrait]");
+        target.val(img.attr("src"));
+    }
+</script>

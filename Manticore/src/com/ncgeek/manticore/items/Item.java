@@ -35,6 +35,11 @@ public abstract class Item implements Comparable<Item> {
 	
 	public String getID() { return _id; }
 	public void setID(String id) { _id = id; }
+	public boolean isID(String id) {
+		if(_id == null)
+			throw new IllegalStateException(String.format("Item %s does not have an id", _name));
+		return _id.equals(id); 
+	}
 	
 	public String getName() { return _name; }
 	public void setName(String name) { _name = name; }

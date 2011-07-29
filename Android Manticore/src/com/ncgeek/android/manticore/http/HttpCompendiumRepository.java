@@ -35,7 +35,7 @@ public class HttpCompendiumRepository implements ICompendiumRepository {
 	
 	public void getCharacterList() {
 		try {
-			ManticoreHttpClient repos = new ManticoreHttpClient(_email, _password);
+			ManticoreCompendiumHttpClient repos = new ManticoreCompendiumHttpClient(_email, _password);
 			
 			final String REQUEST = "<s:Envelope xmlns:a=\"http://www.w3.org/2005/08/addressing\" xmlns:s=\"http://www.w3.org/2003/05/soap-envelope\"><s:Header><a:Action s:mustUnderstand=\"1\">http://tempuri.org/IContentVaultService/GetAvailableContent</a:Action><a:MessageID>urn:uuid:%s</a:MessageID><a:ReplyTo><a:Address>http://www.w3.org/2005/08/addressing/anonymous</a:Address></a:ReplyTo><a:To s:mustUnderstand=\"1\">http://ioun.wizards.com/ContentVault.svc</a:To></s:Header><s:Body><GetAvailableContent xmlns=\"http://tempuri.org/\"><contentType>0</contentType></GetAvailableContent></s:Body></s:Envelope>";
 			final String REFERER = "http://media.wizards.com/downloads/dnd/CharacterBuilder/Client/223.241754/CharBuilder.xap";
@@ -57,7 +57,7 @@ public class HttpCompendiumRepository implements ICompendiumRepository {
 	public Item getItem(Rule rule) {
 		
 		try {
-			ManticoreHttpClient repos = new ManticoreHttpClient(_email, _password);
+			ManticoreCompendiumHttpClient repos = new ManticoreCompendiumHttpClient(_email, _password);
 			repos.execute(rule.getURL());
 			String item = repos.get();
 			item = "" + item;
@@ -85,7 +85,7 @@ public class HttpCompendiumRepository implements ICompendiumRepository {
 			File html = new File(dir, name + ".html");
 			if(!html.exists())
 			{
-				ManticoreHttpClient repos = new ManticoreHttpClient(_email, _password);
+				ManticoreCompendiumHttpClient repos = new ManticoreCompendiumHttpClient(_email, _password);
 				repos.execute(rule.getURL());
 				String item = repos.get();
 				

@@ -35,7 +35,7 @@ public class Dice {
 		Matcher m = p.matcher(dice);
 		
 		if(!m.matches())
-			throw new IllegalArgumentException();
+			throw new IllegalArgumentException(String.format("Unknown dice format: \"%s\"", dice));
 		
 		_count = Integer.parseInt(m.group(1));
 		_sides = Integer.parseInt(m.group(2));

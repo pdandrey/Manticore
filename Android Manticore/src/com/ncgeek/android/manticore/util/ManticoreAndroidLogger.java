@@ -44,17 +44,17 @@ public class ManticoreAndroidLogger implements ILog {
 				break;
 				
 			case Info:
-				if(Log.isLoggable(tag, Log.INFO)) {
+				//if(Log.isLoggable(tag, Log.INFO)) {
 					Log.i(tag, msg, tr);
 					logToFile(priority, tag, msg, tr);
-				}
+				//}
 				break;
 				
 			case Warn:
-				if(Log.isLoggable(tag, Log.WARN)) {
+				//if(Log.isLoggable(tag, Log.WARN)) {
 					Log.w(tag, msg, tr);
 					logToFile(priority, tag, msg, tr);
-				}
+				//}
 				break;
 				
 			case Debug:
@@ -65,10 +65,10 @@ public class ManticoreAndroidLogger implements ILog {
 				break;
 				
 			case Error:
-				if(Log.isLoggable(tag, Log.ERROR)) {
+				//if(Log.isLoggable(tag, Log.ERROR)) {
 					Log.e(tag, msg, tr);
 					logToFile(priority, tag, msg, tr);
-				}
+				//}
 				break;
 		}
 	}

@@ -40,6 +40,10 @@ public class EnchantedItem extends EquippableItem {
 	public String getName() {
 		return _enchantment.getName() + " " + _item.getName();
 	}
+	@Override
+	public boolean isID(String id) {
+		return _item.isID(id) || _enchantment.isID(id);
+	}
 	public Money getPrice() {
 		return _item.getPrice().add(_enchantment.getPrice());
 	}

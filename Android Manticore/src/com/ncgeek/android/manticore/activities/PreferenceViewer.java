@@ -1,5 +1,7 @@
 package com.ncgeek.android.manticore.activities;
 
+import java.util.Map;
+
 import com.ncgeek.android.manticore.ManticorePreferences;
 import com.ncgeek.android.manticore.R;
 
@@ -18,10 +20,12 @@ public class PreferenceViewer extends Activity {
         
         ManticorePreferences prefs = new ManticorePreferences(this);
         StringBuilder buf = new StringBuilder();
-        buf.append("UseDatabase: " + prefs.isDatabaseEnabled());
-        buf.append("\nCopy Database: " + prefs.shouldCopyDatabase());
-        buf.append("\nUse Calculated Stats: " + prefs.useCalculatedStats());
-        buf.append("\nWrite logs to file: " + prefs.logToFile());
+        
+        Map<String,?> all = prefs.getAll();
+        for(String key : all.keySet()) {
+        	Object val = all.get(key);
+        	buf.append(String.format("[%s] %s: %s\n", val.getClass().getSimpleName(), key, val.toString()));
+        }
         
         txt.setText(buf);
     }
