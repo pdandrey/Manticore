@@ -3,7 +3,21 @@ Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "JullianServer", "JullianServer\JullianServer.csproj", "{81140EA7-B0BF-48A3-9611-CACEB3367BDF}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NCGeek.Manticore", "NCGeek.Manticore\NCGeek.Manticore.csproj", "{49AE2F29-8ACE-4CB0-A518-28C0E6ED9F69}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NCGeek.Manticore.Test", "NCGeek.Manticore.Test\NCGeek.Manticore.Test.csproj", "{DDDBC9B4-2E10-42A7-A4C6-D500C60B8004}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{C1041852-104C-49C8-BA14-E4253FC3D08B}"
+	ProjectSection(SolutionItems) = preProject
+		JullianServer.vsmdi = JullianServer.vsmdi
+		Local.testsettings = Local.testsettings
+		TraceAndTestImpact.testsettings = TraceAndTestImpact.testsettings
+	EndProjectSection
+EndProject
 Global
+	GlobalSection(TestCaseManagementSettings) = postSolution
+		CategoryFile = JullianServer.vsmdi
+	EndGlobalSection
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
@@ -13,6 +27,14 @@ Global
 		{81140EA7-B0BF-48A3-9611-CACEB3367BDF}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{81140EA7-B0BF-48A3-9611-CACEB3367BDF}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{81140EA7-B0BF-48A3-9611-CACEB3367BDF}.Release|Any CPU.Build.0 = Release|Any CPU
+		{49AE2F29-8ACE-4CB0-A518-28C0E6ED9F69}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{49AE2F29-8ACE-4CB0-A518-28C0E6ED9F69}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{49AE2F29-8ACE-4CB0-A518-28C0E6ED9F69}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{49AE2F29-8ACE-4CB0-A518-28C0E6ED9F69}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DDDBC9B4-2E10-42A7-A4C6-D500C60B8004}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DDDBC9B4-2E10-42A7-A4C6-D500C60B8004}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DDDBC9B4-2E10-42A7-A4C6-D500C60B8004}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DDDBC9B4-2E10-42A7-A4C6-D500C60B8004}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

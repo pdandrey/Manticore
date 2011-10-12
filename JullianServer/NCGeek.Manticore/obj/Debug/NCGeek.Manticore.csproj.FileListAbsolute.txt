@@ -1,0 +1,5 @@
+C:\Users\Walyn Kyle\Documents\eclipse\Workspaces\Manticore\JullianServer\NCGeek.Manticore\bin\Debug\NCGeek.Manticore.dll
+C:\Users\Walyn Kyle\Documents\eclipse\Workspaces\Manticore\JullianServer\NCGeek.Manticore\bin\Debug\NCGeek.Manticore.pdb
+C:\Users\Walyn Kyle\Documents\eclipse\Workspaces\Manticore\JullianServer\NCGeek.Manticore\obj\Debug\ResolveAssemblyReference.cache
+C:\Users\Walyn Kyle\Documents\eclipse\Workspaces\Manticore\JullianServer\NCGeek.Manticore\obj\Debug\NCGeek.Manticore.dll
+C:\Users\Walyn Kyle\Documents\eclipse\Workspaces\Manticore\JullianServer\NCGeek.Manticore\obj\Debug\NCGeek.Manticore.pdb

@@ -44,8 +44,13 @@ namespace JullianServer.Controllers
             }
         }
 
-        //
-        // GET: /Party/
+        [HttpGet]
+        public JsonResult Status()
+        {
+            return Json(new { Status = true, Version = this.GetType().Assembly.GetName().Version.ToString() }, JsonRequestBehavior.AllowGet);
+        }
+
+        [HttpPut]
         public ActionResult Join(Character character)
         {
             string toHash = character.Name;
@@ -93,6 +98,7 @@ namespace JullianServer.Controllers
             }
         }
 
+        [HttpPut]
         public JsonResult Chat(string token, string message)
         {
             if (!Party.ContainsKey(token))
@@ -106,7 +112,8 @@ namespace JullianServer.Controllers
 
             return Json(new Event { Success = true, Message = "Chat sent" });
         }
-        
+
+        [HttpPut]
         public JsonResult Leave(string token)
         {
             if (!Party.ContainsKey(token))
@@ -120,6 +127,7 @@ namespace JullianServer.Controllers
             return Json(new Event { Success = true, Message = "Character is no longer in the party" });
         }
 
+        [HttpPut]
         public JsonResult Message(string from, Guid to, string message)
         {
             Character chFrom = Party[from];
@@ -128,6 +136,7 @@ namespace JullianServer.Controllers
             return Json(new Event { Success = true, Message = "Message sent to " + chTo.Name });
         }
 
+        [HttpPut]
         public JsonResult Update(string token, int hp, int tempHP, int surges, int deathSaves)
         {
             Character ch = Party[token];
@@ -153,6 +162,7 @@ namespace JullianServer.Controllers
             return Json(new Event { Success = true, Message = "Character updated" });
         }
 
+        [HttpPost]
         public JsonResult GetEvents(string token)
         {
             Character ch = Party[token];
@@ -161,11 +171,13 @@ namespace JullianServer.Controllers
             return Json(new GetEventsEvent { Success = true, Message = "events", Events = queue });
         }
 
+        [HttpGet]
         public ActionResult Index()
         {
             return View(Party.Values.ToList());
         }
 
+        [HttpGet]
         public PartialViewResult PartyInfo()
         {
             return PartialView(Party.Values.ToList());
