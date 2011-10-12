@@ -177,6 +177,17 @@ public final class Utility {
 	
 	public static Bitmap getPortrait(String strUrl, ManticorePreferences prefs) {
 		Log.v(LOG_TAG, "Looking for portrait " + strUrl);
+		
+		if(!strUrl.startsWith("http")) {
+			String jullian = prefs.getJullianServer();
+			int index = strUrl.indexOf("/", 1);
+			if(jullian.endsWith(strUrl.substring(0, index))) {
+				strUrl = jullian + strUrl.substring(index + 1);
+			} else {
+				strUrl = jullian + strUrl.substring(1);
+			}
+		}
+		
 		try {
 			URL url = new URL(String.format(strUrl, prefs.CharacterBuilderVersion()));
 			Bitmap bitmap = null;

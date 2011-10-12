@@ -7,3 +7,4 @@ Manticore\ Test/lib/jdom-api/
 *.jpage
 R.java
 JullianServer/JullianServer/Cache/*
+JullianServer/TestResults/*

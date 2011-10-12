@@ -1,7 +1,10 @@
 package com.ncgeek.manticore.items;
 
-public class Gear extends EquippableItem {
+import java.io.Serializable;
+
+public class Gear extends EquippableItem implements Serializable {
 	
+	private static final long serialVersionUID = 1L;
 	private GearCategory _category;
 	private int _count;
 	

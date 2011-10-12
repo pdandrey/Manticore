@@ -28,7 +28,7 @@ public class GetUpdatesThread extends Thread {
 		run = true; 
 		lstParams = new ArrayList<NameValuePair>();
 		lstParams.add(new BasicNameValuePair("token", characterToken));
-		url = prefs.getJullianServer() + "GetEvents";
+		url = prefs.getJullianServerPartyUrl("GetEvents");
 		this.prefs = prefs;
 		this.handler = handler;
 	}

@@ -6,10 +6,10 @@
   android:layout_height="match_parent"
   android:background="@drawable/power_background">
     <FrameLayout android:id="@+id/powerview_frmHeader" android:background="#2f6e47" android:layout_alignParentLeft="true" android:layout_alignParentTop="true" android:layout_height="wrap_content" android:layout_width="fill_parent">
-    	<ImageView android:src="@drawable/power_header_atwill_flare" android:layout_gravity="right" android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+    	<ImageView android:id="@+id/powerview_ivHeader" android:src="@drawable/power_header_atwill_flare" android:layout_gravity="right" android:layout_width="wrap_content" android:layout_height="wrap_content"/>
     	<FrameLayout android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_gravity="center_vertical|right" android:paddingRight="35dp">
     		<ImageView android:src="@drawable/power_range" android:layout_width="fill_parent" android:layout_height="fill_parent"/>
-    		<TextView android:layout_width="fill_parent" android:layout_height="fill_parent" android:text="r" android:textSize="24sp" android:layout_gravity="center"/>
+    		<TextView android:id="@+id/powerview_tvRangeIcon" android:layout_width="fill_parent" android:layout_height="fill_parent" android:text="r" android:textSize="24sp" android:layout_gravity="center"/>
     	</FrameLayout>
     	<RelativeLayout android:layout_width="wrap_content" android:layout_height="fill_parent">
     		<TextView
@@ -80,13 +80,13 @@
     	android:layout_marginRight="10dp"
     	>
     	<TextView
-    		android:id="@+id/powerview_tvPowerUsage"
+    		android:id="@+id/powerview_tvActionType"
     		android:layout_width="wrap_content"
     		android:layout_height="wrap_content"
     		android:layout_weight="2"
     		android:textStyle="bold"
     		android:text="Standard action"
-    		
+    		android:textColor="@android:color/black"
     		/>
     	<TextView
     		android:id="@+id/powerview_tvRange"
@@ -95,6 +95,7 @@
     		android:layout_weight="2"
     		android:textStyle="bold"
     		android:text="Close burst 2"
+    		android:textColor="@android:color/black"
     		/>
    	</LinearLayout>
    	<TextView
@@ -107,6 +108,7 @@
    		android:textStyle="bold"
    		android:inputType="textMultiLine"
    		android:text="You and one ally in burst or two allies in burst"
+   		android:textColor="@android:color/black"
    		/>
    	<TextView
    		android:id="@+id/powerview_tvToHit"
@@ -117,6 +119,7 @@
    		android:layout_alignRight="@id/powerview_llActionRange"
    		android:textStyle="bold"
    		android:text="Intelligence vs. AC"
+   		android:textColor="@android:color/black"
    		/>
    	<ScrollView
    		android:id="@+id/powerview_scroll"
@@ -126,7 +129,19 @@
    		android:layout_above="@id/powerview_tvFlavor"
    		android:layout_alignParentLeft="true"
    		android:layout_alignParentRight="true"
-   		/>
+   		>
+		<!-- <TableLayout
+			android:id="@+id/powerview_tblSpecifics"
+			android:layout_height="fill_parent"
+			android:layout_width="fill_parent"
+			/>-->
+		<LinearLayout 
+			android:id="@+id/powerview_llSpecifics"
+			android:layout_height="fill_parent"
+			android:layout_width="fill_parent"
+			android:orientation="vertical"
+			/>
+   	</ScrollView>
    	<ImageView
    		android:id="@+id/powerview_imgWatermark"
    		android:layout_width="wrap_content"

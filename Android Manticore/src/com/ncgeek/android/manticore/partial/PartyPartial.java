@@ -6,8 +6,10 @@ import java.util.Observable;
 import java.util.Observer;
 
 import org.apache.http.NameValuePair;
+import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPut;
 import org.apache.http.message.BasicNameValuePair;
+import org.json.JSONObject;
 
 import com.ncgeek.android.manticore.ManticorePreferences;
 import com.ncgeek.android.manticore.ManticoreStatus;
@@ -141,6 +143,26 @@ public class PartyPartial extends Partial implements Observer {
 	}
 	
 	private void joinParty() {
+		/*
+		HttpGet get = ManticoreHttpClient.get(prefs.getJullianServerPartyUrl("Status"));
+		ManticoreHttpClient status = new ManticoreHttpClient("Android Manticore/PartyService");
+		status.equals(get);
+		try {
+			String statusResult = status.get().get(0).getResponse();
+			JSONObject json = new JSONObject(statusResult);
+			boolean live = json.getBoolean("Status");
+			String version = json.getString("Version");
+			if(!live) {
+				Toast.makeText(activity, "JullianServer returned a false status", Toast.LENGTH_LONG).show();
+				Logger.error(LOG_TAG, "JullianServer returned a false status.  Version: " + version);
+				return;
+			}
+		} catch(Exception ex) {
+			Toast.makeText(activity, String.format("Error while getting server status: %s", ex.getMessage()), Toast.LENGTH_LONG).show();
+			Logger.error(LOG_TAG, "Error while getting server status", ex);
+			return;
+		}
+		*/
 		PlayerCharacter pc = ManticoreStatus.getPC();
 		pc.getHP().addObserver(PartyPartial.this);
 		
@@ -159,7 +181,7 @@ public class PartyPartial extends Partial implements Observer {
 			params.add(new BasicNameValuePair("Portrait", String.format(portraitUrl, prefs.CharacterBuilderVersion())));
 		}
 		
-		HttpPut put = ManticoreHttpClient.put(prefs.getJullianServer() + "Join", params);
+		HttpPut put = ManticoreHttpClient.put(prefs.getJullianServerPartyUrl("Join"), params);
 		
 		final ManticoreHttpClient http = new ManticoreHttpClient("Android Manticore/PartyService");
 		http.execute(put);
@@ -239,7 +261,7 @@ public class PartyPartial extends Partial implements Observer {
 			params.add(new BasicNameValuePair("surges", hp.getRemainingSurges() + ""));
 			params.add(new BasicNameValuePair("deathSaves", hp.getDeathSaves() + ""));
 			
-			HttpPut put = ManticoreHttpClient.put(prefs.getJullianServer() + "Update", params);
+			HttpPut put = ManticoreHttpClient.put(prefs.getJullianServerPartyUrl("Update"), params);
 			final ManticoreHttpClient http = new ManticoreHttpClient("Android Manticore/PartyService");
 			http.execute(put);
 			

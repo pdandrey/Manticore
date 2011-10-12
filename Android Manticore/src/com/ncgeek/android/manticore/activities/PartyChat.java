@@ -157,7 +157,7 @@ public class PartyChat extends Activity implements Observer {
 		params.add(new BasicNameValuePair("to", to));
 		params.add(new BasicNameValuePair("message", message));
 		
-		HttpPut put = ManticoreHttpClient.put(prefs.getJullianServer() + "Message", params);
+		HttpPut put = ManticoreHttpClient.put(prefs.getJullianServerPartyUrl("Message"), params);
 		
 		final ManticoreHttpClient http = new ManticoreHttpClient("Android Manticore/PartyService");
 		http.execute(put);
@@ -170,7 +170,7 @@ public class PartyChat extends Activity implements Observer {
 		params.add(new BasicNameValuePair("token", ManticoreStatus.getParty().getToken()));
 		params.add(new BasicNameValuePair("message", message));
 		
-		HttpPut put = ManticoreHttpClient.put(prefs.getJullianServer() + "Chat", params);
+		HttpPut put = ManticoreHttpClient.put(prefs.getJullianServerPartyUrl("Chat"), params);
 		
 		final ManticoreHttpClient http = new ManticoreHttpClient("Android Manticore/PartyService");
 		http.execute(put);

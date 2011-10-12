@@ -3,13 +3,19 @@ package com.ncgeek.android.manticore.adapters;
 import java.util.List;
 
 import com.ncgeek.android.manticore.R;
+import com.ncgeek.android.manticore.activities.PowerViewer;
 import com.ncgeek.manticore.character.CharacterPower;
+import com.ncgeek.manticore.powers.Power;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.TextView;
 
-public class PowerListAdapter extends SectionedListAdapter<String, CharacterPower> {
+public class PowerListAdapter 
+	extends SectionedListAdapter<String, CharacterPower>
+	implements AdapterView.OnItemClickListener {
 
 	public PowerListAdapter(Context context) {
 		super(context, R.layout.power_headeritem, R.layout.power_listitem, String.class, CharacterPower.class);
@@ -69,13 +75,23 @@ public class PowerListAdapter extends SectionedListAdapter<String, CharacterPowe
 	}
 
 	@Override
-	protected ISectionedViewHolder createViewHolder(View view, boolean isHeader) {
+	protected ISectionedViewHolder createViewHolder(final View view, final boolean isHeader) {
 		ViewHolder vh = null;
 		if(isHeader) {
 			vh = ViewHolder.forHeader((TextView)view.findViewById(R.id.power_headeritem_tvHeader));
 		} else {
 			vh = ViewHolder.forItem((TextView)view.findViewById(R.id.power_listitem_tvName));
 		}
+		
 		return vh;
+	}
+
+	@Override
+	public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+		CharacterPower p = (CharacterPower)getItem(position);
+		Intent i = new Intent(view.getContext(), PowerViewer.class);
+		i.putExtra("Power", p);
+		i.putExtra("Power Index", position);
+		view.getContext().startActivity(i);
 	}
 }

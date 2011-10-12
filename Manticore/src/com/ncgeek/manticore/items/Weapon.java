@@ -1,13 +1,15 @@
 package com.ncgeek.manticore.items;
 
+import java.io.Serializable;
 import java.util.Collections;
 import java.util.EnumSet;
 import java.util.Set;
 
 import com.ncgeek.manticore.Dice;
 
-public class Weapon extends EquippableItem {
+public class Weapon extends EquippableItem implements Serializable {
 	
+	private static final long serialVersionUID = 1L;
 	private ItemSlots _additionalSlot; 
 	private Dice _dice;
 	private boolean _isTwoHanded;

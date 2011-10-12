@@ -68,7 +68,18 @@ public final class ManticorePreferences {
 	}
 	
 	public final String getJullianServer() {
-		return prefs.getString("JullianServer", "http://10.0.2.2/JullianServer/Party/");
+		String url = prefs.getString("JullianServer", "http://10.0.2.2/JullianServer/");
+		if(!url.endsWith("/")) {
+			url += "/";
+			Editor edit = prefs.edit();
+			edit.putString("JullianServer", url);
+			edit.commit();
+		}
+		return url;
+	}
+	
+	public final String getJullianServerPartyUrl(String action) {
+		return String.format("%sParty/%s", getJullianServer(), action);
 	}
 	
 	public final Map<String,?> getAll() {

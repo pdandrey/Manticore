@@ -8,9 +8,11 @@ import java.util.Observable;
 import java.util.Observer;
 
 import com.ncgeek.android.manticore.R;
+import com.ncgeek.android.manticore.activities.PowerViewer;
 import com.ncgeek.manticore.util.Logger;
 
 import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -29,10 +31,13 @@ public abstract class SectionedListAdapter<H,V> extends BaseAdapter {
 	private int headerLayoutID;
 	private int itemLayoutID;
 	
+	private Context context;
+	
 	public SectionedListAdapter(Context context, int headerLayout, int itemLayout, Class<? extends H> headerClass, Class<? extends V> valueClass) {
 		this(context, null, headerLayout, itemLayout, headerClass, valueClass);
 	}
 	public SectionedListAdapter(Context context, final Comparator<H> headerComparator, int headerLayout, int itemLayout, Class<? extends H> headerClass, Class<? extends V> valueClass) {
+		this.context = context;
 		lstSections = new ArrayList<SectionedListAdapter.ListSection<H,V>>();
 		inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 		size = 0;

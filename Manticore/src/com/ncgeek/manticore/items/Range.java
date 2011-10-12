@@ -1,7 +1,10 @@
 package com.ncgeek.manticore.items;
 
-public class Range {
+import java.io.Serializable;
+
+public class Range implements Serializable {
 	
+	private static final long serialVersionUID = 1L;
 	private byte _range1;
 	private byte _range2;
 	

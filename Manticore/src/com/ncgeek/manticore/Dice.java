@@ -1,13 +1,15 @@
 package com.ncgeek.manticore;
 
+import java.io.Serializable;
 import java.util.Random;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import com.ncgeek.manticore.util.Logger;
 
-public class Dice {
+public class Dice implements Serializable {
 	
+	private static final long serialVersionUID = 1L;
 	private static final String LOG_TAG = "Manticore.Dice";
 	private static Random _random = null;
 	

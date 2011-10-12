@@ -9,6 +9,7 @@ import org.apache.http.HttpHost;
 import org.apache.http.NameValuePair;
 import org.apache.http.client.HttpResponseException;
 import org.apache.http.client.entity.UrlEncodedFormEntity;
+import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpPut;
 import org.apache.http.client.methods.HttpUriRequest;
@@ -102,5 +103,9 @@ public class ManticoreHttpClient extends AsyncTask<HttpUriRequest, Void, List<Ma
 			}
 		}
 		return put;
+	}
+	
+	public static HttpGet get(String dest) {
+		return new HttpGet(dest);
 	}
 }

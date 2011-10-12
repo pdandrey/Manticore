@@ -121,6 +121,16 @@
 				<category android:name="android.intent.category.DEFAULT" />
 			</intent-filter>
 		</activity>
+		<activity 
+			android:name="com.ncgeek.android.manticore.activities.PowerViewer"
+			android:label="Manticore Power Viewer" 
+			android:theme="@android:style/Theme.Light.NoTitleBar"
+			>
+			<intent-filter>
+				<action android:name="android.intent.action.VIEW" />
+				<category android:name="android.intent.category.DEFAULT" />
+			</intent-filter>
+		</activity>
 	</application>
 	<uses-sdk 
 		android:minSdkVersion="7" 

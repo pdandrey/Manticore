@@ -16,6 +16,6 @@
     <PreferenceCategory android:title="Misc" android:key="Misc">
         <EditTextPreference android:defaultValue="223.241754" android:key="CharBuilderVersion" android:title="Char Builder Version"></EditTextPreference>
         <EditTextPreference android:defaultValue="30" android:title="Party Poll Interval" android:dialogTitle="Party Poll Interval" android:summary="The time in seconds to poll the Jullian Server for party updates." android:dialogMessage="Time (in seconds) to poll for new events." android:key="PartyPollInterval"></EditTextPreference>
-        <EditTextPreference android:key="JullianServer" android:title="Jullian Server URL" android:defaultValue="http://10.0.2.2/JullianServer/Party/"></EditTextPreference>
+        <EditTextPreference android:key="JullianServer" android:title="Jullian Server URL" android:defaultValue="http://10.0.2.2/JullianServer/"></EditTextPreference>
     </PreferenceCategory>
 </PreferenceScreen>

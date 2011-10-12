@@ -9,19 +9,12 @@ import com.ncgeek.manticore.character.PlayerCharacter;
 import com.ncgeek.manticore.items.EquippableItem;
 import com.ncgeek.manticore.items.Item;
 import com.ncgeek.manticore.powers.Power;
-import com.ncgeek.manticore.powers.PowerActions;
-import com.ncgeek.manticore.powers.PowerKeywords;
-import com.ncgeek.manticore.powers.PowerSpecific;
-import com.ncgeek.manticore.powers.PowerSpecificAttribute;
-import com.ncgeek.manticore.powers.PowerTypes;
-import com.ncgeek.manticore.powers.PowerUsages;
 import com.ncgeek.manticore.util.Logger;
 
 public class PowerHandler implements IElementHandler {
 
 	private final String LOG_TAG = "Power Handler";
 	
-	private enum Specifics { Flavor, PowerUsage, Display, ActionType, PowerType, Level }
 	private enum WeaponElements { AttackBonus, Damage, AttackStat, Defense, HitComponents, DamageComponents }
 	
 	private static final IElementHandler instance = new PowerHandler();
@@ -30,14 +23,14 @@ public class PowerHandler implements IElementHandler {
 	private Power power;
 	private CharacterPower cPower;
 	private PowerWeapon weapon;
-	private PowerSpecific specific;
 	private String attributeName;
-	private Specifics spec; 
+	private boolean isSpecific;
 	
 	private PowerHandler() {
 		weapon = null;
 		power = null;
 		cPower = null;
+		isSpecific = false;
 	}
 	
 	@Override
@@ -69,16 +62,7 @@ public class PowerHandler implements IElementHandler {
 		if(name.trim().startsWith("_"))
 			return;
 		
-		name = name.replace('\t', ' ');
-		if(!name.startsWith(" ")) {
-			try {
-				spec = Specifics.valueOf(name.replace(" ", ""));
-				specific = new PowerSpecific();
-				power.add(specific);
-			} catch(IllegalArgumentException iaex) {
-				spec = null;
-			}
-		}
+		isSpecific = true;
 		
 		attributeName = name.trim();
 	}
@@ -97,45 +81,9 @@ public class PowerHandler implements IElementHandler {
 			body = "";
 		body = body.trim();
 		
-		if(spec != null) {
-			Logger.verbose(LOG_TAG, String.format("Parsing specific %s, value=%s", spec, body));
-			switch(spec) {
-				case ActionType:
-					power.setAction(PowerActions.forName(body.trim()));
-					break;
-					
-				case Display:
-					power.setDisplay(body);
-					break;
-					
-				case Flavor:
-					power.setFlavor(body);
-					break;
-					
-				case Level:
-					try {
-						power.setLevel(Integer.parseInt(body));
-					} catch(NumberFormatException nfex) {
-						Logger.info(LOG_TAG, String.format("No level for power %s", power.getName()));
-					}
-					break;
-					
-				case PowerType:
-					power.setType(PowerTypes.forName(body));
-					break;
-					
-				case PowerUsage:
-					power.setUsage(PowerUsages.forName(body));
-					break;	
-			}
-			spec = null;
-		} else if(attributeName != null) {
-			if(attributeName.equals("Keywords")) {
-				parseKeywords(body);
-			} else {
-				specific.add(new PowerSpecificAttribute(attributeName, body));
-			}
-			attributeName = null;
+		if(isSpecific) {
+			isSpecific = false;
+			power.addSpecific(attributeName, body);
 		} else if(weapon != null) {
 			parseWeapon(name, body, pc);
 		}
@@ -182,24 +130,6 @@ public class PowerHandler implements IElementHandler {
 							weapon.addHitComponent(line.trim());
 					}
 					break;
-			}
-		}
-	}
-
-	private void parseKeywords(String keywords) {
-		String [] parts = keywords.split(";");
-		for(String p : parts) {
-			String [] keys = p.split(",| or ");
-			boolean isAlt = p.contains(" or ");
-			for(String k : keys) {
-				k = k.trim();
-				if(k.length() > 0) {
-					PowerKeywords keyword = PowerKeywords.forName(k.trim());
-					if(keyword == null) {
-						throw new IllegalArgumentException(String.format("Cannot find keyword %s. (%s)", k, keywords));
-					} 
-					specific.add(keyword, isAlt);
-				}
 			}
 		}
 	}

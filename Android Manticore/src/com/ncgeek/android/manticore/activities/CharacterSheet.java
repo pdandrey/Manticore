@@ -171,6 +171,8 @@ public class CharacterSheet extends Activity {
         addPartial(new ListPartial(this, adpEquipment = new ItemListAdapter(this, false)), R.id.mainmenu_mnuEquipment);
         addPartial(new ListPartial(this, adpPowerListAdapter = new PowerListAdapter(this)), R.id.mainmenu_mnuPowers);
         addPartial(new PartyPartial(this), R.id.mainmenu_mnuParty);
+        
+        
 	 }
 	
 	private void addPartial(Partial partial, int menuID) {
