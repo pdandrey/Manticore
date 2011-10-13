@@ -72,7 +72,7 @@ public class ManticoreHttpClient extends AsyncTask<HttpUriRequest, Void, List<Ma
 			// Bad status code
 			statusCode = httpEx.getStatusCode();
 			ret = httpEx.getLocalizedMessage();
-			Logger.warn(LOG_TAG, "Error making request", httpEx);
+			Logger.warn(LOG_TAG, String.format("Error executing %s %s", request.getMethod(), request.getURI().toString()), httpEx);
 		} catch (IOException ioEx) {
 			Logger.error(LOG_TAG, "Error loading page " + request.getURI().toString(), ioEx);
 			return null;

@@ -57,13 +57,15 @@ public final class ManticorePreferences {
 	
 	public final int getPartyPollInterval() {
 		try {
-			return prefs.getInt("PartyPollInterval", 30);
+			return Integer.parseInt(prefs.getString("PartyPollInterval", "30"));
 		} catch(ClassCastException ccex) {
-			int val = Integer.parseInt(prefs.getString("PartyPollInterval", "30"));
+			int val = prefs.getInt("PartyPollInterval", 30);
 			Editor edit = prefs.edit();
-			edit.putInt("PartyPollInterval", val);
+			edit.putString("PartyPollInterval", val + "");
 			edit.commit();
 			return val;
+		} catch(NumberFormatException nfex) {
+			return 30;
 		}
 	}
 	
