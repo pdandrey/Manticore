@@ -9,3 +9,4 @@ R.java
 JullianServer/JullianServer/Cache/*
 JullianServer/TestResults/*
 obj/
+*.suo
