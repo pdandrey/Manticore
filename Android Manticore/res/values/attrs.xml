@@ -11,6 +11,7 @@
         <attr name="status" format="string"/>
         <attr name="textSize" />
         <attr name="barHeight" format="dimension"/>
+        <attr name="fontAsset" format="string"/>
     </declare-styleable>
 	<declare-styleable name="VerticalLabelView">
         <attr name="text" format="string" />

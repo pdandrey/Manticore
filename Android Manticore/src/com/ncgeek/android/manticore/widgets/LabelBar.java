@@ -5,38 +5,34 @@ import java.util.Collections;
 import java.util.List;
 
 import com.ncgeek.android.manticore.R;
-import com.ncgeek.android.manticore.widgets.GalleryMenu.SavedState;
-import com.ncgeek.manticore.util.Logger;
 
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Rect;
 import android.graphics.Typeface;
 import android.graphics.drawable.Drawable;
-import android.os.Parcel;
-import android.os.Parcelable;
+import android.text.Spannable;
+import android.text.SpannableStringBuilder;
+import android.text.style.ForegroundColorSpan;
 import android.util.AttributeSet;
-import android.util.DisplayMetrics;
-import android.util.TypedValue;
-import android.view.ViewGroup;
-import android.view.WindowManager;
-import android.view.View.BaseSavedState;
-import android.widget.LinearLayout;
+import android.util.Log;
+import android.view.LayoutInflater;
 import android.widget.ProgressBar;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-public class LabelBar extends LinearLayout {
+public class LabelBar extends RelativeLayout {
 
+	private static final String LOG_TAG = "LabelBar";
 	private int max;
 	private int temp;
 	private int current;
+	private String status;
+	private String separator;
+	private Integer statusColor;
 	
 	private TextView txtLabel;
-	private TextView txtCurrent;
-	private TextView txtTemp;
-	private TextView txtMax;
-	private TextView txtSeparator;
-	private TextView txtStatus;
+	private TextView txtValue;
 	private ProgressBar bar;
 	
 	private List<BarChange> lstChanges;
@@ -53,83 +49,58 @@ public class LabelBar extends LinearLayout {
 	
 	
 	private void init(Context context, AttributeSet attrs) {
+		LayoutInflater inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		inflater.inflate(R.layout.labelbar, this);
 		
 		lstChanges = new ArrayList<BarChange>();
 		
-		txtLabel = new TextView(context, attrs);
-		txtCurrent = new TextView(context, attrs);
-		txtTemp = new TextView(context, attrs);
-		txtMax = new TextView(context, attrs);
-		txtSeparator = new TextView(context, attrs);
-		txtStatus = new TextView(context, attrs);
-		bar = new ProgressBar(context, attrs, android.R.attr.progressBarStyleHorizontal);
+		txtLabel = (TextView)findViewById(R.id.labelbar_tvLabel);
+		txtValue = (TextView)findViewById(R.id.labelbar_tvValue);
+		bar = (ProgressBar)findViewById(R.id.labelbar_bar);
 		
 		TypedArray styles = context.obtainStyledAttributes(attrs, R.styleable.LabelBar);
 		
-		Typeface font = Typeface.createFromAsset(context.getAssets(), "centaur.ttf");
-		txtLabel.setTypeface(font, Typeface.BOLD);
-		txtCurrent.setTypeface(font, Typeface.BOLD);
-		txtTemp.setTypeface(font, Typeface.BOLD);
-		txtMax.setTypeface(font, Typeface.BOLD);
-		txtSeparator.setTypeface(font, Typeface.BOLD);
-		txtStatus.setTypeface(font, Typeface.BOLD);
+		if(styles.hasValue(R.styleable.LabelBar_fontAsset)) {
+			String fontName = styles.getString(R.styleable.LabelBar_fontAsset);
+			Log.d(LOG_TAG, String.format("Using font from asset %s", fontName));
+			Typeface font = Typeface.createFromAsset(context.getAssets(), fontName);
+			txtLabel.setTypeface(font, Typeface.BOLD);
+			txtValue.setTypeface(font, Typeface.BOLD);
+		}
 		
-		float size = styles.getDimension(R.styleable.LabelBar_textSize, 0);
-		Logger.verbose("LabelBar", "Using text size " + size);
-		if(size > 0) {
+		if(styles.hasValue(R.styleable.LabelBar_textSize)) {
+			float size = styles.getDimension(R.styleable.LabelBar_textSize, 0);
+			Log.d(LOG_TAG, String.format("Using text size %f", size));
 			txtLabel.setTextSize(size);
-			txtCurrent.setTextSize(size);
-			txtTemp.setTextSize(size);
-			txtMax.setTextSize(size);
-			txtSeparator.setTextSize(size);
-			txtStatus.setTextSize(size);
-		} else {
-			txtLabel.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18);
-			txtCurrent.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18);
-			txtTemp.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18);
-			txtMax.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18);
-			txtSeparator.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18);
-			txtStatus.setTextSize(TypedValue.COMPLEX_UNIT_SP, 18);
+			txtValue.setTextSize(size);
 		}
-		bar.setIndeterminate(false);
 		
-		int height = styles.getDimensionPixelSize(R.styleable.LabelBar_barHeight, 0);
-		
-		if(height == 0) {
-			height = 15;
-			if(!this.isInEditMode()) {
-				DisplayMetrics metrics = new DisplayMetrics();
-				WindowManager mgr = ((WindowManager)context.getSystemService(Context.WINDOW_SERVICE));
-				mgr.getDefaultDisplay().getMetrics(metrics);
-				height = 15 * (metrics.densityDpi / 160);
-			}
+		if(styles.hasValue(R.styleable.LabelBar_barHeight)) {
+			int height = styles.getDimensionPixelSize(R.styleable.LabelBar_barHeight, 0);
+			Log.d(LOG_TAG, String.format("Using bar height %d", height));
+			bar.setLayoutParams(new RelativeLayout.LayoutParams(LayoutParams.FILL_PARENT, height));
 		}
-		bar.setLayoutParams(new ViewGroup.LayoutParams(LayoutParams.FILL_PARENT, height));
-		
-		super.setOrientation(LinearLayout.VERTICAL);
-		LinearLayout llText = new LinearLayout(context);
-		llText.setOrientation(LinearLayout.HORIZONTAL);
-		llText.addView(txtLabel);
-		llText.addView(txtCurrent);
-		llText.addView(txtTemp);
-		llText.addView(txtSeparator);
-		llText.addView(txtMax);
-		llText.addView(txtStatus);
-		addView(llText);
-		addView(bar);
 		
 		if(styles.hasValue(R.styleable.LabelBar_barDrawable)) {
 			int barStyle = styles.getResourceId(R.styleable.LabelBar_barDrawable, -1);
+			Log.d(LOG_TAG, "Using barstyle from xml");
 			Drawable draw = context.getResources().getDrawable(barStyle);
 			setBarDrawable(draw);
 		}
 		
 		setLabel(styles.getString(R.styleable.LabelBar_label));
-		setMax(styles.getInt(R.styleable.LabelBar_max, 100));
-		setCurrent(styles.getInt(R.styleable.LabelBar_current, 50));
-		setTemporary(styles.getInt(R.styleable.LabelBar_temporary, 0));
-		setSeparator(styles.getString(R.styleable.LabelBar_separator));
-		setStatus(styles.getString(R.styleable.LabelBar_status));
+		max = styles.getInt(R.styleable.LabelBar_max, 100);
+		current = styles.getInt(R.styleable.LabelBar_current, 50);
+		temp = styles.getInt(R.styleable.LabelBar_temporary, 0);
+		separator = styles.getString(R.styleable.LabelBar_separator);
+		if(separator == null)
+			separator = "/";
+		status = styles.getString(R.styleable.LabelBar_status);
+		
+		setMax(max);
+		setCurrent(current);
+		
+		updateValue();
 	}
 	
 	public void addChange(int percentage, Drawable drawable) {
@@ -160,11 +131,12 @@ public class LabelBar extends LinearLayout {
 	}
 	
 	public void setStatus(String status) {
-		txtStatus.setText(status);
+		this.status = status;
+		updateValue();
 	}
 	
 	public String getStatus() {
-		return txtStatus.getText().toString();
+		return status;
 	}
 	
 	public void setLabel(String label) {
@@ -179,38 +151,65 @@ public class LabelBar extends LinearLayout {
 	public void setSeparator(String separator) {
 		if(separator == null)
 			separator = "/";
-		txtSeparator.setText(separator);
+		this.separator = separator;
+		updateValue();
 	}
 	
-	public String getSeparator() { return txtSeparator.getText().toString(); }
+	public String getSeparator() { return separator; }
 
 	public void setMax(int max) { 
 		this.max = max;
 		this.current = Math.min(max, current);
 		calculateChange();
 		
-		txtMax.setText(max + "");
+		updateValue();
 		bar.setMax(max);
 	}
 	public int getMax() { return max; }
 	
 	public void setTemporary(int temp) { 
 		this.temp = temp; 
-		if(temp < 0) {
-			txtTemp.setText(temp + "");
-		} else if(temp == 0) {
-			txtTemp.setText("");
+		if(temp > 0) {
+			bar.setSecondaryProgress(current + temp);
 		} else {
-			txtTemp.setText("+" + temp);
+			bar.setSecondaryProgress(current);
 		}
+		updateValue();
 	}
 	public int getTemporary() { return temp; }
 	
 	public void setCurrent(int current) { 
 		this.current = current;
 		calculateChange();
-		txtCurrent.setText(current + "");
+		updateValue();
 		bar.setProgress(current);
+		if(temp > 0) {
+			bar.setSecondaryProgress(current + temp);
+		} else {
+			bar.setSecondaryProgress(current);
+		}
+	}
+	
+	private void updateValue() {
+		SpannableStringBuilder buf = new SpannableStringBuilder();
+		buf.append(Integer.toString(current));
+		if(temp > 0) {
+			buf.append("+");
+			buf.append(Integer.toString(temp));
+		}
+		buf.append(separator);
+		buf.append(Integer.toString(max));
+		
+		if(status != null) {
+			buf.append("  ");
+			int index = buf.length();
+			buf.append(status);
+			if(statusColor != null) {
+				buf.setSpan(new ForegroundColorSpan(statusColor), index, buf.length(), Spannable.SPAN_INCLUSIVE_INCLUSIVE);
+			}
+		}
+		
+		txtValue.setText(buf);
 	}
 	
 	public int getCurrent() { return current; }
@@ -248,7 +247,9 @@ public class LabelBar extends LinearLayout {
 		}
 		setStatus(bc.getStatus());
 		if(bc.getStatusColor() != null)
-			txtStatus.setTextColor(bc.getStatusColor());
+			statusColor = bc.getStatusColor();
+		else
+			statusColor = null;
 	}
 	
 	private static class BarChange implements Comparable<BarChange> {
@@ -278,62 +279,5 @@ public class LabelBar extends LinearLayout {
 			return atPercentage - other;
 		}
 	}
-	
-	@Override
-	  public Parcelable onSaveInstanceState() {
-	    //begin boilerplate code that allows parent classes to save state
-	    Parcelable superState = super.onSaveInstanceState();
 
-	    SavedState ss = new SavedState(superState);
-	    //end
-
-	    return ss;
-	  }
-
-	  @Override
-	  public void onRestoreInstanceState(Parcelable state) {
-	    //begin boilerplate code so parent classes can restore state
-		  
-		  if(state.getClass().getName().contains("ProgressBar")) {
-			  bar.onRestoreInstanceState(state);
-			  super.onRestoreInstanceState(state);
-			  return;
-		  } 
-		  
-		  if(!(state instanceof SavedState)) {
-		      super.onRestoreInstanceState(state);
-		      return;
-		    }
-
-	    SavedState ss = (SavedState)state;
-	    super.onRestoreInstanceState(ss.getSuperState());
-	    //end
-	  }
-
-	  static class SavedState extends BaseSavedState {
-	   
-	    SavedState(Parcelable superState) {
-	      super(superState);
-	    }
-
-	    private SavedState(Parcel in) {
-	      super(in);
-	      //this.stateToSave = in.readInt();
-	    }
-
-	    @Override
-	    public void writeToParcel(Parcel out, int flags) {
-	      super.writeToParcel(out, flags);
-	      //out.writeInt(this.stateToSave);
-	    }
-
-		public static final Parcelable.Creator<SavedState> CREATOR = new Parcelable.Creator<SavedState>() {
-	          public SavedState createFromParcel(Parcel in) {
-	            return new SavedState(in);
-	          }
-	          public SavedState[] newArray(int size) {
-	            return new SavedState[size];
-	          }
-	    };
-	  }
 }
