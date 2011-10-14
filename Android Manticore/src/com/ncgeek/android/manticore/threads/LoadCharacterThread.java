@@ -4,6 +4,7 @@ import java.io.File;
 import java.util.Observable;
 import java.util.Observer;
 
+import com.ncgeek.android.manticore.ManticoreCharacter;
 import com.ncgeek.android.manticore.MessageTypes;
 import com.ncgeek.android.manticore.util.ThreadState;
 import com.ncgeek.manticore.ICompendiumRepository;
@@ -38,20 +39,20 @@ public class LoadCharacterThread extends Thread implements Observer {
 	private Handler handler;
 	private File file;
 	private ThreadState state;
-	private PlayerCharacter pc;
-	private CharacterParser parser;
+	private ManticoreCharacter pc;
+	private CharacterParser<ManticoreCharacter> parser;
 	
 	private LoadCharacterThread(File file, Handler handler) {
 		this.file = file;
 		this.handler = handler;
 		state = ThreadState.Initial;
-		this.parser = new CharacterParser();
+		this.parser = new CharacterParser<ManticoreCharacter>();
 		parser.addObserver(this);
 	}
 	
-	public void setRepository(ICompendiumRepository repos) {
-		parser.setRepository(repos);
-	}
+//	public void setRepository(ICompendiumRepository repos) {
+//		parser.setRepository(repos);
+//	}
 	
 	public void run() {
 		state = ThreadState.Active;
@@ -60,7 +61,8 @@ public class LoadCharacterThread extends Thread implements Observer {
 		
 		long start = System.currentTimeMillis();
 		try {
-			pc = parser.parse(file);
+			pc = new ManticoreCharacter();
+			parser.parse(file, pc);
 			Message msg = handler.obtainMessage(MessageTypes.MESSAGE_FINISHED, pc);
 			handler.sendMessage(msg);
 		} catch(Exception ex) {

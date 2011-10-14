@@ -216,7 +216,7 @@ public class CharacterSheet extends Activity {
 	    ManticoreStatus.setPCFile(f);
 	    
 	    thdLoad = LoadCharacterThread.getThread(f, dialogHandler);
-	    thdLoad.setRepository(new DatabaseRepository(this));
+//	    thdLoad.setRepository(new DatabaseRepository(this));
 	    
 	    if(!thdLoad.hasStarted()) {
 	    	showDialog(DIALOG_LOADING);
@@ -449,7 +449,7 @@ public class CharacterSheet extends Activity {
 	private void update() {
 		if(_pc == null)
 			return;
-		
+		/*
 		if(_pc.getPortrait() != null) {
 			Bitmap bitmap = (Bitmap)_pc.getPortraitBitmap();
 			
@@ -464,7 +464,7 @@ public class CharacterSheet extends Activity {
 						
 			//((GalleryMenu)findViewById(R.id.mainmenu)).setMenuItemIcon(0, new BitmapDrawable(bitmap));
 		}
-		
+		*/
 		TextView txtName = (TextView)findViewById(R.id.charactersheet_txtName);
 		txtName.setText(_pc.getName());
 		

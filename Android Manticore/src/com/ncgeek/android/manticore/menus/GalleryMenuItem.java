@@ -6,6 +6,7 @@ import android.graphics.drawable.Drawable;
 import android.view.MenuItem;
 import android.view.SubMenu;
 import android.view.ContextMenu.ContextMenuInfo;
+import android.view.View;
 
 public class GalleryMenuItem implements MenuItem {
 
@@ -209,5 +210,29 @@ public class GalleryMenuItem implements MenuItem {
 	public MenuItem setItemId(int id) {
 		itemID = id;
 		return this;
+	}
+
+	@Override
+	public View getActionView() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public MenuItem setActionView(View view) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public MenuItem setActionView(int resId) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void setShowAsAction(int actionEnum) {
+		// TODO Auto-generated method stub
+		
 	}
 }

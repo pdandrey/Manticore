@@ -90,7 +90,7 @@ public class PartyPartial extends Partial implements Observer {
 			switch(msg.what) {
 				case JOIN_PARTY:
 					Toast.makeText(activity, "Party joined", Toast.LENGTH_SHORT).show();
-					Party party = new Party((String)msg.obj, ManticoreStatus.getPC().getPortraitBitmap());
+					Party party = new Party((String)msg.obj, null);//ManticoreStatus.getPC().getPortraitBitmap());
 					ManticoreStatus.setParty(party);
 					
 					for(PartyMember pm : party.getMembers()) {
@@ -175,7 +175,7 @@ public class PartyPartial extends Partial implements Observer {
 		params.add(new BasicNameValuePair("CurrentSurges", hp.getRemainingSurges() + ""));
 		params.add(new BasicNameValuePair("DeathSaves", hp.getDeathSaves() + ""));
 		
-		String portraitUrl = pc.getPortrait();
+		String portraitUrl = null;//pc.getPortrait();
 		
 		if(portraitUrl != null) {
 			params.add(new BasicNameValuePair("Portrait", String.format(portraitUrl, prefs.CharacterBuilderVersion())));

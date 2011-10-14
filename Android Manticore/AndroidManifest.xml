@@ -2,8 +2,8 @@
 <manifest 
 	xmlns:android="http://schemas.android.com/apk/res/android"
 	package="com.ncgeek.android.manticore" 
-	android:versionCode="1"
-	android:versionName="1.0" 
+	android:versionCode="2"
+	android:versionName="0.7" 
 	android:installLocation="preferExternal"
 	>
 	<supports-screens 
@@ -51,10 +51,7 @@
 			android:theme="@android:style/Theme.Light.NoTitleBar"
 			android:screenOrientation="portrait"
 			>
-			<intent-filter>
-				<action android:name="android.intent.action.MAIN" />
-				<category android:name="android.intent.category.LAUNCHER" />
-			</intent-filter>
+			
 		</activity>
 		<activity 
 			android:name="com.ncgeek.android.manticore.activities.DetailsView"
@@ -131,10 +128,24 @@
 				<category android:name="android.intent.category.DEFAULT" />
 			</intent-filter>
 		</activity>
+		<activity 
+			android:name="com.ncgeek.android.manticore.activities.Manticore"
+			android:label="Manticore" 
+			android:theme="@android:style/Theme.Light.NoTitleBar"
+			>
+			<intent-filter>
+				<action android:name="android.intent.action.VIEW" />
+				<category android:name="android.intent.category.DEFAULT" />
+			</intent-filter>
+			<intent-filter>
+				<action android:name="android.intent.action.MAIN" />
+				<category android:name="android.intent.category.LAUNCHER" />
+			</intent-filter>
+		</activity>
 	</application>
 	<uses-sdk 
 		android:minSdkVersion="7" 
-		android:targetSdkVersion="8" 
+		android:targetSdkVersion="13" 
 		/>
 	<uses-permission android:name="android.permission.INTERNET" />
 	<uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />

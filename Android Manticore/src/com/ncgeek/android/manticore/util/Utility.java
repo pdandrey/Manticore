@@ -194,7 +194,7 @@ public final class Utility {
 			String cachePortraitFilename = null;
 			File cacheDir = null; 
 			
-			if(prefs.cacheImages() && Utility.isExternalAvailable()) {
+			if(/*prefs.cacheImages() &&*/ Utility.isExternalAvailable()) {
 				cacheDir = new File(ManticoreStatus.getExternalStorageDirectory(), "cache/portraits/");
 				if(!cacheDir.exists() && !cacheDir.mkdirs()) {
 					Logger.error(LOG_TAG, "Failed to create portrait cache directory");
@@ -202,6 +202,7 @@ public final class Utility {
 					Pattern regexFilename = Pattern.compile("\\d+\\.png$");
 					Matcher m = regexFilename.matcher(strUrl);
 					if(m.find()) {
+						Log.v(LOG_TAG, "Looing for cached " + m.group());
 						File portrait = new File(cacheDir, m.group());
 						Log.v(LOG_TAG, "Found " + portrait.getName());
 						if(portrait.exists()) {
@@ -209,7 +210,7 @@ public final class Utility {
 						} else {
 							cachePortraitFilename = portrait.toString();
 						}
-					}
+					} else { Log.v(LOG_TAG, "Regex failed"); }
 				}
 			}
 			
@@ -225,7 +226,7 @@ public final class Utility {
 			}
 			return bitmap;
 		} catch(Exception ex) {
-			Logger.error(LOG_TAG, "Error loading portrait", ex);
+			Log.e(LOG_TAG, "Error loading portrait", ex);
 		}
 		return null;
 	}

@@ -43,10 +43,10 @@ public class CharacterStatusFragment extends Fragment implements Observer {
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		//return super.onCreateView(inflater, container, savedInstanceState);
-		_view = inflater.inflate(R.layout.character_status, null);
+		_view = inflater.inflate(R.layout.character_status, container, false);
 		
-		_barHP = (LabelBar)_view.findViewById(R.id.charactersheet_hpbar);
-		_barSurge = (LabelBar)_view.findViewById(R.id.charactersheet_surgebar);
+		_barHP = (LabelBar)_view.findViewById(R.id.characterstatus_hpbar);
+		_barSurge = (LabelBar)_view.findViewById(R.id.characterstatus_surgebar);
 		
 		_barHP.addChange(50, "Bloodied", Color.RED, getResources().getDrawable(R.drawable.hp_bar_bloodied));
 		

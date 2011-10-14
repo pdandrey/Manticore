@@ -57,9 +57,9 @@ public class GalleryMenuAdapter extends BaseAdapter {
     		holder = (ViewHolder)convertView.getTag();
     	}
     	
-    	if(item.getItemId() == R.id.mainmenu_mnuCharacter && ManticoreStatus.getPC() != null) {
-    		item.setIcon(new BitmapDrawable((Bitmap)ManticoreStatus.getPC().getPortraitBitmap()));
-    	}
+//    	if(item.getItemId() == R.id.mainmenu_mnuCharacter && ManticoreStatus.getPC() != null) {
+//    		item.setIcon(new BitmapDrawable((Bitmap)ManticoreStatus.getPC().getPortraitBitmap()));
+//    	}
     	
     	holder.txtText.setText(item.getTitle());
     	holder.ivIcon.setImageDrawable(item.getIcon());
