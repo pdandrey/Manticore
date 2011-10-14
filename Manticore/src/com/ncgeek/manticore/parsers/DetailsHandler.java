@@ -87,7 +87,7 @@ public class DetailsHandler implements IElementHandler {
 				break;
 				
 			case Portrait:
-				pc.setPortrait(body);
+				//pc.setPortrait(body);
 				break;
 				
 			case Experience:

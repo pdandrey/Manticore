@@ -1,16 +1,20 @@
 package com.ncgeek.manticore.parsers;
 
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.Stack;
 
 import org.xml.sax.Attributes;
 import org.xml.sax.SAXException;
 import org.xml.sax.helpers.DefaultHandler;
 
-import com.ncgeek.manticore.ICompendiumRepository;
 import com.ncgeek.manticore.character.PlayerCharacter;
+import com.ncgeek.manticore.util.Logger;
 
 class CharacterHandler extends DefaultHandler {
 
+	private static final String LOG_TAG = "CharacterHandler";
+	
 	private enum Section { 
 		Misc("textstring", TextStringHandler.getInstance(), null),
 		Powers("PowerStats", PowerHandler.getInstance(), Misc),
@@ -32,7 +36,7 @@ class CharacterHandler extends DefaultHandler {
 		public IElementHandler getHandler() { return handler; }
 	}
 	
-	private final CharacterParser parser;
+	private final CharacterParser<? extends PlayerCharacter> parser;
 	private PlayerCharacter pc;
 	
 	private Section currentSection;
@@ -40,10 +44,10 @@ class CharacterHandler extends DefaultHandler {
 	private IElementHandler sectionHandler;
 	private Stack<StringBuilder> textQueue;
 	
-	public CharacterHandler(CharacterParser parser, ICompendiumRepository repos) {
+	public CharacterHandler(CharacterParser<? extends PlayerCharacter> parser, PlayerCharacter pc) {
 		this.parser = parser;
-		((LootHandler)Section.Loot.getHandler()).setRepository(repos);
 		textQueue = new Stack<StringBuilder>();
+		this.pc = pc;
 	}
 	
 	public PlayerCharacter getPlayerCharacter() { return pc; }
@@ -51,7 +55,6 @@ class CharacterHandler extends DefaultHandler {
 	@Override
 	public void startDocument() throws SAXException {
 		super.startDocument();
-		pc = new PlayerCharacter();
 		currentSection = null;
 		nextSection = Section.Details;
 	}
@@ -106,7 +109,11 @@ class CharacterHandler extends DefaultHandler {
 		
 		TextStringHandler misc = (TextStringHandler)Section.Misc.getHandler();
 		if(misc.getPortraitID() != null) {
-			pc.setPortrait(String.format("http://media.wizards.com/downloads/dnd/CharacterBuilder/Client/%s/CDNContent/Portraits/%d.png", "%s", misc.getPortraitID()));
+			try {
+				pc.setPortraitUri(new URI(String.format("http://media.wizards.com/downloads/dnd/CharacterBuilder/Client/%s/CDNContent/Portraits/%d.png", "version", misc.getPortraitID())));
+			} catch (URISyntaxException ex) {
+				Logger.error(LOG_TAG, "Could not create URI", ex);
+			}
 		}
 		
 		parser.finished(pc);

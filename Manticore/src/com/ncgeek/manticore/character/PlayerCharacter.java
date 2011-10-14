@@ -1,6 +1,7 @@
 package com.ncgeek.manticore.character;
 
 import java.io.Serializable;
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -17,7 +18,7 @@ import com.ncgeek.manticore.rules.Specific;
 
 public class PlayerCharacter extends Observable implements Serializable, IRest {
 	
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 2L;
 	private String _id;
 	private String _race;
 	private String _heroicClass;
@@ -32,7 +33,7 @@ public class PlayerCharacter extends Observable implements Serializable, IRest {
 	private Alignment _alignment;
 	private int _age;
 	private String _company;
-	private String _portrait;
+	private URI _portraitUri;
 	private int _exp;
 	private Wallet _carried;
 	private Wallet _stored;
@@ -53,8 +54,6 @@ public class PlayerCharacter extends Observable implements Serializable, IRest {
 	
 	private int _actionPoints;
 	
-	private Object _portraitBitmap;
-	
 	public PlayerCharacter(Wallet moneyCarried, Wallet moneyStored, List<Rule> rules, List<CharacterPower> powers, List<Feat> feats, List<Ritual> rituals, StatBlock stats, EquipmentManager equipment, HitPoints hp) {
 		_name = null;
 		_level = 1;
@@ -65,7 +64,7 @@ public class PlayerCharacter extends Observable implements Serializable, IRest {
 		_alignment = Alignment.Unaligned;
 		_age = 0;
 		_company = null;
-		_portrait = null;
+		_portraitUri = null;
 		_exp = 0;
 		_carried = moneyCarried;
 		_stored = moneyStored;
@@ -85,8 +84,6 @@ public class PlayerCharacter extends Observable implements Serializable, IRest {
 		
 		_equipment.addObserver(_stats);
 		//this.addObserver(_stats);
-		
-		_portraitBitmap = null;
 	}
 	
 	public PlayerCharacter() {
@@ -148,11 +145,8 @@ public class PlayerCharacter extends Observable implements Serializable, IRest {
 	public String getCompany() { return _company; }
 	public void setCompany(String company) { _company = company; }
 	
-	public String getPortrait() { return _portrait; }
-	public void setPortrait(String portrait) { _portrait = portrait; }
-	
-	public Object getPortraitBitmap() { return _portraitBitmap; }
-	public void setPortraitBitmap(Object bm) { _portraitBitmap = bm; }
+	public URI getPortraitUri() { return _portraitUri; }
+	public void setPortraitUri(URI portraitUri) { _portraitUri = portraitUri; }
 	
 	public int getExperience() { return _exp; }
 	public void setExperience(int exp) { 

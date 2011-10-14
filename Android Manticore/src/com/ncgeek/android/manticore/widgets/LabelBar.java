@@ -60,7 +60,7 @@ public class LabelBar extends RelativeLayout {
 		
 		TypedArray styles = context.obtainStyledAttributes(attrs, R.styleable.LabelBar);
 		
-		if(styles.hasValue(R.styleable.LabelBar_fontAsset)) {
+		if(styles.hasValue(R.styleable.LabelBar_fontAsset) && !isInEditMode()) {
 			String fontName = styles.getString(R.styleable.LabelBar_fontAsset);
 			Log.d(LOG_TAG, String.format("Using font from asset %s", fontName));
 			Typeface font = Typeface.createFromAsset(context.getAssets(), fontName);

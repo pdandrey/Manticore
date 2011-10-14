@@ -57,6 +57,8 @@ public class HitPoints extends Observable implements Serializable, IRest {
 		if(max <= 0)
 			throw new IllegalArgumentException("Max HP cannot be <= 0");
 		_max = _current = max;
+		setChanged();
+		notifyObservers();
 	}
 	
 	public int getCurrent() { return _current; }
@@ -85,10 +87,16 @@ public class HitPoints extends Observable implements Serializable, IRest {
 		if(total <= 0)
 			throw new IllegalArgumentException("Total Surges cannot be <= 0");
 		_maxSurges = _remainingSurges = total;
+		setChanged();
+		notifyObservers();
 	}
 	
 	public int getDeathSaves() { return _deathSaves; }
-	public void setDeathSaves(int deaths) { _deathSaves = deaths; }
+	public void setDeathSaves(int deaths) { 
+		_deathSaves = deaths;
+		setChanged();
+		notifyObservers();
+	}
 	public void failDeathSave() { 
 		if(_deathSaves < 3) {
 			++_deathSaves;

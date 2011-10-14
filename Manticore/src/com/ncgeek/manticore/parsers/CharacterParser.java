@@ -10,63 +10,38 @@ import java.util.Observable;
 import javax.xml.parsers.SAXParser;
 import javax.xml.parsers.SAXParserFactory;
 
-import com.ncgeek.manticore.ICompendiumRepository;
 import com.ncgeek.manticore.character.PlayerCharacter;
-import com.ncgeek.manticore.util.Logger;
 
-public class CharacterParser extends Observable {
+public class CharacterParser<T extends PlayerCharacter> extends Observable {
 
 	static final String LOG_TAG = "Character Parser";
 	
-	private ICompendiumRepository repository;
-	
 	public CharacterParser() {
-		this(null);
+		
 	}
 	
-	public CharacterParser(ICompendiumRepository repository) {
-		this.repository = repository;
+	public void parse(String url, T character) throws IOException {
+		InputStream in = new URL(url).openStream();
+		parse(in, character);
+		in.close();
 	}
 	
-	public void setRepository(ICompendiumRepository repos) {
-		repository = repos;
+	public void parse(File file, T character) throws IOException {
+		InputStream in = new FileInputStream(file);
+		parse(in, character);
+		in.close();
 	}
 	
-	public PlayerCharacter parse(String url) {
-		try {
-			InputStream in = new URL(url).openStream();
-			PlayerCharacter pc = parse(in);
-			in.close();
-			return pc;
-		} catch(IOException ioex) {
-			Logger.error(LOG_TAG, "Error opening url " + url, ioex);
-			return null;
-		}
-	}
-	
-	public PlayerCharacter parse(File file) {
-		try {
-			InputStream in = new FileInputStream(file);
-			PlayerCharacter pc = parse(in);
-			in.close();
-			return pc;
-		} catch(IOException ioex) {
-			Logger.error(LOG_TAG, "Error opening file " + file.getName(), ioex);
-			return null;
-		}
-	}
-	
-	private PlayerCharacter parse(InputStream in) {
+	private void parse(InputStream in, T character) throws IOException {
 		SAXParserFactory factory = SAXParserFactory.newInstance();
-		try {
-		    SAXParser parser = factory.newSAXParser();
-		    CharacterHandler handler = new CharacterHandler(this, repository);
+	    SAXParser parser = null;
+	    try {
+		    parser = factory.newSAXParser();
+		    CharacterHandler handler = new CharacterHandler(this, character);
 		    parser.parse(in, handler);
-		    return handler.getPlayerCharacter();
-		} catch (Exception e) {
-		    Logger.error(LOG_TAG, "Error parsing XML file", e);
-		    return null;
-		} 
+	    } catch(Exception ex) {
+	    	throw new IOException(String.format("Error parsing character: %s", ex.getMessage()), ex);
+	    }
 	}
 	
 	void sectionStart(String name) {
