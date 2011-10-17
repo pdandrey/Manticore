@@ -11,6 +11,7 @@ import com.ncgeek.manticore.character.HitPoints;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,13 +20,15 @@ import android.widget.TextView;
 
 public class CharacterStatusFragment extends Fragment implements Observer {
 
+	private static final String LOG_TAG = "tmp";//CharacterStatusFragment";
+	
 	private ManticoreCharacter _pc;
 	
 	private LabelBar _barHP;
 	private LabelBar _barSurge;
 	private View _view;
 	
-	public CharacterStatusFragment() { }
+	public CharacterStatusFragment() { Log.d(LOG_TAG, "New Character Status Fragment"); }
 	public CharacterStatusFragment(ManticoreCharacter pc) {
 		this();
 		setCharacter(pc);
@@ -38,11 +41,12 @@ public class CharacterStatusFragment extends Fragment implements Observer {
 		_pc = pc;
 		setupCharacter();
 		_pc.getHP().addObserver(this);
+		Log.d(LOG_TAG, "Character Set");
 	}
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		//return super.onCreateView(inflater, container, savedInstanceState);
+		Log.d(LOG_TAG, "onCreateView");
 		_view = inflater.inflate(R.layout.character_status, container, false);
 		
 		_barHP = (LabelBar)_view.findViewById(R.id.characterstatus_hpbar);
@@ -58,6 +62,7 @@ public class CharacterStatusFragment extends Fragment implements Observer {
 	public void onDestroy() {
 		super.onDestroy();
 		_pc.getHP().deleteObserver(this);
+		Log.d(LOG_TAG, "onDestroy");
 	}
 	
 	private void setupCharacter() {
@@ -80,13 +85,10 @@ public class CharacterStatusFragment extends Fragment implements Observer {
 		tv.setText(_pc.getRace());
 		
 		HitPoints hp = _pc.getHP();
-		_barHP.setMax(hp.getMax());
-		_barHP.setCurrent(hp.getCurrent());
-		_barHP.setTemporary(hp.getTemp());
+		_barHP.set(hp.getCurrent(), hp.getTemp(), hp.getMax());
+		_barSurge.set(hp.getRemainingSurges(), 0, hp.getTotalSurges());
 		
-		_barSurge.setMax(hp.getTotalSurges());
-		_barSurge.setCurrent(hp.getRemainingSurges());
-		
+		Log.d(LOG_TAG, "Character setup " + hp.toString());
 	}
 	@Override
 	public void update(Observable observable, Object data) {

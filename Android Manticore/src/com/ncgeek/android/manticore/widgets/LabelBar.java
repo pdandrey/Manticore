@@ -23,7 +23,7 @@ import android.widget.TextView;
 
 public class LabelBar extends RelativeLayout {
 
-	private static final String LOG_TAG = "LabelBar";
+	private static final String LOG_TAG = "tmp";//"LabelBar";
 	private int max;
 	private int temp;
 	private int current;
@@ -78,7 +78,7 @@ public class LabelBar extends RelativeLayout {
 		if(styles.hasValue(R.styleable.LabelBar_barHeight)) {
 			int height = styles.getDimensionPixelSize(R.styleable.LabelBar_barHeight, 0);
 			Log.d(LOG_TAG, String.format("Using bar height %d", height));
-			bar.setLayoutParams(new RelativeLayout.LayoutParams(LayoutParams.FILL_PARENT, height));
+			bar.getLayoutParams().height = height;
 		}
 		
 		if(styles.hasValue(R.styleable.LabelBar_barDrawable)) {
@@ -88,19 +88,19 @@ public class LabelBar extends RelativeLayout {
 			setBarDrawable(draw);
 		}
 		
-		setLabel(styles.getString(R.styleable.LabelBar_label));
-		max = styles.getInt(R.styleable.LabelBar_max, 100);
-		current = styles.getInt(R.styleable.LabelBar_current, 50);
-		temp = styles.getInt(R.styleable.LabelBar_temporary, 0);
-		separator = styles.getString(R.styleable.LabelBar_separator);
-		if(separator == null)
+		String label = styles.getString(R.styleable.LabelBar_label);
+		int max = styles.getInt(R.styleable.LabelBar_max, 100);
+		int current = styles.getInt(R.styleable.LabelBar_current, 50);
+		int temp = styles.getInt(R.styleable.LabelBar_temporary, 0);
+		
+		if(styles.hasValue(R.styleable.LabelBar_separator))
+			separator = styles.getString(R.styleable.LabelBar_separator);
+		else
 			separator = "/";
 		status = styles.getString(R.styleable.LabelBar_status);
 		
-		setMax(max);
-		setCurrent(current);
-		
-		updateValue();
+		setLabel(label);
+		set(current, temp, max);
 	}
 	
 	public void addChange(int percentage, Drawable drawable) {
@@ -132,7 +132,6 @@ public class LabelBar extends RelativeLayout {
 	
 	public void setStatus(String status) {
 		this.status = status;
-		updateValue();
 	}
 	
 	public String getStatus() {
@@ -161,9 +160,8 @@ public class LabelBar extends RelativeLayout {
 		this.max = max;
 		this.current = Math.min(max, current);
 		calculateChange();
-		
-		updateValue();
 		bar.setMax(max);
+		updateValue();
 	}
 	public int getMax() { return max; }
 	
@@ -181,13 +179,25 @@ public class LabelBar extends RelativeLayout {
 	public void setCurrent(int current) { 
 		this.current = current;
 		calculateChange();
-		updateValue();
 		bar.setProgress(current);
 		if(temp > 0) {
 			bar.setSecondaryProgress(current + temp);
 		} else {
 			bar.setSecondaryProgress(current);
 		}
+		updateValue();
+	}
+	
+	public void set(int current, int temp, int max) {
+		this.current = current;
+		this.temp = temp;
+		this.max = max;
+		
+		bar.setMax(max);
+		bar.setProgress(current);
+		bar.setSecondaryProgress(current + temp);
+		calculateChange();
+		updateValue();
 	}
 	
 	private void updateValue() {
@@ -210,6 +220,7 @@ public class LabelBar extends RelativeLayout {
 		}
 		
 		txtValue.setText(buf);
+		Log.d(LOG_TAG, String.format("updateValue(): %s %s , bar@%d (%d)/%d", txtLabel.getText().toString(), buf.toString(), bar.getProgress(), bar.getSecondaryProgress(), bar.getMax()));
 	}
 	
 	public int getCurrent() { return current; }
