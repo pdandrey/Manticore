@@ -2,8 +2,9 @@
 <RelativeLayout
 	xmlns:android="http://schemas.android.com/apk/res/android"
 	xmlns:ncgeek="http://schemas.android.com/apk/res/com.ncgeek.android.manticore"
-	android:layout_width="fill_parent"
-	android:layout_height="130dp">
+	android:layout_width="130dp"
+	android:layout_height="fill_parent"
+	>
 	<ImageView 
     	android:id="@+id/characterstatus_img"
     	android:src="@drawable/icon"  
@@ -11,7 +12,6 @@
     	android:layout_width="130dp" 
     	android:layout_alignParentLeft="true" 
     	android:layout_alignParentTop="true"
-    	android:layout_alignParentBottom="true"
     	android:layout_marginRight="5dp"
     	android:scaleType="fitCenter"
     	/>
@@ -20,10 +20,9 @@
     	android:layout_height="wrap_content" 
     	android:layout_width="fill_parent" 
     	android:textSize="24sp" 
-    	android:textColor="#000000" 
     	android:text="Char Name" 
-    	android:layout_toRightOf="@id/characterstatus_img" 
-    	android:layout_alignParentTop="true" 
+    	android:layout_below="@id/characterstatus_img" 
+    	android:layout_alignLeft="@id/characterstatus_img" 
     	/>
     <TextView 
     	android:id="@+id/characterstatus_lblLevel"
@@ -61,32 +60,36 @@
     	android:layout_marginLeft="3dp"
     	/>
    	<com.ncgeek.android.manticore.widgets.LabelBar
-    	android:id="@+id/characterstatus_surgebar"
-    	android:layout_width="200dp" 
- 		android:layout_height="wrap_content"
- 		android:layout_alignBottom="@id/characterstatus_img"
- 		android:layout_alignLeft="@id/characterstatus_txtName"
-    	android:layout_marginRight="5dp"
-    	android:layout_marginBottom="10dp"
- 		ncgeek:label="Healing Surges:"
-    	ncgeek:max="8"
-    	ncgeek:current="4"
-    	ncgeek:barDrawable="@drawable/surge_bar"
-    	ncgeek:fontAsset="centaur.ttf"
-    	/>
-     <com.ncgeek.android.manticore.widgets.LabelBar
     	android:id="@+id/characterstatus_hpbar"
-    	android:layout_width="200dp"
+    	android:layout_width="130dp"
  		android:layout_height="wrap_content"
  		android:orientation="horizontal"
- 		android:layout_above="@id/characterstatus_surgebar" 
-    	android:layout_alignLeft="@id/characterstatus_surgebar"
- 		android:layout_alignRight="@id/characterstatus_surgebar"
+ 		android:layout_below="@id/characterstatus_lblLevel" 
+    	android:layout_alignLeft="@id/characterstatus_txtName"
+    	android:layout_marginTop="5dp"
     	ncgeek:label="HP:"
     	ncgeek:max="57"
     	ncgeek:current="48"
     	ncgeek:temporary="3"
     	ncgeek:barDrawable="@drawable/hp_bar"
     	ncgeek:fontAsset="centaur.ttf"
+    	ncgeek:textSize="10sp"
+    	ncgeek:barHeight="10dp"
     	/>
+   	<com.ncgeek.android.manticore.widgets.LabelBar
+    	android:id="@+id/characterstatus_surgebar"
+    	android:layout_width="wrap_content" 
+ 		android:layout_height="wrap_content"
+ 		android:layout_below="@id/characterstatus_hpbar"
+ 		android:layout_alignLeft="@id/characterstatus_hpbar"
+ 		android:layout_alignRight="@id/characterstatus_hpbar"
+ 		ncgeek:label="Surges:"
+    	ncgeek:max="8"
+    	ncgeek:current="4"
+    	ncgeek:barDrawable="@drawable/surge_bar"
+    	ncgeek:fontAsset="centaur.ttf"
+    	ncgeek:textSize="10sp"
+    	ncgeek:barHeight="10dp"
+    	/>
+     
 </RelativeLayout>
