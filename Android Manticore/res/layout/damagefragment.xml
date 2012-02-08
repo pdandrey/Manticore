@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TabHost
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	android:id="@+id/damagefragment_tabhost"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	>
+	<TabWidget 
+		android:id="@android:id/tabs"
+		android:layout_width="match_parent"
+		android:layout_height="65dp"
+		/>
+	<FrameLayout
+		android:id="@android:id/tabcontent"
+		android:layout_width="match_parent"
+		android:layout_height="match_parent"
+		android:paddingTop="65dp"
+		>
+		<include 
+			android:id="@+id/damagefragment_damage"
+			layout="@layout/tab_damage"
+			/>
+	</FrameLayout>
+</TabHost>

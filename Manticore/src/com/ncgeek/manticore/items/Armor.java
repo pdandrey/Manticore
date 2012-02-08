@@ -1,7 +1,10 @@
 package com.ncgeek.manticore.items;
 
-public class Armor extends EquippableItem {
+import java.io.Serializable;
+
+public class Armor extends EquippableItem implements Serializable {
 	
+	private static final long serialVersionUID = 1L;
 	private int _checkPenalty;
 	private int _speedPenalty;
 	private ArmorTypes _armorType;

@@ -7,11 +7,11 @@ import com.ncgeek.android.manticore.ManticoreCharacter;
 import com.ncgeek.android.manticore.R;
 import com.ncgeek.android.manticore.widgets.LabelBar;
 import com.ncgeek.manticore.character.HitPoints;
+import com.ncgeek.manticore.util.Logger;
 
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,7 +20,7 @@ import android.widget.TextView;
 
 public class CharacterStatusFragment extends Fragment implements Observer {
 
-	private static final String LOG_TAG = "tmp";//CharacterStatusFragment";
+	private static final String LOG_TAG = "CharacterStatusFragment";
 	
 	private ManticoreCharacter _pc;
 	
@@ -28,7 +28,7 @@ public class CharacterStatusFragment extends Fragment implements Observer {
 	private LabelBar _barSurge;
 	private View _view;
 	
-	public CharacterStatusFragment() { Log.d(LOG_TAG, "New Character Status Fragment"); }
+	public CharacterStatusFragment() { Logger.debug(LOG_TAG, "New Character Status Fragment"); }
 	public CharacterStatusFragment(ManticoreCharacter pc) {
 		this();
 		setCharacter(pc);
@@ -41,12 +41,12 @@ public class CharacterStatusFragment extends Fragment implements Observer {
 		_pc = pc;
 		setupCharacter();
 		_pc.getHP().addObserver(this);
-		Log.d(LOG_TAG, "Character Set");
+		Logger.debug(LOG_TAG, "Character Set");
 	}
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		Log.d(LOG_TAG, "onCreateView");
+		Logger.debug(LOG_TAG, "onCreateView");
 		_view = inflater.inflate(R.layout.character_status, container, false);
 		
 		_barHP = (LabelBar)_view.findViewById(R.id.characterstatus_hpbar);
@@ -62,7 +62,7 @@ public class CharacterStatusFragment extends Fragment implements Observer {
 	public void onDestroy() {
 		super.onDestroy();
 		_pc.getHP().deleteObserver(this);
-		Log.d(LOG_TAG, "onDestroy");
+		Logger.debug(LOG_TAG, "onDestroy");
 	}
 	
 	private void setupCharacter() {
@@ -88,7 +88,7 @@ public class CharacterStatusFragment extends Fragment implements Observer {
 		_barHP.set(hp.getCurrent(), hp.getTemp(), hp.getMax());
 		_barSurge.set(hp.getRemainingSurges(), 0, hp.getTotalSurges());
 		
-		Log.d(LOG_TAG, "Character setup " + hp.toString());
+		Logger.debug(LOG_TAG, "Character setup " + hp.toString());
 	}
 	@Override
 	public void update(Observable observable, Object data) {

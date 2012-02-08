@@ -5,6 +5,8 @@ import java.util.Observable;
 import java.util.Observer;
 
 import android.content.Context;
+import android.os.Handler;
+import android.os.Message;
 import android.support.v4.content.AsyncTaskLoader;
 
 import com.ncgeek.android.manticore.ManticoreCharacter;
@@ -22,10 +24,12 @@ public class Dnd4eLoader
 	
 	private File _file;
 	private ManticoreCharacter _pc;
+	private Handler _handler;
 	
-	public Dnd4eLoader(Context context, File file) {
+	public Dnd4eLoader(Context context, File file, Handler handle) {
 		super(context);
 		this._file = file;
+		_handler = handle;
 	}
 	
 	@Override
@@ -36,6 +40,7 @@ public class Dnd4eLoader
 		try {
 			pc = new ManticoreCharacter();
 			CharacterParser<ManticoreCharacter> parser = new CharacterParser<ManticoreCharacter>();
+			parser.addObserver(this);
 			parser.parse(_file, pc);
 		} catch(Exception ex) {
 			Logger.error(LOG_TAG, "Error parsing character", ex);
@@ -46,7 +51,7 @@ public class Dnd4eLoader
 		Logger.info(LOG_TAG, String.format("DND4e File Loader finished in %d ms.", taken));
 		
 		pc.setPortrait(Utility.getPortrait(pc.getPortraitUri().toString(), new ManticorePreferences(getContext())));
-		
+		this.
 		_pc = pc;
 		return pc;
 	}
@@ -65,7 +70,10 @@ public class Dnd4eLoader
 			CharacterParserEventArgs args = (CharacterParserEventArgs)data;
 			switch(args.getType()) {
 				case SectionStart:
-					Logger.info(LOG_TAG, String.format("Starting section %s", args.getSectionName()));
+					Logger.verbose(LOG_TAG, String.format("Starting section %s", args.getSectionName()));
+					Message msg = _handler.obtainMessage();
+					msg.obj = args.getSectionName();
+					_handler.sendMessage(msg);
 					break;
 			}
 		}

@@ -51,7 +51,6 @@ public class GalleryMenuAdapter extends BaseAdapter {
     		convertView = inflater.inflate(R.layout.gallerymenuitem, parent, false);
             holder = new ViewHolder();
             holder.txtText = (TextView)convertView.findViewById(R.id.gallerymenuitem_text);
-            holder.ivIcon = (ImageView)convertView.findViewById(R.id.gallerymenuitem_icon);
             convertView.setTag(holder);
     	} else {
     		holder = (ViewHolder)convertView.getTag();
@@ -62,13 +61,12 @@ public class GalleryMenuAdapter extends BaseAdapter {
 //    	}
     	
     	holder.txtText.setText(item.getTitle());
-    	holder.ivIcon.setImageDrawable(item.getIcon());
+    	holder.txtText.setCompoundDrawables(null, item.getIcon(), null, null);
     	
     	return convertView;
     }
     
     public static class ViewHolder {
-		ImageView ivIcon;
 		TextView txtText;
 	}
     

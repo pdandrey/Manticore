@@ -1,11 +1,13 @@
 package com.ncgeek.manticore.items;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class MagicItem extends EquippableItem {
+public class MagicItem extends EquippableItem implements Serializable {
 	
+	private static final long serialVersionUID = 1L;
 	private String _flavor;
 	private MagicItemRarity _rarity;
 	private ItemType _type;

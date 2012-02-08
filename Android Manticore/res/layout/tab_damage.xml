@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent">
+	<EditText 
+		android:id="@+id/tab_damage_txtDamage"
+		android:hint="Damage Taken"
+		android:layout_alignParentTop="true"
+		android:layout_alignParentLeft="true"
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:inputType="number"
+		/>
+	<CheckBox 
+		android:id="@+id/tab_damage_chkOngoing"
+		android:text="Ongoing Damage"
+		android:layout_below="@id/tab_damage_txtDamage"
+		android:layout_alignLeft="@id/tab_damage_txtDamage"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		/>
+	<Spinner 
+		android:id="@+id/tab_damage_spnOngoingType"
+		android:spinnerMode="dropdown"
+		android:dropDownSelector="@array/ongoingDamageTypes"
+		android:layout_below="@id/tab_damage_chkOngoing"
+		android:layout_alignLeft="@id/tab_damage_txtDamage"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		/>
+	<Button 
+		android:id="@+id/tab_damage_btnOK"
+		android:text="OK"
+		android:layout_alignLeft="@id/tab_damage_txtDamage"
+		android:layout_below="@id/tab_damage_spnOngoingType"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:onClick="btnDamageOK_Click"
+		/>
+	<Button
+		android:id="@+id/tab_damage_btnCancel"
+		android:text="Cancel"
+		android:layout_alignTop="@id/tab_damage_btnOK"
+		android:layout_toRightOf="@id/tab_damage_btnOK"
+		android:layout_width="wrap_content"
+		android:layout_height="wrap_content"
+		android:onClick="btnDamageCancel_Click"
+		/>
+</RelativeLayout>

@@ -1,5 +1,6 @@
 package com.ncgeek.manticore.rules;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Date;
@@ -7,8 +8,9 @@ import java.util.List;
 
 import com.ncgeek.manticore.Source;
 
-public class Rule implements Comparable<Rule> {
+public class Rule implements Comparable<Rule>, Serializable {
 
+	private static final long serialVersionUID = 1L;
 	private String _name;
 	private RuleTypes _type;
 	private String _url;

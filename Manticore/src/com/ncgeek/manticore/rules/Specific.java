@@ -1,11 +1,13 @@
 package com.ncgeek.manticore.rules;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public final class Specific {
+public final class Specific implements Serializable {
 
+	private static final long serialVersionUID = 1L;
 	private String _name;
 	private String _value;
 	private List<Specific> _children;

@@ -3,6 +3,7 @@ package com.ncgeek.android.manticore.menus;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
+import android.view.ActionProvider;
 import android.view.MenuItem;
 import android.view.SubMenu;
 import android.view.ContextMenu.ContextMenuInfo;
@@ -234,5 +235,47 @@ public class GalleryMenuItem implements MenuItem {
 	public void setShowAsAction(int actionEnum) {
 		// TODO Auto-generated method stub
 		
+	}
+
+	@Override
+	public boolean collapseActionView() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public boolean expandActionView() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public ActionProvider getActionProvider() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public boolean isActionViewExpanded() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
+	@Override
+	public MenuItem setActionProvider(ActionProvider actionProvider) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public MenuItem setOnActionExpandListener(OnActionExpandListener listener) {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public MenuItem setShowAsActionFlags(int actionEnum) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 }

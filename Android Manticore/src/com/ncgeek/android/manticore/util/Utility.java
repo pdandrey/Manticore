@@ -195,7 +195,7 @@ public final class Utility {
 			File cacheDir = null; 
 			
 			if(/*prefs.cacheImages() &&*/ Utility.isExternalAvailable()) {
-				cacheDir = new File(ManticoreStatus.getExternalStorageDirectory(), "cache/portraits/");
+				cacheDir = Utility.getExternalStorageDirectory("cache/portraits/");
 				if(!cacheDir.exists() && !cacheDir.mkdirs()) {
 					Logger.error(LOG_TAG, "Failed to create portrait cache directory");
 				} else {
@@ -229,5 +229,32 @@ public final class Utility {
 			Log.e(LOG_TAG, "Error loading portrait", ex);
 		}
 		return null;
+	}
+	
+	public static File getExternalStorageDirectory(String subdirectory) {
+		if(isExternalAvailable() && isExternalWritable()) {
+			if(subdirectory == null)
+				subdirectory = "Manticore/";
+			else
+				subdirectory = "Manticore/" + subdirectory;
+			
+			if(!subdirectory.endsWith("/"))
+				subdirectory += "/";
+			
+			File dir = new File(Environment.getExternalStorageDirectory(), subdirectory);
+			if(!dir.exists() && !dir.mkdirs()) {
+				Logger.error(LOG_TAG, "Could not create directory " + dir.toString());
+				return null;
+			}
+			
+			return dir;
+		} else {
+			Logger.error(LOG_TAG, "External directory is not available or not writable");
+			return null;
+		}
+	}
+	
+	public static File getExternalStorageDirectory() {
+		return getExternalStorageDirectory(null);
 	}
 }

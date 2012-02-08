@@ -1,9 +1,11 @@
 package com.ncgeek.manticore;
 
+import java.io.Serializable;
 import java.util.HashMap;
 
-public final class Source {
+public final class Source implements Serializable {
 	
+	private static final long serialVersionUID = 1L;
 	private static HashMap<String, Source> _allSources;
 	
 	static {

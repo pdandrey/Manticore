@@ -17,14 +17,12 @@ import com.ncgeek.android.manticore.adapters.FeatListAdapter;
 import com.ncgeek.android.manticore.adapters.ItemListAdapter;
 import com.ncgeek.android.manticore.adapters.PowerListAdapter;
 import com.ncgeek.android.manticore.adapters.RitualListAdapter;
-import com.ncgeek.android.manticore.database.DatabaseRepository;
 import com.ncgeek.android.manticore.widgets.GalleryMenu;
 import com.ncgeek.android.manticore.partial.ListPartial;
 import com.ncgeek.android.manticore.partial.Partial;
 import com.ncgeek.android.manticore.partial.PartyPartial;
 import com.ncgeek.android.manticore.partial.SkillPartial;
 import com.ncgeek.android.manticore.partial.StatPartial;
-import com.ncgeek.android.manticore.threads.LoadCharacterThread;
 import com.ncgeek.android.manticore.util.Utility;
 import com.ncgeek.android.manticore.widgets.LabelBar;
 import com.ncgeek.manticore.Ritual;
@@ -78,7 +76,7 @@ public class CharacterSheet extends Activity {
 	
 	private ProgressDialog dlgLoading;
 	private PlayerCharacter _pc;
-	private LoadCharacterThread thdLoad;
+	//private LoadCharacterThread thdLoad;
 	private AlertDialog dlgDamage;
 	private AlertDialog dlgHealing;
 	private ManticorePreferences prefs;
@@ -215,15 +213,15 @@ public class CharacterSheet extends Activity {
 	    
 	    ManticoreStatus.setPCFile(f);
 	    
-	    thdLoad = LoadCharacterThread.getThread(f, dialogHandler);
-//	    thdLoad.setRepository(new DatabaseRepository(this));
-	    
-	    if(!thdLoad.hasStarted()) {
-	    	showDialog(DIALOG_LOADING);
-	    } else if(thdLoad.isFinished()) {
-	    	_pc = thdLoad.getCharacter();
-	    	update();
-	    }
+//	    thdLoad = LoadCharacterThread.getThread(f, dialogHandler);
+////	    thdLoad.setRepository(new DatabaseRepository(this));
+//	    
+//	    if(!thdLoad.hasStarted()) {
+//	    	showDialog(DIALOG_LOADING);
+//	    } else if(thdLoad.isFinished()) {
+//	    	_pc = thdLoad.getCharacter();
+//	    	update();
+//	    }
 	}
 	
 	@Override
@@ -356,16 +354,16 @@ public class CharacterSheet extends Activity {
 	
 	@Override
     protected void onPrepareDialog(int id, Dialog dialog) {
-		if(thdLoad == null)
-			thdLoad = LoadCharacterThread.getThread();
-        switch(id) {
-	        case DIALOG_LOADING:
-	        	if(!thdLoad.hasStarted())
-	        		thdLoad.start();
-	        	else
-	        		thdLoad.setHandler(dialogHandler);
-	            break;
-        }
+//		if(thdLoad == null)
+//			thdLoad = LoadCharacterThread.getThread();
+//        switch(id) {
+//	        case DIALOG_LOADING:
+//	        	if(!thdLoad.hasStarted())
+//	        		thdLoad.start();
+//	        	else
+//	        		thdLoad.setHandler(dialogHandler);
+//	            break;
+//        }
     }
 	
 	@Override

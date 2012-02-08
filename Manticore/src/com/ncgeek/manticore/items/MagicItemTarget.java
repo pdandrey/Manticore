@@ -1,7 +1,10 @@
 package com.ncgeek.manticore.items;
 
-public final class MagicItemTarget {
+import java.io.Serializable;
+
+public final class MagicItemTarget implements Serializable {
 	
+	private static final long serialVersionUID = 1L;
 	private String _target;
 	private String _subtarget;
 	private boolean _isArmor;

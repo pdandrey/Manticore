@@ -1,5 +1,6 @@
 package com.ncgeek.manticore.items;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -7,8 +8,9 @@ import java.util.List;
 import com.ncgeek.manticore.Money;
 import com.ncgeek.manticore.Source;
 
-public class EnchantedItem extends EquippableItem {
+public class EnchantedItem extends EquippableItem implements Serializable {
 
+	private static final long serialVersionUID = 1L;
 	private final EquippableItem _item;
 	private final MagicItem _enchantment;
 	

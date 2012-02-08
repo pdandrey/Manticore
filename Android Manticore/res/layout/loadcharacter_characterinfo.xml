@@ -1,0 +1,90 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout 
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" 
+    android:padding="5dp"
+    >
+  	<ImageView
+	    android:id="@+id/ivPortrait"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:layout_alignParentRight="true"
+	    android:layout_alignParentTop="true"
+	    android:scaleType="fitXY"
+	    android:contentDescription="Character Portrait"
+	    android:src="@drawable/icon" />
+
+	<TextView 
+	    android:id="@+id/tvName"
+	    android:text="Character Name"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:layout_alignTop="@id/ivPortrait"
+	    android:layout_alignParentLeft="true"
+	    android:layout_toLeftOf="@id/ivPortrait"
+	    android:textSize="18dp"
+	    android:textStyle="bold"
+	    />
+	<TextView
+	    android:id="@+id/tvRaceAndClass"
+	    android:text="{0} {1} {2} {3}"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:layout_below="@id/tvName"
+	    android:layout_toLeftOf="@id/ivPortrait"
+	    android:layout_alignLeft="@id/tvName"
+	    android:inputType="textMultiLine"
+	    />
+	<TextView
+	    android:id="@+id/tvLevel"
+	    android:text="Level {0}"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:layout_below="@id/tvRaceAndClass"
+	    android:layout_alignLeft="@id/tvName"
+	    />
+	<TextView
+    	android:id="@+id/lblImportedOn"
+    	android:text="Imported on"
+    	android:layout_width="wrap_content"
+    	android:layout_height="wrap_content"
+    	android:layout_below="@id/tvLevel"
+    	android:layout_alignLeft="@id/tvName"
+    	/>
+	<TextView
+    	android:id="@+id/tvImportedOn"
+    	android:text="Jan 1, 1970 12:01 am"
+    	android:layout_width="wrap_content"
+    	android:layout_height="wrap_content"
+    	android:layout_below="@id/lblImportedOn"
+    	android:layout_alignLeft="@id/lblImportedOn"
+    	android:layout_toLeftOf="@id/ivPortrait"
+    	/>
+	<TextView
+    	android:id="@+id/lblUpdatedOn"
+    	android:text="Updated on"
+    	android:layout_width="wrap_content"
+    	android:layout_height="wrap_content"
+    	android:layout_below="@+id/tvImportedOn"
+    	android:layout_alignLeft="@+id/lblImportedOn"
+    	android:layout_toLeftOf="@id/ivPortrait"
+    	/>
+	<TextView
+    	android:id="@+id/tvUpdatedOn"
+    	android:text="Jan 1, 1970 12:01 am"
+    	android:layout_width="wrap_content"
+    	android:layout_height="wrap_content"
+    	android:layout_below="@id/lblUpdatedOn"
+    	android:layout_alignLeft="@id/lblUpdatedOn"
+    	android:layout_toLeftOf="@id/ivPortrait"
+    	/>
+	<Button
+	    android:id="@+id/btnLoadCharacter"
+	    android:text="Load"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:layout_alignParentBottom="true"
+	    android:layout_alignParentRight="true"
+	    />
+</RelativeLayout>

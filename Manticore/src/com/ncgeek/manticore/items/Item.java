@@ -1,5 +1,6 @@
 package com.ncgeek.manticore.items;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -9,8 +10,9 @@ import com.ncgeek.manticore.Money;
 import com.ncgeek.manticore.Source;
 import com.ncgeek.manticore.character.inventory.ItemStack;
 
-public abstract class Item implements Comparable<Item> {
+public abstract class Item implements Comparable<Item>, Serializable {
 
+	private static final long serialVersionUID = 1L;
 	public static final Comparator<Item> PriceComparator = new Comparator<Item>() {
 		@Override
 		public int compare(Item item1, Item item2) {

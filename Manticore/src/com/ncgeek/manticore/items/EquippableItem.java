@@ -1,7 +1,10 @@
 package com.ncgeek.manticore.items;
 
-public class EquippableItem extends Item {
+import java.io.Serializable;
+
+public class EquippableItem extends Item implements Serializable {
 	
+	private static final long serialVersionUID = 1L;
 	private ItemSlots _itemSlot;
 	
 	public ItemSlots getItemSlot() { return _itemSlot;}

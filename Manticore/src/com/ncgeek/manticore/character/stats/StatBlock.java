@@ -1,5 +1,6 @@
 package com.ncgeek.manticore.character.stats;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -13,7 +14,10 @@ import java.util.Observer;
 import com.ncgeek.manticore.character.RuleEventArgs;
 import com.ncgeek.manticore.character.inventory.EquipmentManagerEventArgs;
 
-public class StatBlock extends Observable implements Observer {
+public class StatBlock extends Observable implements Observer, Serializable {
+	
+	private static final long serialVersionUID = 1L;
+	
 	
 	private Map<String, Stat> _statMap;
 	private Map<String, List<Addition>> _linksNeeded;

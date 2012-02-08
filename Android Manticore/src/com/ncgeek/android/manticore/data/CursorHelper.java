@@ -1,4 +1,4 @@
-package com.ncgeek.android.manticore.database;
+package com.ncgeek.android.manticore.data;
 
 import android.content.ContentResolver;
 import android.database.CharArrayBuffer;
