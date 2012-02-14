@@ -7,6 +7,7 @@ import java.util.Comparator;
 import com.ncgeek.android.manticore.ManticoreCharacter;
 import com.ncgeek.android.manticore.R;
 import com.ncgeek.android.manticore.data.CharacterRepository;
+import com.ncgeek.android.manticore.fragments.ProgressDialogFragment;
 import com.ncgeek.android.manticore.loaders.Dnd4eLoader;
 import com.ncgeek.android.manticore.util.Utility;
 import com.ncgeek.manticore.util.Logger;
@@ -49,7 +50,7 @@ public class ImportCharacterFragment
 	private ICharacterListCallback callback;
 	private ArrayAdapter<File> adapter;
 	private CharacterRepository repos;
-	private ProgressDialog _dlgLoadProgress;
+	private ProgressDialogFragment _dlgLoadProgress;
 	
 	public ImportCharacterFragment() {}
 	
@@ -99,14 +100,16 @@ public class ImportCharacterFragment
 	@Override
 	public void onListItemClick(ListView l, View v, int position, long id) {
 		super.onListItemClick(l, v, position, id);
-		_dlgLoadProgress = new ProgressDialog(getActivity());
+		
+		_dlgLoadProgress = new ProgressDialogFragment();
 		_dlgLoadProgress.setProgressStyle(ProgressDialog.STYLE_SPINNER);
 		_dlgLoadProgress.setCancelable(false);
 		
 		File file = adapter.getItem(position);
 		
 		_dlgLoadProgress.setMessage("Loading " + file.getName());
-		_dlgLoadProgress.show();
+		
+		_dlgLoadProgress.show(getFragmentManager(), "dlgLoading");
 		
 		LoaderManager lm = getActivity().getSupportLoaderManager();
 		Bundle b = new Bundle();
