@@ -21,7 +21,6 @@ import android.database.sqlite.SQLiteDatabase;
 import android.graphics.Bitmap;
 import android.graphics.Bitmap.CompressFormat;
 import android.graphics.BitmapFactory;
-import android.os.NetworkOnMainThreadException;
 
 public class ImageCacheRepository {
 	
@@ -138,8 +137,8 @@ public class ImageCacheRepository {
 		} catch(IOException ioex) {
 			Logger.error(LOG_TAG, "Error loading url %s", ioex, url.toString());
 			return null;
-		} catch(NetworkOnMainThreadException netEx) {
-			Logger.error(LOG_TAG, "Attempted to download %s on main thread", url);
+		} catch(Exception netEx) {
+			Logger.error(LOG_TAG, "Error while trying to download portrait from %s", netEx, url);
 			return null;
 		}
 	}

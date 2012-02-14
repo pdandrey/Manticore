@@ -52,8 +52,7 @@ public class Dnd4eLoader
 		ImageCacheRepository repos = new ImageCacheRepository(getContext());
 		update(null, new CharacterParserEventArgs("Portrait"));
 		pc.setPortrait(repos.get(pc.getPortraitUri()));
-		this.
-		_pc = pc;
+		this._pc = pc;
 		return pc;
 	}
 
