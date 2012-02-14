@@ -2,9 +2,8 @@
 <RelativeLayout
 	xmlns:android="http://schemas.android.com/apk/res/android"
 	xmlns:ncgeek="http://schemas.android.com/apk/res/com.ncgeek.android.manticore"
-	android:layout_width="130dp"
-	android:layout_height="fill_parent"
-	>
+	android:layout_width="fill_parent"
+	android:layout_height="130dp">
 	<ImageView 
     	android:id="@+id/ivPortrait"
     	android:src="@drawable/icon"  
@@ -12,6 +11,7 @@
     	android:layout_width="130dp" 
     	android:layout_alignParentLeft="true" 
     	android:layout_alignParentTop="true"
+    	android:layout_alignParentBottom="true"
     	android:layout_marginRight="5dp"
     	android:scaleType="fitCenter"
     	android:contentDescription="Character Portrait"
@@ -22,63 +22,57 @@
     	android:layout_width="fill_parent" 
     	android:textSize="24sp" 
     	android:text="Char Name" 
-    	android:layout_below="@id/ivPortrait" 
-    	android:layout_alignLeft="@id/ivPortrait" 
+    	android:layout_toRightOf="@id/ivPortrait" 
+    	android:layout_alignParentTop="true" 
     	/>
-    <TextView 
-    	android:id="@+id/tvLevel"
-    	android:layout_height="wrap_content" 
-    	android:layout_width="wrap_content"  
-    	android:text="Level {0}" 
-    	android:layout_below="@id/tvName"
-    	android:layout_alignLeft="@id/ivPortrait"
-		android:textSize="16sp"
-    	/>
-    <TextView 
-    	android:id="@+id/tvRaceAndClass"
-    	android:layout_height="wrap_content" 
-    	android:layout_width="wrap_content"  
-    	android:text="{0} {1} {2} {3}" 
-    	android:layout_alignLeft="@id/ivPortrait"
-    	android:layout_below="@id/tvLevel"
-		android:textSize="16sp"
-    	/>
+    <TextView
+        android:id="@+id/tvLevel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@id/tvName"
+        android:layout_below="@id/tvName"
+        android:text="Level {0}"
+        android:textSize="16sp"
+        />
+    <TextView
+       	android:id="@+id/tvRaceAndClass"
+       	android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@id/tvName"
+        android:layout_below="@id/tvLevel"
+        android:text="{0} {1} {2} {3}"
+        android:textSize="16sp"
+        />
     <com.ncgeek.android.manticore.widgets.LabelBar
     	android:id="@+id/hpbar"
-    	android:layout_width="match_parent"
+    	android:layout_width="200dp"
  		android:layout_height="wrap_content"
  		android:orientation="horizontal"
  		android:layout_below="@id/tvRaceAndClass" 
-    	android:layout_alignLeft="@id/ivPortrait"
-    	android:layout_alignRight="@id/ivPortrait"
-    	android:layout_marginTop="5dp"
+    	android:layout_alignLeft="@id/tvName"
+ 		android:layout_alignRight="@id/tvName"
     	ncgeek:label="HP:"
     	ncgeek:max="57"
     	ncgeek:current="48"
     	ncgeek:temporary="3"
     	ncgeek:barDrawable="@drawable/hp_bar"
     	ncgeek:fontAsset="centaur.ttf"
-    	ncgeek:textSize="10sp"
     	ncgeek:barHeight="10dp"
-		ncgeek:barHeight="10dp"
     	ncgeek:textSize="8sp"
     	/>
    	<com.ncgeek.android.manticore.widgets.LabelBar
     	android:id="@+id/surgebar"
-    	android:layout_width="wrap_content" 
+    	android:layout_width="200dp" 
  		android:layout_height="wrap_content"
+ 		android:layout_alignLeft="@id/tvName"
+ 		android:layout_alignRight="@id/tvName"
  		android:layout_below="@id/hpbar"
- 		android:layout_alignLeft="@id/ivPortrait"
- 		android:layout_alignRight="@id/ivPortrait"
- 		ncgeek:label="Surges:"
+ 		ncgeek:label="Healing Surges:"
     	ncgeek:max="8"
     	ncgeek:current="4"
     	ncgeek:barDrawable="@drawable/surge_bar"
     	ncgeek:fontAsset="centaur.ttf"
-    	ncgeek:textSize="10sp"
     	ncgeek:barHeight="10dp"
-		ncgeek:barHeight="10dp"
     	ncgeek:textSize="8sp"
     	/>
-     
 </RelativeLayout>

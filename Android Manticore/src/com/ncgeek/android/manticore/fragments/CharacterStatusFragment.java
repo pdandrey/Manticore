@@ -1,16 +1,20 @@
 package com.ncgeek.android.manticore.fragments;
 
+import java.text.MessageFormat;
 import java.util.Observable;
 import java.util.Observer;
 
 import com.ncgeek.android.manticore.ManticoreCharacter;
 import com.ncgeek.android.manticore.R;
+import com.ncgeek.android.manticore.util.Utility;
 import com.ncgeek.android.manticore.widgets.LabelBar;
 import com.ncgeek.manticore.character.HitPoints;
 import com.ncgeek.manticore.util.Logger;
 
 import android.graphics.Color;
+import android.graphics.Typeface;
 import android.os.Bundle;
+import android.renderscript.Font.Style;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -28,7 +32,7 @@ public class CharacterStatusFragment extends Fragment implements Observer {
 	private LabelBar _barSurge;
 	private View _view;
 	
-	public CharacterStatusFragment() { Logger.debug(LOG_TAG, "New Character Status Fragment"); }
+	public CharacterStatusFragment() { }
 	public CharacterStatusFragment(ManticoreCharacter pc) {
 		this();
 		setCharacter(pc);
@@ -41,18 +45,27 @@ public class CharacterStatusFragment extends Fragment implements Observer {
 		_pc = pc;
 		setupCharacter();
 		_pc.getHP().addObserver(this);
-		Logger.debug(LOG_TAG, "Character Set");
 	}
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		Logger.debug(LOG_TAG, "onCreateView");
 		_view = inflater.inflate(R.layout.character_status, container, false);
 		
-		_barHP = (LabelBar)_view.findViewById(R.id.characterstatus_hpbar);
-		_barSurge = (LabelBar)_view.findViewById(R.id.characterstatus_surgebar);
+		_barHP = (LabelBar)_view.findViewById(R.id.hpbar);
+		_barSurge = (LabelBar)_view.findViewById(R.id.surgebar);
 		
 		_barHP.addChange(50, "Bloodied", Color.RED, getResources().getDrawable(R.drawable.hp_bar_bloodied));
+		
+		Typeface fontMorphus = Typeface.createFromAsset(getActivity().getAssets(), "morpheus.ttf");
+		TextView tv = (TextView)_view.findViewById(R.id.tvName);
+		tv.setTypeface(fontMorphus);
+		
+		Typeface fontCentaur = Typeface.createFromAsset(getActivity().getAssets(), "centaur.ttf");
+		tv = (TextView)_view.findViewById(R.id.tvLevel);
+		tv.setTypeface(fontCentaur);
+		
+		tv = (TextView)_view.findViewById(R.id.tvRaceAndClass);
+		tv.setTypeface(fontCentaur);
 		
 		setupCharacter();
 		return _view;
@@ -69,27 +82,23 @@ public class CharacterStatusFragment extends Fragment implements Observer {
 		if(_pc == null || _view == null)
 			return;
 		
-		ImageView iv = (ImageView)_view.findViewById(R.id.characterstatus_img);
+		ImageView iv = (ImageView)_view.findViewById(R.id.ivPortrait);
 		iv.setImageBitmap(_pc.getPortrait());
 		
-		TextView tv = (TextView)_view.findViewById(R.id.characterstatus_txtName);
-		tv.setText(_pc.getName());
-		
-		tv = (TextView)_view.findViewById(R.id.characterstatus_txtClass);
-		tv.setText(_pc.getHeroicClass());
-		
-		tv = (TextView)_view.findViewById(R.id.characterstatus_txtLevel);
-		tv.setText(Integer.toString(_pc.getLevel()));
-		
-		tv = (TextView)_view.findViewById(R.id.characterstatus_txtRace);
-		tv.setText(_pc.getRace());
+		Utility.setText(_view, R.id.tvName, _pc.getName());
+		Utility.setTextFromFormat(_view, R.id.tvLevel, _pc.getLevel());
+		Utility.setTextFromFormat(_view, R.id.tvRaceAndClass,
+			_pc.getRace(),
+			_pc.getHeroicClass(),
+			_pc.getParagonPath() == null ? "" : _pc.getParagonPath(),
+			""//_pc.getEpicClass() == null ? "" : _pc.getEpicClass()
+			);
 		
 		HitPoints hp = _pc.getHP();
 		_barHP.set(hp.getCurrent(), hp.getTemp(), hp.getMax());
 		_barSurge.set(hp.getRemainingSurges(), 0, hp.getTotalSurges());
-		
-		Logger.debug(LOG_TAG, "Character setup " + hp.toString());
 	}
+	
 	@Override
 	public void update(Observable observable, Object data) {
 		if(_pc == null || _view == null)

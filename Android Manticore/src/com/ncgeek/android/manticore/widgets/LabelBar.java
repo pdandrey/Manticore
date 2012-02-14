@@ -64,8 +64,8 @@ public class LabelBar extends RelativeLayout {
 			String fontName = styles.getString(R.styleable.LabelBar_fontAsset);
 			Log.d(LOG_TAG, String.format("Using font from asset %s", fontName));
 			Typeface font = Typeface.createFromAsset(context.getAssets(), fontName);
-			txtLabel.setTypeface(font, Typeface.BOLD);
-			txtValue.setTypeface(font, Typeface.BOLD);
+			txtLabel.setTypeface(font);
+			txtValue.setTypeface(font);
 		}
 		
 		if(styles.hasValue(R.styleable.LabelBar_textSize)) {

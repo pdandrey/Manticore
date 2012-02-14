@@ -7,6 +7,7 @@ import com.ncgeek.android.manticore.R;
 import com.ncgeek.android.manticore.data.model.CharacterModel;
 import com.ncgeek.android.manticore.fragments.ProgressDialogFragment;
 import com.ncgeek.android.manticore.loaders.ManticoreCharacterLoader;
+import com.ncgeek.android.manticore.util.Utility;
 import com.ncgeek.manticore.util.Logger;
 
 import android.app.Activity;
@@ -96,32 +97,16 @@ public class CharacterInfoFragment
 		ImageView iv = (ImageView)v.findViewById(R.id.ivPortrait);
 		iv.setImageBitmap(character.getPortrait());
 		
-		setText(v, R.id.tvName, character.getName());
-		setTextFromFormat(v, R.id.tvLevel, character.getLevel());
-		setText(v, R.id.tvImportedOn, character.getImportedOn().format("%b %d, %Y %T"));
-		setText(v, R.id.tvUpdatedOn, character.getImportedOn().format("%b %d, %Y %T"));
-		setTextFromFormat(v, R.id.tvRaceAndClass,
+		Utility.setText(v, R.id.tvName, character.getName());
+		Utility.setTextFromFormat(v, R.id.tvLevel, character.getLevel());
+		Utility.setText(v, R.id.tvImportedOn, character.getImportedOn().format("%b %d, %Y %T"));
+		Utility.setText(v, R.id.tvUpdatedOn, character.getImportedOn().format("%b %d, %Y %T"));
+		Utility.setTextFromFormat(v, R.id.tvRaceAndClass,
 			character.getRace(),
 			character.getHeroicClass(),
 			character.getParagonClass() == null ? "" : character.getParagonClass(),
 			character.getEpicClass() == null ? "" : character.getEpicClass()
 			);
-	}
-	
-	private void setText(View v, int id, String text) {
-		TextView tv = (TextView)v.findViewById(id);
-		tv.setVisibility(text == null || text.length() == 0 ? View.GONE : View.VISIBLE);
-		tv.setText(text);
-	}
-	
-	private void setTextFromFormat(View v, int id, Object...args) {
-		TextView tv = (TextView)v.findViewById(id);
-		String format = (String)tv.getTag();
-		if(format == null) {
-			format = tv.getText().toString();
-			tv.setTag(format);
-		}
-		tv.setText(MessageFormat.format(format, args).trim());
 	}
 	
 	public void btnLoadCharacter_Click(View v) {

@@ -1,6 +1,7 @@
 package com.ncgeek.android.manticore.util;
 
 import java.io.File;
+import java.text.MessageFormat;
 import java.util.Collection;
 import java.util.HashMap;
 import com.ncgeek.android.manticore.R;
@@ -10,6 +11,8 @@ import com.ncgeek.manticore.items.WeaponGroups;
 import com.ncgeek.manticore.util.Logger;
 
 import android.os.Environment;
+import android.view.View;
+import android.widget.TextView;
 
 public final class Utility {
 
@@ -197,5 +200,21 @@ public final class Utility {
 	
 	public static File getPortraitCacheDirectory() {
 		return getExternalStorageDirectory("cache/portraits");
+	}
+	
+	public static void setText(View v, int id, String text) {
+		TextView tv = (TextView)v.findViewById(id);
+		tv.setVisibility(text == null || text.length() == 0 ? View.GONE : View.VISIBLE);
+		tv.setText(text);
+	}
+	
+	public static void setTextFromFormat(View v, int id, Object...args) {
+		TextView tv = (TextView)v.findViewById(id);
+		String format = (String)tv.getTag();
+		if(format == null) {
+			format = tv.getText().toString();
+			tv.setTag(format);
+		}
+		tv.setText(MessageFormat.format(format, args).trim());
 	}
 }
