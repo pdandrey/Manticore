@@ -11,3 +11,9 @@ CREATE TABLE IF NOT EXISTS [Character] (
 	ImportedOn DATETIME NOT NULL DEFAULT (strftime('%Y%m%dT%H%M%S', 'now','localtime')),
 	UpdatedOn DATETIME NULL
 );
+
+-- version: 1
+CREATE TABLE IF NOT EXISTS ImageCache (
+	_id INTEGER NOT NULL PRIMARY KEY AUTOINCREMENT,
+	URI TEXT NOT NULL UNIQUE
+);

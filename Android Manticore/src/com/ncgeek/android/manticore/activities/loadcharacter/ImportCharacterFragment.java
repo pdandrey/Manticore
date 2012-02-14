@@ -75,11 +75,11 @@ public class ImportCharacterFragment
 		File dir = Utility.getExternalStorageDirectory();
 		File[] files = dir.listFiles(filenameFilter);
 		
-		adapter = new ArrayAdapter<File>(getActivity(), R.layout.loadcharacter_import, files) {
+		adapter = new ArrayAdapter<File>(getActivity(), R.layout.loadcharacter_listitem, files) {
 			@Override
 			public View getView(int position, View convertView, ViewGroup parent) {
 				if(convertView == null) {
-					convertView = getActivity().getLayoutInflater().inflate(R.layout.loadcharacter_import, parent, false);
+					convertView = getActivity().getLayoutInflater().inflate(R.layout.loadcharacter_listitem, parent, false);
 				}
 				File f = getItem(position);
 				((TextView)convertView).setText(f.getName());

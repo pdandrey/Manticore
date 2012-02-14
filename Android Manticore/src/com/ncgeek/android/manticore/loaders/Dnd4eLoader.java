@@ -10,8 +10,7 @@ import android.os.Message;
 import android.support.v4.content.AsyncTaskLoader;
 
 import com.ncgeek.android.manticore.ManticoreCharacter;
-import com.ncgeek.android.manticore.ManticorePreferences;
-import com.ncgeek.android.manticore.util.Utility;
+import com.ncgeek.android.manticore.data.ImageCacheRepository;
 import com.ncgeek.manticore.parsers.CharacterParser;
 import com.ncgeek.manticore.parsers.CharacterParserEventArgs;
 import com.ncgeek.manticore.util.Logger;
@@ -48,9 +47,11 @@ public class Dnd4eLoader
 		}
 		long end = System.currentTimeMillis();
 		long taken = end - start;
-		Logger.info(LOG_TAG, String.format("DND4e File Loader finished in %d ms.", taken));
+		Logger.verbose(LOG_TAG, "DND4e File Loader finished in %d ms.", taken);
 		
-		pc.setPortrait(Utility.getPortrait(pc.getPortraitUri().toString(), new ManticorePreferences(getContext())));
+		ImageCacheRepository repos = new ImageCacheRepository(getContext());
+		update(null, new CharacterParserEventArgs("Portrait"));
+		pc.setPortrait(repos.get(pc.getPortraitUri()));
 		this.
 		_pc = pc;
 		return pc;

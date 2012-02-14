@@ -1,6 +1,7 @@
 package com.ncgeek.android.manticore.partial;
 
 import java.io.Serializable;
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.Observable;
 import java.util.Observer;
@@ -197,7 +198,7 @@ public class PartyPartial extends Partial implements Observer {
 
 	private void addPartyMember(PartyMember pc) {
 		if(pc.getPortrait() == null) {
-			pc.setPortrait(Utility.getPortrait(pc.getPortraitUrl(), prefs));
+			//pc.setPortrait(Utility.getPortrait(new URI(pc.getPortraitUrl()), prefs));
 		}
 		LinearLayout view = (LinearLayout)getView();
 		

@@ -69,18 +69,23 @@ public final class ItemUtilities {
 	
 		w.setCategory(WeaponCategories.forName(getSpecificString(rule, "Weapon Category")));
 		
-		
-		String[] groups = getSpecificString(rule, "Group").split(",");
-		for(String g : groups) {
-			g = g.trim();
-			w.addGroup(WeaponGroups.forName(g));
+		String spec = getSpecificString(rule, "Group");
+		if(spec != null) {
+			String[] groups = spec.split(",");
+			for(String g : groups) {
+				g = g.trim();
+				w.addGroup(WeaponGroups.forName(g));
+			}
 		}
 		
-		String[] properties = getSpecificString(rule, "Properties").split(",");
-		for(String p : properties) {
-			p = p.trim();
-			if(p.length() > 0)
-				w.addProperty(WeaponProperties.forName(p));
+		spec = getSpecificString(rule, "Properties");
+		if(spec != null) {
+			String[] properties = spec.split(",");
+			for(String p : properties) {
+				p = p.trim();
+				if(p.length() > 0)
+					w.addProperty(WeaponProperties.forName(p));
+			}
 		}
 		
 		return w;

@@ -84,6 +84,10 @@ public final class ManticorePreferences {
 		return String.format("%sParty/%s", getJullianServer(), action);
 	}
 	
+	public final String getJullianPortraitURL(String id) {
+		return String.format("%sPortraits/%s.png", getJullianServer(), id);
+	}
+	
 	public final Map<String,?> getAll() {
 		return prefs.getAll();
 	}

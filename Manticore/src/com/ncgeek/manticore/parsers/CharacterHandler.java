@@ -57,6 +57,7 @@ class CharacterHandler extends DefaultHandler {
 		super.startDocument();
 		currentSection = null;
 		nextSection = Section.Details;
+		((TextStringHandler)TextStringHandler.getInstance()).reset();
 	}
 
 	@Override
@@ -110,7 +111,10 @@ class CharacterHandler extends DefaultHandler {
 		TextStringHandler misc = (TextStringHandler)Section.Misc.getHandler();
 		if(misc.getPortraitID() != null) {
 			try {
-				pc.setPortraitUri(new URI(String.format("http://media.wizards.com/downloads/dnd/CharacterBuilder/Client/%s/CDNContent/Portraits/%d.png", "version", misc.getPortraitID())));
+				String url = misc.getCustomPortraitUrl();
+				if(url == null)
+					url = String.format("id:%d", misc.getPortraitID());
+				pc.setPortraitUri(new URI(url));
 			} catch (URISyntaxException ex) {
 				Logger.error(LOG_TAG, "Could not create URI", ex);
 			}

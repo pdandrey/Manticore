@@ -17,10 +17,16 @@ public class TextStringHandler implements IElementHandler {
 	private TextStringHandler() {}
 	
 	private String name;
-	
+	private String customPortraitUrl;
 	private Integer portraitID;
 	
 	public Integer getPortraitID() { return portraitID; }
+	public String getCustomPortraitUrl() { return customPortraitUrl; }
+	
+	public void reset() {
+		portraitID = 0;
+		customPortraitUrl = null;
+	}
 	
 	@Override
 	public void startElement(PlayerCharacter pc, String nodeName, Attributes attributes) {
@@ -48,6 +54,8 @@ public class TextStringHandler implements IElementHandler {
 			} else {
 				portraitID = null;
 			}
+		} else if(name.equalsIgnoreCase("Custom Character Portrait")) {
+			customPortraitUrl = body.trim();
 		}
 		
 		name = null;

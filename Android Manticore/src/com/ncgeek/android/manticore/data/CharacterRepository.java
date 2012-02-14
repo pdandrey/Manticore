@@ -6,10 +6,11 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.ArrayList;
 
 import com.ncgeek.android.manticore.ManticoreCharacter;
-import com.ncgeek.android.manticore.ManticorePreferences;
 import com.ncgeek.android.manticore.data.model.CharacterModel;
 import com.ncgeek.android.manticore.util.Utility;
 import com.ncgeek.manticore.util.Logger;
@@ -46,7 +47,6 @@ public class CharacterRepository {
 			"UpdatedOn"
 		};
 		
-		ManticorePreferences prefs = new ManticorePreferences(context);
 		SQLiteDatabase db = helper.getReadableDatabase();
 		CursorHelper cursor = new CursorHelper(db.query("Character", columns, null, null, null, null, "Name ASC"));
 		
@@ -63,7 +63,14 @@ public class CharacterRepository {
 			String portraitURL = cursor.getString("PortraitURL");
 			String imported = cursor.getString("ImportedOn");
 			
-			cm.setPortrait(Utility.getPortrait(portraitURL, prefs));
+			ImageCacheRepository icrepos = new ImageCacheRepository(context);
+			try {
+				cm.setPortrait(icrepos.get(new URI(portraitURL)));
+			} catch(URISyntaxException uriEx) {
+				Logger.error(LOG_TAG, "Portrait URI is invalid: %s", uriEx, portraitURL);
+				cm.setPortrait(icrepos.getNoPortrait());
+			}
+			
 			Time t = new Time();
 			t.parse(imported);
 			cm.setImportedOn(t);
@@ -173,7 +180,9 @@ public class CharacterRepository {
 		File file = new File(dir, character.getId() + ".ser");
 		try {
 			ObjectInputStream ois = new ObjectInputStream(new FileInputStream(file));
+			ImageCacheRepository imgRepos = new ImageCacheRepository(context);
 			ManticoreCharacter mc = (ManticoreCharacter)ois.readObject();
+			mc.setPortrait(imgRepos.get(mc.getPortraitUri()));
 			ois.close();
 			return mc;
 		} catch(IOException ioex) {

@@ -36,12 +36,20 @@ class ManticoreDatabase extends SQLiteOpenHelper {
 			StringBuilder buf = new StringBuilder();
 			while((line = br.readLine()) != null) {
 				if(!line.trim().startsWith("--")) {
-					buf.append(line);
+					buf.append(" ");
+					buf.append(line.trim());
 					buf.append("\n");
+				} else {
+					// we have a new command, execute and clear
+					if(buf.toString().trim().length() > 0)
+						db.execSQL(buf.toString());
+					buf = new StringBuilder();
 				}
 			}
+			
+			if(buf.toString().trim().length() > 0)
+				db.execSQL(buf.toString());
 			br.close();
-			db.execSQL(buf.toString());
 		} catch (IOException e) {
 			Logger.error(LOG_TAG, "Error creating database", e);
 		}
@@ -51,7 +59,7 @@ class ManticoreDatabase extends SQLiteOpenHelper {
 	@Override
 	public void onUpgrade(SQLiteDatabase db, int currentVersion, int upgradeVersion) {
 		// Not implemented
-		Logger.error(LOG_TAG, String.format("Attempted to upgrade database from %d to %d", currentVersion, upgradeVersion));
+		Logger.error(LOG_TAG, "Attempted to upgrade database from %d to %d", currentVersion, upgradeVersion);
 	}
 
 	
