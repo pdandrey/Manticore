@@ -4,15 +4,19 @@ import java.text.MessageFormat;
 
 import com.ncgeek.android.manticore.ManticoreCharacter;
 import com.ncgeek.android.manticore.R;
-import com.ncgeek.android.manticore.data.CharacterRepository;
 import com.ncgeek.android.manticore.data.model.CharacterModel;
+import com.ncgeek.android.manticore.fragments.ProgressDialogFragment;
+import com.ncgeek.android.manticore.loaders.ManticoreCharacterLoader;
 import com.ncgeek.manticore.util.Logger;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.LoaderManager;
+import android.support.v4.content.Loader;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,12 +24,15 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-public class CharacterInfoFragment extends Fragment {
+public class CharacterInfoFragment 
+	extends Fragment 
+	implements LoaderManager.LoaderCallbacks<ManticoreCharacter> {
 	
 	private static final String LOG_TAG = "CharInfoFgmt";
 	
 	private ICharacterListCallback callback;
 	private CharacterModel character;
+	private ProgressDialogFragment dlgLoading;
 	
 	public CharacterInfoFragment() {}
 	
@@ -118,8 +125,27 @@ public class CharacterInfoFragment extends Fragment {
 	}
 	
 	public void btnLoadCharacter_Click(View v) {
-		CharacterRepository repos = new CharacterRepository(getActivity());
-		ManticoreCharacter mc = repos.load(character);
+		if(dlgLoading == null) {
+			dlgLoading = new ProgressDialogFragment();
+			dlgLoading.setProgressStyle(ProgressDialog.STYLE_SPINNER);
+			dlgLoading.setCancelable(true);
+		}
+		
+		dlgLoading.setMessage(String.format("Loading %s", character.getName()));
+		dlgLoading.show(getFragmentManager(), "dlgLoading");
+		
+		getActivity().getSupportLoaderManager().initLoader(0, null, this).forceLoad();
+	}
+
+	@Override
+	public Loader<ManticoreCharacter> onCreateLoader(int id, Bundle args) {
+		Logger.verbose(LOG_TAG, "Creating loader for %s", character.getName());
+		return new ManticoreCharacterLoader(getActivity(), character);
+	}
+
+	@Override
+	public void onLoadFinished(Loader<ManticoreCharacter> loader, ManticoreCharacter mc) {
+		dlgLoading.setMessage("Finalizing");
 		if(mc == null) {
 			// there was an error
 			AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
@@ -133,9 +159,15 @@ public class CharacterInfoFragment extends Fragment {
 					}
 				});
 			AlertDialog dlgError = builder.create();
+			dlgLoading.dismiss();
 			dlgError.show();
 		} else {
 			callback.onCharacterLoaded(mc);
 		}
+	}
+
+	@Override
+	public void onLoaderReset(Loader<ManticoreCharacter> loader) {
+		
 	}
 }
