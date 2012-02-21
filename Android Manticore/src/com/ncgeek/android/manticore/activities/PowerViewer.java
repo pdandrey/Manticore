@@ -5,6 +5,7 @@ import java.util.Set;
 
 import com.ncgeek.android.manticore.R;
 import com.ncgeek.android.manticore.util.Utility;
+import com.ncgeek.android.manticore.widgets.VerticalLabelView;
 import com.ncgeek.manticore.character.CharacterPower;
 import com.ncgeek.manticore.powers.Power;
 import com.ncgeek.manticore.powers.PowerAttack;
@@ -22,6 +23,7 @@ import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.style.StyleSpan;
 import android.util.Log;
+import android.view.View;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.FrameLayout;
 import android.widget.ImageView;
@@ -36,7 +38,6 @@ public class PowerViewer extends Activity {
 	private static final String LOG_TAG = "Power Viewer";
 	
 	private CharacterPower power;
-	private int idxPower;
 	private TextView tvName;
 	private TextView tvKeywords;
 	private TextView tvRangeIcon;
@@ -49,6 +50,7 @@ public class PowerViewer extends Activity {
 	private LinearLayout llSpecifics;
 	private ImageView ivHeader;
 	private FrameLayout frmHeader;
+	private VerticalLabelView vlvLabel;
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
@@ -56,7 +58,6 @@ public class PowerViewer extends Activity {
 		setContentView(R.layout.powerview);
 		
 		power = (CharacterPower)getIntent().getSerializableExtra("Power");
-		idxPower = getIntent().getIntExtra("Power Index", 0);
 		
 		Typeface tfMorpheus = Typeface.createFromAsset(getAssets(), "morpheus.ttf");
 		Typeface tfIcons = Typeface.createFromAsset(getAssets(), "D&D 4e Icons v3.ttf");
@@ -87,6 +88,8 @@ public class PowerViewer extends Activity {
 		
 		frmHeader = (FrameLayout)findViewById(R.id.powerview_frmHeader);
 		
+		vlvLabel = (VerticalLabelView)findViewById(R.id.powerview_vlvPowerTypeAndLevel);
+		
 		displayPower();
 	}
 
@@ -95,7 +98,6 @@ public class PowerViewer extends Activity {
 		super.onRestoreInstanceState(savedInstanceState);
 		
 		power = (CharacterPower)savedInstanceState.getSerializable("Power");
-		idxPower = savedInstanceState.getInt("Power Index");
 		
 		displayPower();
 	}
@@ -105,7 +107,6 @@ public class PowerViewer extends Activity {
 		super.onSaveInstanceState(outState);
 		
 		outState.putSerializable("Power", power);
-		outState.putInt("Power Index", idxPower);
 	}
 	
 	private void displayPower() {
@@ -117,6 +118,8 @@ public class PowerViewer extends Activity {
 		tvRange.setText(p.getRange());
 		tvTarget.setText(p.getTarget());
 		tvToHit.setText(p.getToHit());
+		
+		setVisibility(tvRange, tvTarget, tvToHit);
 		
 		switch(p.getUsage()) {
 			case AtWill: 
@@ -133,8 +136,11 @@ public class PowerViewer extends Activity {
 				break;
 		}
 		
+		vlvLabel.setText(p.getDisplay());
+		
 		for(Power.Specific spec : p.getSpecifics()) {
 			TextView tv = new TextView(this);
+			tv.setTextColor(Color.BLACK);
 			SpannableStringBuilder buf = new SpannableStringBuilder();
 			buf.append(spec.getName());
 			buf.append(": ");
@@ -181,9 +187,19 @@ public class PowerViewer extends Activity {
 					break;
 					
 				default:
+					tvRangeIcon.setText(" ");
 					Logger.error(LOG_TAG, "Unhandled Power Attack Type of " + p.getAttackType().getName());
 					break;
 			}
+		}
+	}
+	
+	private void setVisibility(TextView...views) {
+		for(TextView v : views) {
+			int visiblity = View.VISIBLE;
+			if(v.getText().toString().trim().length() == 0)
+				visiblity = View.GONE;
+			v.setVisibility(visiblity);
 		}
 	}
 }

@@ -3,14 +3,27 @@
 	xmlns:android="http://schemas.android.com/apk/res/android"
 	android:layout_width="fill_parent"
 	android:layout_height="fill_parent">
-    <fragment 
-    	android:name="com.ncgeek.android.manticore.fragments.CharacterStatusFragment"
-    	android:id="@+id/manticore_character"
-    	android:layout_alignParentTop="true"
+   	<Gallery 
+   	    android:id="@+id/actionbar"
+   		android:layout_width="fill_parent"
+	    android:layout_height="wrap_content"
+	    android:layout_alignParentTop="true"
     	android:layout_alignParentLeft="true"
+    	android:layout_alignParentRight="true"
+    	android:gravity="left"
+    	android:spacing="0dp"
+    	android:unselectedAlpha="1"
+    	android:layout_margin="0dp"
+    	android:padding="0dp"
+   	    />
+	<FrameLayout
+	    android:id="@+id/frmManticore"
+	    android:layout_alignParentLeft="true"
+    	android:layout_below="@id/actionbar"
+    	android:layout_alignParentRight="true"
+    	android:layout_alignParentBottom="true"
     	android:layout_width="fill_parent"
-    	android:layout_height="130dp"
+    	android:layout_height="fill_parent"
     	>
-        <!-- Preview: layout=@layout/character_status -->
-    </fragment>
+	</FrameLayout>
 </RelativeLayout>

@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<TextView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="100dp"
+    android:layout_height="56dp"
+    android:background="@drawable/actionbar_item_unselected" 
+    android:text="Testing"
+    android:gravity="center"
+    android:padding="0dp"
+    android:layout_margin="0dp"
+    android:textColor="#ffffff"
+    >
+    
+
+</TextView>

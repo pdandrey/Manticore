@@ -58,8 +58,6 @@
     	ncgeek:temporary="3"
     	ncgeek:barDrawable="@drawable/hp_bar"
     	ncgeek:fontAsset="centaur.ttf"
-    	ncgeek:textSize="10sp"
-    	ncgeek:barHeight="10dp"
 		ncgeek:barHeight="10dp"
     	ncgeek:textSize="8sp"
     	/>
@@ -75,8 +73,6 @@
     	ncgeek:current="4"
     	ncgeek:barDrawable="@drawable/surge_bar"
     	ncgeek:fontAsset="centaur.ttf"
-    	ncgeek:textSize="10sp"
-    	ncgeek:barHeight="10dp"
 		ncgeek:barHeight="10dp"
     	ncgeek:textSize="8sp"
     	/>

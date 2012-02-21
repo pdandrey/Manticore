@@ -1,0 +1,157 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout
+  xmlns:android="http://schemas.android.com/apk/res/android"
+  xmlns:ncgeek="http://schemas.android.com/apk/res/com.ncgeek.android.manticore"
+  android:layout_width="match_parent"
+  android:layout_height="match_parent"
+  android:background="@drawable/power_background">
+    <FrameLayout android:id="@+id/powerview_frmHeader" android:background="#2f6e47" android:layout_alignParentLeft="true" android:layout_alignParentTop="true" android:layout_height="wrap_content" android:layout_width="fill_parent">
+    	<ImageView android:id="@+id/powerview_ivHeader" android:src="@drawable/power_header_atwill_flare" android:layout_gravity="right" android:layout_width="wrap_content" android:layout_height="wrap_content"/>
+    	<FrameLayout android:layout_width="wrap_content" android:layout_height="wrap_content" android:layout_gravity="center_vertical|right" android:paddingRight="35dp">
+    		<ImageView android:src="@drawable/power_range" android:layout_width="fill_parent" android:layout_height="fill_parent"/>
+    		<TextView android:id="@+id/powerview_tvRangeIcon" android:layout_width="fill_parent" android:layout_height="fill_parent" android:text="r" android:textSize="24sp" android:layout_gravity="center" android:textColor="#000000"/>
+    	</FrameLayout>
+    	<RelativeLayout android:layout_width="wrap_content" android:layout_height="fill_parent">
+    		<TextView
+    			android:id="@+id/powerview_tvName"
+    			android:layout_width="wrap_content"
+    			android:layout_height="wrap_content"
+    			android:layout_alignParentTop="true"
+    			android:layout_alignParentLeft="true"
+    			android:text="Lightning Lure"
+    			android:textSize="24sp"
+    			android:textStyle="bold"
+    			android:textColor="#FFFFFF"
+    			android:layout_marginLeft="15sp"
+    			android:layout_marginTop="20sp"
+    			/>
+    		<TextView
+    			android:id="@+id/powerview_tvKeywords"
+    			android:layout_width="wrap_content"
+    			android:layout_height="wrap_content"
+    			android:layout_alignLeft="@id/powerview_tvName"
+    			android:layout_below="@id/powerview_tvName"
+    			android:text="Arcane, Implement, Lightning"
+    			android:textSize="11sp"
+    			android:textColor="#FFFFFF"
+    			android:layout_marginLeft="5sp"
+    			/>
+    	</RelativeLayout>
+    </FrameLayout>
+    <ImageView
+    	android:id="@+id/powerview_imgHeaderBorder"
+    	android:src="@drawable/power_border_bottom"
+    	android:layout_alignParentRight="true"
+    	android:layout_alignParentLeft="true"
+    	android:layout_below="@id/powerview_frmHeader"
+    	android:layout_height="wrap_content"
+    	android:layout_width="fill_parent"
+    	android:scaleType="fitXY"
+    	/>
+    <TextView
+   		android:id="@+id/powerview_tvFlavor"
+   		android:layout_width="fill_parent"
+   		android:layout_height="wrap_content"
+   		android:layout_alignParentBottom="true"
+   		android:layout_alignParentRight="true"
+   		android:layout_alignParentLeft="true"
+   		android:background="#FFFFFF"
+   		android:textStyle="italic"
+   		android:textColor="#000000"
+   		android:text="You weave a death symbol in your foe's flesh. This hateful glyph leaves your enemy's body fragile to the elements."
+   		/>
+   	<com.ncgeek.android.manticore.widgets.VerticalLabelView
+    	android:id="@+id/powerview_vlvPowerTypeAndLevel"
+    	android:layout_width="wrap_content"
+    	android:layout_height="fill_parent"
+    	android:layout_below="@id/powerview_imgHeaderBorder"
+    	android:layout_above="@id/powerview_tvFlavor"
+    	android:layout_alignParentRight="true"
+    	ncgeek:text="Swordmage Utility 2"
+    	/>
+    <LinearLayout
+    	android:id="@+id/powerview_llActionRange"
+    	android:layout_width="fill_parent"
+    	android:layout_height="wrap_content"
+    	android:layout_below="@id/powerview_imgHeaderBorder"
+    	android:layout_toLeftOf="@id/powerview_vlvPowerTypeAndLevel"
+    	android:layout_alignParentLeft="true"
+    	android:layout_marginTop="10dp"
+    	android:layout_marginLeft="10dp"
+    	android:layout_marginRight="10dp"
+    	>
+    	<TextView
+    		android:id="@+id/powerview_tvActionType"
+    		android:layout_width="wrap_content"
+    		android:layout_height="wrap_content"
+    		android:layout_weight="2"
+    		android:textStyle="bold"
+    		android:text="Standard action"
+    		android:textColor="@android:color/black"
+    		/>
+    	<TextView
+    		android:id="@+id/powerview_tvRange"
+    		android:layout_width="wrap_content"
+    		android:layout_height="wrap_content"
+    		android:layout_weight="2"
+    		android:textStyle="bold"
+    		android:text="Close burst 2"
+    		android:textColor="@android:color/black"
+    		/>
+   	</LinearLayout>
+   	<TextView
+   		android:id="@+id/powerview_tvTarget"
+   		android:layout_width="fill_parent"
+   		android:layout_height="wrap_content"
+   		android:layout_below="@id/powerview_llActionRange"
+   		android:layout_alignLeft="@id/powerview_llActionRange"
+   		android:layout_alignRight="@id/powerview_llActionRange"
+   		android:textStyle="bold"
+   		android:inputType="textMultiLine"
+   		android:text="You and one ally in burst or two allies in burst"
+   		android:textColor="@android:color/black"
+   		/>
+   	<TextView
+   		android:id="@+id/powerview_tvToHit"
+   		android:layout_width="fill_parent"
+   		android:layout_height="wrap_content"
+   		android:layout_below="@+id/powerview_tvTarget"
+   		android:layout_alignLeft="@id/powerview_llActionRange"
+   		android:layout_alignRight="@id/powerview_llActionRange"
+   		android:textStyle="bold"
+   		android:text="Intelligence vs. AC"
+   		android:textColor="@android:color/black"
+   		/>
+   	<ScrollView
+   		android:id="@+id/powerview_scroll"
+   		android:layout_width="fill_parent"
+   		android:layout_height="fill_parent"
+   		android:layout_below="@id/powerview_tvToHit"
+   		android:layout_above="@id/powerview_tvFlavor"
+   		android:layout_alignParentLeft="true"
+   		android:layout_toRightOf="@id/powerview_vlvPowerTypeAndLevel"
+   		>
+		<!-- <TableLayout
+			android:id="@+id/powerview_tblSpecifics"
+			android:layout_height="fill_parent"
+			android:layout_width="fill_parent"
+			/>-->
+		<LinearLayout 
+			android:id="@+id/powerview_llSpecifics"
+			android:layout_height="fill_parent"
+			android:layout_width="fill_parent"
+			android:orientation="vertical"
+			android:paddingLeft="10dp"
+			android:paddingRight="10dp"
+			/>
+   	</ScrollView>
+   	<ImageView
+   		android:id="@+id/powerview_imgWatermark"
+   		android:layout_width="wrap_content"
+   		android:layout_height="fill_parent"
+   		android:layout_below="@id/powerview_imgHeaderBorder"
+   		android:layout_alignParentLeft="true"
+   		android:scaleType="fitXY"
+   		android:src="@drawable/power_watermark"
+   		/>
+</RelativeLayout>
