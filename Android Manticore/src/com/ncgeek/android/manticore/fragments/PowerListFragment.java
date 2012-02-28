@@ -1,6 +1,8 @@
 package com.ncgeek.android.manticore.fragments;
 
+import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 
@@ -59,7 +61,7 @@ public class PowerListFragment extends Fragment {
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		View v = inflater.inflate(R.layout.abilitylist, container, false);
+		View v = inflater.inflate(R.layout.powerlist, container, false);
 		
 		ExpandableListView elv = (ExpandableListView)v.findViewById(R.id.lstAbilities);
 		elv.setAdapter(adapter);
@@ -70,7 +72,8 @@ public class PowerListFragment extends Fragment {
 				CharacterPower cp = (CharacterPower)adapter.getChild(groupPosition, childPosition);
 				Intent i = new Intent();
 				i.setClass(getActivity(), PowerViewer.class);
-				i.putExtra("Power", cp);
+				i.putExtra("Powers", (Serializable)adapter.getGroup(groupPosition));
+				i.putExtra("Position", childPosition);
 				getActivity().startActivity(i);
 				return true;
 			}
@@ -96,6 +99,10 @@ public class PowerListFragment extends Fragment {
 				powers.put(usage, new ArrayList<CharacterPower>());
 			powers.get(usage).add(p);
 		}
+		
+		Collections.sort(powers.get(PowerUsages.AtWill));
+		Collections.sort(powers.get(PowerUsages.Encounter));
+		Collections.sort(powers.get(PowerUsages.Daily));
 	}
 	
 	private static class ChildViewHolder {
@@ -202,7 +209,7 @@ public class PowerListFragment extends Fragment {
 						break;
 						
 					default:
-						Logger.error(LOG_TAG, "Unhandled Power Attack Type of " + p.getAttackType().getName());
+						Logger.warn(LOG_TAG, "Unhandled Power Attack Type of " + p.getAttackType().getName());
 						holder.tvRangeIcon.setText(" ");
 						break;
 				}

@@ -30,9 +30,9 @@ public class FeatListAdapter extends DelayedArrayAdapter<Feat> {
 		if(convertView == null) {
 			convertView = getInflater().inflate(getResourceID(), parent, false);
             holder = new ViewHolder();
-            holder.tvName = (TextView)convertView.findViewById(R.id.featlistitem_tvName);
-            holder.tvTier = (TextView)convertView.findViewById(R.id.featlistitem_tvTier);
-            holder.tvDesc = (TextView)convertView.findViewById(R.id.featlistitem_tvDescription);
+            holder.tvName = (TextView)convertView.findViewById(R.id.tvName);
+            holder.tvTier = (TextView)convertView.findViewById(R.id.tvTier);
+            holder.tvDesc = (TextView)convertView.findViewById(R.id.tvDescription);
             convertView.setTag(holder);
 		} else {
 			holder = (ViewHolder)convertView.getTag();

@@ -37,15 +37,25 @@ public class ActionBarHelperBase extends ActionBarHelper {
 			public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
 				adapter.setSelection(position, view);
 				ActionBarHelperBase.this.setChanged();
-				ActionBarHelperBase.this.notifyObservers(adapter.getItem(position));
+				ActionBarHelperBase.this.notifyObservers((Integer)position);
 			}
 		});
+		
+		setChanged();
+		notifyObservers(position);
 	}
 	
 	@Override
 	public void onSaveInstanceState(Bundle outState) {
 		super.onSaveInstanceState(outState);
 		outState.putInt("ActionBarPosition", adapter.selectedPosition);
+	}
+	
+	@Override
+	public void setSelectedTab(int position) {
+		Gallery g = (Gallery)getActivity().findViewById(R.id.actionbar);
+		g.setSelection(position, true);
+		adapter.setSelection(position, g.getSelectedView());
 	}
 
 	private static class ActionBarAdapter extends ArrayAdapter<ActionBarTab> {

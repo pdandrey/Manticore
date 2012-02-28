@@ -1,11 +1,11 @@
 package com.ncgeek.android.manticore.fragments;
 
-import java.text.MessageFormat;
 import java.util.Observable;
 import java.util.Observer;
 
 import com.ncgeek.android.manticore.ManticoreCharacter;
 import com.ncgeek.android.manticore.R;
+import com.ncgeek.android.manticore.activities.Manticore;
 import com.ncgeek.android.manticore.util.Utility;
 import com.ncgeek.android.manticore.widgets.LabelBar;
 import com.ncgeek.manticore.character.HitPoints;
@@ -14,7 +14,6 @@ import com.ncgeek.manticore.util.Logger;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.Bundle;
-import android.renderscript.Font.Style;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -33,16 +32,12 @@ public class CharacterStatusFragment extends Fragment implements Observer {
 	private View _view;
 	
 	public CharacterStatusFragment() { }
-	public CharacterStatusFragment(ManticoreCharacter pc) {
-		this();
-		setCharacter(pc);
-	}
 	
-	public void setCharacter(ManticoreCharacter pc) {
+	public void setCharacter() {
 		if(_pc != null)
 			_pc.deleteObserver(this);
 		
-		_pc = pc;
+		_pc = ((Manticore)getActivity()).getCharacter();
 		setupCharacter();
 		_pc.getHP().addObserver(this);
 	}
@@ -67,15 +62,18 @@ public class CharacterStatusFragment extends Fragment implements Observer {
 		tv = (TextView)_view.findViewById(R.id.tvRaceAndClass);
 		tv.setTypeface(fontCentaur);
 		
-		setupCharacter();
+		setCharacter();
 		return _view;
 	}
 	
 	@Override
 	public void onDestroy() {
 		super.onDestroy();
-		_pc.getHP().deleteObserver(this);
-		Logger.debug(LOG_TAG, "onDestroy");
+		
+		Logger.debug(LOG_TAG, "onDestroy()");
+		
+		if(_pc != null)
+			_pc.getHP().deleteObserver(this);
 	}
 	
 	private void setupCharacter() {

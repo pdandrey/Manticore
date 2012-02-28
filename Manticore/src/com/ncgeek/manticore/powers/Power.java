@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class Power implements Serializable {
+public class Power implements Serializable, Comparable<Power> {
 
 	private static final long serialVersionUID = 3L;
 	private static final Pattern REGEX_ATTACK_TYPE = Pattern.compile("^Area (?:Burst|Wall)|Close (?:Burst|Blast|Wall)|Melee|Ranged|Personal|Touch|Varies");
@@ -137,4 +137,9 @@ public class Power implements Serializable {
 	public final AttackTypes getAttackType() { return attackType; }
 	
 	public final PowerTypes getPowerType() { return powerType; }
+
+	@Override
+	public int compareTo(Power other) {
+		return name.compareToIgnoreCase(other.name);
+	}
 }

@@ -11,7 +11,7 @@ import com.ncgeek.manticore.items.EquippableItem;
 import com.ncgeek.manticore.powers.Power;
 import com.ncgeek.manticore.powers.PowerUsages;
 
-public class CharacterPower implements Serializable, IRest {
+public class CharacterPower implements Serializable, IRest, Comparable<CharacterPower> {
 
 	private static final long serialVersionUID = 1L;
 
@@ -138,5 +138,10 @@ public class CharacterPower implements Serializable, IRest {
 		public void addDamageComponent(String component) {
 			damageComponents.add(component);
 		}
+	}
+
+	@Override
+	public int compareTo(CharacterPower other) {
+		return power.compareTo(other.power);
 	}
 }

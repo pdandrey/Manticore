@@ -30,4 +30,5 @@ public abstract class ActionBarHelper extends Observable {
 	public void onCreate(Bundle savedInstanceState) {}
 	public boolean onCreateOptionsMenu(Menu menu) { return true; }
 	public void onSaveInstanceState(Bundle outState) {}
+	public abstract void setSelectedTab(int position);
 }

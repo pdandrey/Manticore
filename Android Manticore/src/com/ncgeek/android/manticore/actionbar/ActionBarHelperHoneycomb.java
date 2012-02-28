@@ -25,7 +25,7 @@ public class ActionBarHelperHoneycomb extends ActionBarHelper {
 			@Override
 			public void onTabSelected(Tab tab, FragmentTransaction ft) {
 				ActionBarHelperHoneycomb.this.setChanged();
-				ActionBarHelperHoneycomb.this.notifyObservers(tab.getTag());
+				ActionBarHelperHoneycomb.this.notifyObservers(tab.getPosition());
 			}
 			
 			@Override
@@ -43,7 +43,26 @@ public class ActionBarHelperHoneycomb extends ActionBarHelper {
 		for(ActionBarTab tab : ActionBarTab.values()) {
 			bar.addTab(bar.newTab().setText(tab.toString()).setTag(tab).setTabListener(listener));
 		}
+		
+		int position = 0;
+		if(savedInstanceState != null)
+			position = savedInstanceState.getInt("ActionBarPosition");
+		
+		bar.setSelectedNavigationItem(position);
+		
+		setChanged();
+		notifyObservers(bar.getSelectedTab().getPosition());
 	}
 
-	
+	@Override
+	public void onSaveInstanceState(Bundle outState) {
+		super.onSaveInstanceState(outState);
+		outState.putInt("ActionBarPosition", getActivity().getActionBar().getSelectedNavigationIndex());
+	}
+
+	@Override
+	public void setSelectedTab(int position) {
+		ActionBar bar = getActivity().getActionBar();
+		bar.setSelectedNavigationItem(position);
+	}
 }
