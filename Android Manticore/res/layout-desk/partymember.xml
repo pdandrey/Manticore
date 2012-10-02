@@ -33,7 +33,7 @@
 		android:scaleType="fitXY"
 		android:visibility="gone"
 		/>
-	<com.ncgeek.android.manticore.widgets.LabelBar
+	<!-- <com.ncgeek.android.manticore.widgets.LabelBar
     	android:id="@+id/partymember_hpbar"
     	android:layout_width="200dp" 
  		android:layout_height="wrap_content"
@@ -60,5 +60,5 @@
     	ncgeek:barDrawable="@drawable/surge_bar"
     	ncgeek:barHeight="5dp"
     	ncgeek:textSize="8sp"
-    	/>
+    	/> -->
 </merge>

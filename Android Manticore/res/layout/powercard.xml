@@ -67,7 +67,7 @@
     	android:layout_below="@id/powerview_imgHeaderBorder"
     	android:layout_above="@id/powerview_tvFlavor"
     	android:layout_alignParentRight="true"
-    	ncgeek:text="Swordmage Utility 2"
+    	ncgeek:text="Swordmage Utility 234"
     	/>
     <LinearLayout
     	android:id="@+id/powerview_llActionRange"

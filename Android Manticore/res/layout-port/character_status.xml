@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout
+<merge
 	xmlns:android="http://schemas.android.com/apk/res/android"
 	xmlns:ncgeek="http://schemas.android.com/apk/res/com.ncgeek.android.manticore"
 	android:layout_width="fill_parent"
-	android:layout_height="130dp">
+	android:layout_height="wrap_content">
 	<ImageView 
     	android:id="@+id/ivPortrait"
     	android:src="@drawable/icon"  
@@ -11,7 +11,6 @@
     	android:layout_width="130dp" 
     	android:layout_alignParentLeft="true" 
     	android:layout_alignParentTop="true"
-    	android:layout_alignParentBottom="true"
     	android:layout_marginRight="5dp"
     	android:scaleType="fitCenter"
     	android:contentDescription="Character Portrait"
@@ -20,6 +19,7 @@
     	android:id="@+id/tvName" 
     	android:layout_height="wrap_content" 
     	android:layout_width="fill_parent" 
+    	android:layout_marginRight="10dp"
     	android:textSize="24sp" 
     	android:text="Char Name" 
     	android:layout_toRightOf="@id/ivPortrait" 
@@ -43,36 +43,59 @@
         android:text="{0} {1} {2} {3}"
         android:textSize="16sp"
         />
-    <com.ncgeek.android.manticore.widgets.LabelBar
-    	android:id="@+id/hpbar"
-    	android:layout_width="200dp"
- 		android:layout_height="wrap_content"
- 		android:orientation="horizontal"
- 		android:layout_below="@id/tvRaceAndClass" 
-    	android:layout_alignLeft="@id/tvName"
- 		android:layout_alignRight="@id/tvName"
-    	ncgeek:label="HP:"
-    	ncgeek:max="57"
-    	ncgeek:current="48"
-    	ncgeek:temporary="3"
-    	ncgeek:barDrawable="@drawable/hp_bar"
-    	ncgeek:fontAsset="centaur.ttf"
-    	ncgeek:barHeight="10dp"
-    	ncgeek:textSize="8sp"
-    	/>
-   	<com.ncgeek.android.manticore.widgets.LabelBar
-    	android:id="@+id/surgebar"
-    	android:layout_width="200dp" 
- 		android:layout_height="wrap_content"
- 		android:layout_alignLeft="@id/tvName"
- 		android:layout_alignRight="@id/tvName"
- 		android:layout_below="@id/hpbar"
- 		ncgeek:label="Healing Surges:"
-    	ncgeek:max="8"
-    	ncgeek:current="4"
-    	ncgeek:barDrawable="@drawable/surge_bar"
-    	ncgeek:fontAsset="centaur.ttf"
-    	ncgeek:barHeight="10dp"
-    	ncgeek:textSize="8sp"
-    	/>
-</RelativeLayout>
+    <ProgressBar 
+        android:id="@+id/barHP"
+        android:layout_height="20dp"
+        android:layout_width="0dp"
+       	android:layout_alignRight="@id/tvName"
+       	android:layout_below="@id/tvRaceAndClass"
+       	android:layout_alignLeft="@id/tvName"
+       	android:indeterminate="false"
+       	android:indeterminateOnly="false"
+       	android:progress="75"
+       	android:max="100"
+       	android:progressDrawable="@drawable/hp_bar"
+        />
+    <TextView
+        android:id="@+id/tvHP"
+        android:layout_width="0dp" 
+        android:layout_height="0dp"
+        android:layout_alignTop="@id/barHP"
+        android:layout_alignLeft="@id/barHP"
+        android:layout_alignBottom="@id/barHP"
+        android:layout_alignRight="@id/barHP"
+        android:text="HP: {0}/{1}"
+       	android:gravity="center_vertical"
+       	android:textStyle="bold"
+       	android:textSize="18sp"
+       	android:paddingLeft="5dp"
+        />
+    <ProgressBar 
+        android:id="@+id/barSurges"
+        android:layout_height="20dp"
+        android:layout_width="0dp"
+       	android:layout_alignRight="@id/tvName"
+       	android:layout_below="@id/barHP"
+       	android:layout_alignLeft="@id/tvName"
+       	android:layout_marginTop="5dp"
+       	android:indeterminate="false"
+       	android:indeterminateOnly="false"
+       	android:progress="10"
+       	android:max="8"
+       	android:progressDrawable="@drawable/surge_bar"
+        />
+    <TextView
+        android:id="@+id/tvSurges"
+        android:layout_width="0dp" 
+        android:layout_height="0dp"
+        android:layout_alignTop="@id/barSurges"
+        android:layout_alignLeft="@id/barSurges"
+        android:layout_alignBottom="@id/barSurges"
+        android:layout_alignRight="@id/barSurges"
+        android:text="Surges: {0}/{1}"
+       	android:gravity="center_vertical"
+       	android:textStyle="bold"
+       	android:textSize="18sp"
+       	android:paddingLeft="5dp"
+        />
+</merge>

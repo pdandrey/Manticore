@@ -8,14 +8,18 @@ import com.ncgeek.android.manticore.ManticoreStatus;
 import com.ncgeek.android.manticore.R;
 import com.ncgeek.android.manticore.actionbar.ActionBarHelper;
 import com.ncgeek.android.manticore.actionbar.ActionBarTab;
+import com.ncgeek.manticore.character.stats.Stat;
 import com.ncgeek.manticore.util.Logger;
 
+import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.view.Window;
 
 public class Manticore 
 	extends FragmentActivity
@@ -30,6 +34,11 @@ public class Manticore
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		
+		if(Build.VERSION.SDK_INT < Build.VERSION_CODES.HONEYCOMB) {
+			requestWindowFeature(Window.FEATURE_NO_TITLE);
+		}
+		
 		setContentView(R.layout.manticore);
 		
 		ManticoreStatus.initialize(this);
@@ -77,6 +86,12 @@ public class Manticore
 	}
 	
 	public final ManticoreCharacter getCharacter() { return character; }
+	
+	public void displayStatDetails(Stat stat) {
+		Intent i = new Intent(this, DetailsView.class);
+		i.putExtra("item", stat);
+		startActivity(i);
+	}
 	
 	private class ManticorePagerAdapter extends FragmentPagerAdapter {
 		

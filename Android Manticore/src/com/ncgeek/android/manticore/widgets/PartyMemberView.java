@@ -27,8 +27,8 @@ public class PartyMemberView extends RelativeLayout implements Observer {
 	
 	private PartyMember member;
 	
-	private LabelBar barHP;
-	private LabelBar barSurge;
+	//private LabelBar barHP;
+	//private LabelBar barSurge;
 	private ImageView imgNewMessages;
 	private final Context context;
 	
@@ -59,10 +59,10 @@ public class PartyMemberView extends RelativeLayout implements Observer {
 		LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         inflater.inflate(R.layout.partymember, this);
         
-        barHP = (LabelBar)findViewById(R.id.partymember_hpbar);
-        barSurge = (LabelBar)findViewById(R.id.partymember_surgebar);
-        
-        barHP.addChange(50, "Bloodied", Color.RED, getResources().getDrawable(R.drawable.hp_bar_bloodied));
+//        barHP = (LabelBar)findViewById(R.id.partymember_hpbar);
+//        barSurge = (LabelBar)findViewById(R.id.partymember_surgebar);
+//        
+//        barHP.addChange(50, "Bloodied", Color.RED, getResources().getDrawable(R.drawable.hp_bar_bloodied));
         
         imgNewMessages = (ImageView)findViewById(R.id.partyMember_imgNewMessages);
         
@@ -102,12 +102,12 @@ public class PartyMemberView extends RelativeLayout implements Observer {
 			
 			Logger.debug(LOG_TAG, String.format("%s Hitpoint Update: %s", member.getName(), hp.toString()));
 			
-			barHP.setMax(hp.getMax());
-			barSurge.setMax(hp.getTotalSurges());
-			
-			barHP.setCurrent(hp.getCurrent());
-			barHP.setTemporary(hp.getTemp());
-			barSurge.setCurrent(hp.getRemainingSurges());
+//			barHP.setMax(hp.getMax());
+//			barSurge.setMax(hp.getTotalSurges());
+//			
+//			barHP.setCurrent(hp.getCurrent());
+//			barHP.setTemporary(hp.getTemp());
+//			barSurge.setCurrent(hp.getRemainingSurges());
 		} else if(sender == member) {
 			imgNewMessages.setVisibility(member.hasUnreadMessages() ? View.VISIBLE : View.GONE);
 		}

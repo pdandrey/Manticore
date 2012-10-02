@@ -170,7 +170,7 @@ public class PowerCardFragment extends Fragment {
 					
 				default:
 					tvRangeIcon.setText(" ");
-					Logger.error(LOG_TAG, "Unhandled Power Attack Type of " + p.getAttackType().getName());
+					Logger.warn(LOG_TAG, "Unhandled Power Attack Type of " + p.getAttackType().getName());
 					break;
 			}
 		}

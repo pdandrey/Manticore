@@ -59,7 +59,7 @@
     	android:layout_alignTop="@id/charactersheet_txtRace"
     	android:layout_marginLeft="3dp"
     	/>
-   	<com.ncgeek.android.manticore.widgets.LabelBar
+<!--    	<com.ncgeek.android.manticore.widgets.LabelBar
     	android:id="@+id/charactersheet_surgebar"
     	android:layout_width="200dp" 
  		android:layout_height="wrap_content"
@@ -86,7 +86,8 @@
     	ncgeek:temporary="3"
     	ncgeek:barDrawable="@drawable/hp_bar"
     	/>
-   	<com.ncgeek.android.manticore.widgets.GalleryMenu
+ -->
+    	<com.ncgeek.android.manticore.widgets.GalleryMenu
    		android:id="@+id/charactersheet_mainmenu"
    		android:layout_alignParentBottom="true" 
     	android:layout_alignParentRight="true"

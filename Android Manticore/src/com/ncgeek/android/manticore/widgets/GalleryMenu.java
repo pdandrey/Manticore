@@ -17,6 +17,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+@Deprecated
 public class GalleryMenu extends LinearLayout {
 
 	private GalleryMenuAdapter adapter;

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest 
+	xmlns:android="http://schemas.android.com/apk/res/android"
+	package="android.support.v4.patch" 
+	android:versionCode="1"
+	android:versionName="1" 
+	
+	>
+	<uses-sdk 
+			android:minSdkVersion="7" 
+			android:targetSdkVersion="15" 
+			/>
+	<application 
+		
+		>
+	
+	</application>
+</manifest> 

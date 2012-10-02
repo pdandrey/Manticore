@@ -24,7 +24,6 @@ import com.ncgeek.android.manticore.partial.PartyPartial;
 import com.ncgeek.android.manticore.partial.SkillPartial;
 import com.ncgeek.android.manticore.partial.StatPartial;
 import com.ncgeek.android.manticore.util.Utility;
-import com.ncgeek.android.manticore.widgets.LabelBar;
 import com.ncgeek.manticore.Ritual;
 import com.ncgeek.manticore.character.Feat;
 import com.ncgeek.manticore.character.HitPoints;
@@ -67,6 +66,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.ViewAnimator;
 
+@Deprecated
 public class CharacterSheet extends Activity {
 	
 	private final static String LOG_TAG = "Character Sheet";
@@ -131,16 +131,16 @@ public class CharacterSheet extends Activity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.character_sheet);
         
-        View v = findViewById(R.id.charactersheet_hpbar);
-        v.setOnClickListener(ContextMenuClick);
-        registerForContextMenu(v);
+//        View v = findViewById(R.id.charactersheet_hpbar);
+//        v.setOnClickListener(ContextMenuClick);
+//        registerForContextMenu(v);
+//        
+//        v = findViewById(R.id.charactersheet_surgebar);
+//        v.setOnClickListener(ContextMenuClick);
+//        registerForContextMenu(v);
         
-        v = findViewById(R.id.charactersheet_surgebar);
-        v.setOnClickListener(ContextMenuClick);
-        registerForContextMenu(v);
-        
-        LabelBar hp = (LabelBar)findViewById(R.id.charactersheet_hpbar);
-        hp.addChange(50, "Bloodied", Color.RED, getResources().getDrawable(R.drawable.hp_bar_bloodied));
+//        LabelBar hp = (LabelBar)findViewById(R.id.charactersheet_hpbar);
+//        hp.addChange(50, "Bloodied", Color.RED, getResources().getDrawable(R.drawable.hp_bar_bloodied));
         
         final GalleryMenu gallery = (GalleryMenu)findViewById(R.id.charactersheet_mainmenu);
         gallery.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -372,11 +372,11 @@ public class CharacterSheet extends Activity {
 		MenuInflater inflater = getMenuInflater();
 		
 		switch(v.getId()) {
-			case R.id.charactersheet_hpbar:
-			case R.id.charactersheet_surgebar:
-				inflater.inflate(R.menu.charactersheet_hitpoints, menu);
-				menu.setGroupVisible(R.id.charactersheet_mnugrpDeathSave, _pc.getHP().isBleedingOut());
-				break;
+//			case R.id.charactersheet_hpbar:
+//			case R.id.charactersheet_surgebar:
+//				inflater.inflate(R.menu.charactersheet_hitpoints, menu);
+//				menu.setGroupVisible(R.id.charactersheet_mnugrpDeathSave, _pc.getHP().isBleedingOut());
+//				break;
 				
 			default:
 				inflater.inflate(currentPartial.getContextMenuID(), menu);
@@ -494,17 +494,17 @@ public class CharacterSheet extends Activity {
 	private void updateHP() {
 		HitPoints hp = _pc.getHP();
 		
-		LabelBar hpbar = (LabelBar)findViewById(R.id.charactersheet_hpbar);
-		LabelBar surgebar = (LabelBar)findViewById(R.id.charactersheet_surgebar);
-		
-		hpbar.setMax(hp.getMax());
-		hpbar.setCurrent(hp.getCurrent());
-		hpbar.setTemporary(hp.getTemp());
-		
-		surgebar.setMax(hp.getTotalSurges());
-		surgebar.setCurrent(hp.getRemainingSurges());
-		surgebar.setTemporary(0);
-		
+//		LabelBar hpbar = (LabelBar)findViewById(R.id.charactersheet_hpbar);
+//		LabelBar surgebar = (LabelBar)findViewById(R.id.charactersheet_surgebar);
+//		
+//		hpbar.setMax(hp.getMax());
+//		hpbar.setCurrent(hp.getCurrent());
+//		hpbar.setTemporary(hp.getTemp());
+//		
+//		surgebar.setMax(hp.getTotalSurges());
+//		surgebar.setCurrent(hp.getRemainingSurges());
+//		surgebar.setTemporary(0);
+//		
 		/*
 		int background = R.drawable.hp_background;
 		if(hp.isDead()) {

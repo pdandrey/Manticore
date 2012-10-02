@@ -1,21 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 	<attr name="textSize" format="dimension" />
-	<declare-styleable name="LabelBar">
-        <attr name="barDrawable" format="reference"/>
-        <attr name="label" format="string"/>
-        <attr name="max" format="integer"/>
-        <attr name="current" format="integer"/>
-        <attr name="temporary" format="integer"/>
-        <attr name="separator" format="string"/>
-        <attr name="status" format="string"/>
-        <attr name="textSize" />
-        <attr name="barHeight" format="dimension"/>
-        <attr name="fontAsset" format="string"/>
-    </declare-styleable>
+	<attr name="text" format="string" />
+	<attr name="textColor" format="color" />
 	<declare-styleable name="VerticalLabelView">
-        <attr name="text" format="string" />
-        <attr name="textColor" format="color" />
+        <attr name="text" />
+        <attr name="textColor" />
         <attr name="textSize" />
+    </declare-styleable>
+    <declare-styleable name="StatView">
+        <attr name="type" format="enum">
+            <enum name="stat" value="0" />
+            <enum name="ability" value="1" />
+            <enum name="skill" value="2" />
+        </attr>
+        <attr name="android:text" />
+        <attr name="android:textColor" />
+        <attr name="android:textSize" />
+        <attr name="android:orientation" />
+        <attr name="android:gravity" />
+        <attr name="textWeight" format="integer" />
     </declare-styleable>
 </resources>

@@ -8,6 +8,7 @@ import android.view.MenuItem;
 import android.view.SubMenu;
 import android.view.View;
 
+@Deprecated
 public class GallerySubMenu implements SubMenu {
 
 	@Override

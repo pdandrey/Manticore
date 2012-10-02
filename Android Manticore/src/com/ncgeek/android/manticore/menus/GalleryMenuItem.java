@@ -9,6 +9,7 @@ import android.view.SubMenu;
 import android.view.ContextMenu.ContextMenuInfo;
 import android.view.View;
 
+@Deprecated
 public class GalleryMenuItem implements MenuItem {
 
 	private char alphabeticShortcut;

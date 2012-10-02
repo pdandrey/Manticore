@@ -210,6 +210,10 @@ public final class Utility {
 	
 	public static void setTextFromFormat(View v, int id, Object...args) {
 		TextView tv = (TextView)v.findViewById(id);
+		setTextFromFormat(tv, args);
+	}
+	
+	public static void setTextFromFormat(TextView tv, Object...args) {
 		String format = (String)tv.getTag();
 		if(format == null) {
 			format = tv.getText().toString();

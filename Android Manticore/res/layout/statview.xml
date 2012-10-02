@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android">
+    <TextView
+     	android:id="@+id/tvName"
+     	android:layout_width="wrap_content"
+     	android:layout_height="wrap_content"
+     	android:textStyle="bold"
+     	android:textSize="18sp"
+     	android:gravity="left"
+     	android:layout_weight="1"
+     	android:text="AC"
+     	/>
+    <TextView
+        android:id="@+id/tvValue"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_weight="1"
+        android:textSize="18sp"
+        android:text="13"
+        />
+</merge>

@@ -1,0 +1,13 @@
+<project name="AndroidLib" default="dist" basedir=".">
+   <description>Android Sample Library</description>
+   <!-- Setting global properties for this build -->
+   <property name="src" location="src" />
+   <property name="bin" location="bin" />
+ 
+   <target name="dist">
+      <jar destfile="android-support-v4-patched.jar" basedir="bin/classes/">
+         <!-- Use ** to include the directory recursively -->
+         <include name="android/**" />
+      </jar>
+   </target>
+</project>

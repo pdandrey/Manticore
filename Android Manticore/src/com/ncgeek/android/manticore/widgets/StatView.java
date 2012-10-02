@@ -1,169 +1,158 @@
 package com.ncgeek.android.manticore.widgets;
 
-import com.ncgeek.android.manticore.ManticorePreferences;
-import com.ncgeek.android.manticore.ManticoreStatus;
+import java.util.ArrayList;
+import java.util.List;
+
 import com.ncgeek.android.manticore.R;
-import com.ncgeek.android.manticore.activities.DetailsView;
-import com.ncgeek.android.manticore.util.Utility;
 import com.ncgeek.manticore.character.stats.Stat;
 
-import android.R.color;
 import android.content.Context;
-import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.Typeface;
-import android.graphics.drawable.ShapeDrawable;
-import android.graphics.drawable.shapes.RectShape;
-import android.graphics.drawable.shapes.Shape;
-import android.os.Parcel;
-import android.os.Parcelable;
+import android.content.res.TypedArray;
 import android.util.AttributeSet;
-import android.util.TypedValue;
 import android.view.Gravity;
-import android.view.View;
-import android.view.View.OnLongClickListener;
-import android.widget.ImageView;
+import android.view.LayoutInflater;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-public class StatView extends LinearLayout implements OnLongClickListener {
+public class StatView extends LinearLayout {
 
-	private ImageView ivIcon;
-	private TextView tvName;
-	private TextView tvValue;
-	private Context context;
+	private static final String LOG_TAG = "StatView";
 	
-	public StatView(Context context) {
-		super(context);
-		 init(context, null);
+	public enum StatType { 
+		Stat(0), Ability(1), Skill(2); 
+		public static StatType forValue(int value) {
+			for(StatType st : StatType.values())
+				if(st.value == value)
+					return st;
+			return null;
+		}
+		private int value;
+		StatType(int v) { value = v; }
+		public int getValue() { return value; }
 	}
 	
+	private Stat stat;
+	private StatType type;
+	private boolean setNameFromStat;
+	
+	public StatView(Context context, AttributeSet attrs, int defStyle) {
+		super(context, attrs, defStyle);
+		init(context, attrs);
+	}
+
 	public StatView(Context context, AttributeSet attrs) {
 		super(context, attrs);
 		init(context, attrs);
 	}
 
-	private void init(Context context, AttributeSet attrs) {
-		this.context = context;
-		setOrientation(VERTICAL);
-		LayoutParams lp = (LinearLayout.LayoutParams)getLayoutParams();
-
-		ivIcon = new ImageView(context, attrs);
-		tvName = new TextView(context, attrs);
-		tvValue = new TextView(context, attrs);
-		
-		ivIcon.setImageResource(R.drawable.icon);
-		tvName.setText("Stat");
-		tvValue.setText("99");
-		
-		lp = new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
-		lp.gravity = Gravity.CENTER_HORIZONTAL | Gravity.CENTER_VERTICAL;
-		tvName.setLayoutParams(lp);
-		tvName.setGravity(Gravity.CENTER_HORIZONTAL | Gravity.CENTER_VERTICAL);
-		Typeface font = tvName.getTypeface();
-		font = Typeface.create(font, Typeface.BOLD);
-		tvName.setTypeface(font);
-		
-		LinearLayout ll = new LinearLayout(context);
-		lp =  new LayoutParams(LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT);
-		ll.setLayoutParams(lp);
-		ll.setOrientation(LinearLayout.HORIZONTAL);
-		
-		
-		lp =  new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
-		lp.weight = 1;
-		lp.gravity = Gravity.CENTER_HORIZONTAL;
-		ivIcon.setLayoutParams(lp);
-				
-		lp =  new LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.WRAP_CONTENT);
-		lp.weight = 2;
-		lp.gravity = Gravity.CENTER_HORIZONTAL | Gravity.CENTER_VERTICAL;
-		tvValue.setLayoutParams(lp);
-		tvValue.setTypeface(tvValue.getTypeface(), Typeface.BOLD);
-		tvValue.setTextSize(TypedValue.COMPLEX_UNIT_SP, 24);
-		tvValue.setGravity(Gravity.CENTER);
-		
-		ll.addView(ivIcon);
-		ll.addView(tvValue);
-		
-		addView(tvName);
-		addView(ll);
-		
-		setOnLongClickListener(this);
+	public StatView(Context context) {
+		super(context);
+		init(context, null);
 	}
-	
+
+	public Stat getStat() { return stat; }
 	public void setStat(Stat stat) {
-		String name = stat.getAliases().get(0);
-		ivIcon.setImageResource(Utility.getStatIcon(name));
-		tvName.setText(name + ":");
-		setTag(name);
+		this.stat = stat;
 		
-		ManticorePreferences pref = new ManticorePreferences(context);
-		if(pref.useCalculatedStats()) {
-			tvValue.setText(stat.getCalculatedValue() + "");
-		} else {
-			tvValue.setText(stat.getAbsoluteValue() + "");
+		TextView tv = (TextView)findViewById(R.id.tvValue);
+		tv.setText(String.format("%d", stat.getCalculatedValue()));
+		
+		if(setNameFromStat) {
+			tv = (TextView)findViewById(R.id.tvName);
+			tv.setText(stat.getAliases().get(0));
+		}
+		
+		switch(type) {
+			case Ability:
+				displayAbility();
+				break;
+				
+			case Skill:
+				displaySkill();
+				break;
 		}
 	}
 
-	@Override
-	public boolean onLongClick(View v) {
-		Intent i = new Intent(context, DetailsView.class);
-        i.setAction(Intent.ACTION_VIEW);
-        i.addCategory(Intent.CATEGORY_DEFAULT);
-        i.putExtra("item", ManticoreStatus.getPC().getStats().get((String)v.getTag()));
-        context.startActivity(i);
-		return true;
+	public void init(Context context, AttributeSet attrs) {
+		
+		TypedArray a = context.obtainStyledAttributes(attrs, R.styleable.StatView);
+		List<TextView> lstTextViews = new ArrayList<TextView>();
+		List<Integer> lstIds = new ArrayList<Integer>();
+		
+		if(!a.hasValue(R.styleable.StatView_type)) {
+			throw new RuntimeException("Missing type attribute");
+		}
+		
+		type = StatType.forValue(a.getInt(R.styleable.StatView_type, 0));
+		
+		int layout = R.layout.statview;
+		
+		lstIds.add(R.id.tvName);
+		lstIds.add(R.id.tvValue);
+		
+		switch(type) {
+			case Ability:
+				layout = R.layout.abilityview;
+				lstIds.add(R.id.tvModifier);
+				break;
+				
+			case Skill:
+				throw new RuntimeException("Skill views are not implemented yet");
+				
+			case Stat:
+				layout = R.layout.statview;
+				int orientation = a.getInt(R.styleable.StatView_android_orientation, LinearLayout.VERTICAL);
+				setOrientation(orientation);				
+				
+				int gravity = a.getInt(R.styleable.StatView_android_gravity, Gravity.CENTER_HORIZONTAL);
+				setGravity(gravity);
+				break;
+		}
+		
+		LayoutInflater inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+		inflater.inflate(layout, this, true);
+		
+		for(int id : lstIds) {
+			lstTextViews.add((TextView)findViewById(id));
+		}
+		
+		Integer color = null;
+		if(a.hasValue(R.styleable.StatView_android_textColor))
+			color = a.getColor(R.styleable.StatView_android_textColor, android.graphics.Color.WHITE);
+		
+		TextView tvName = (TextView)findViewById(R.id.tvName);
+		setNameFromStat = !a.hasValue(R.styleable.StatView_android_text);
+		if(!setNameFromStat)
+			tvName.setText(a.getString(R.styleable.StatView_android_text));
+		else
+			tvName.setText(type.toString());
+		
+		TextView tvVal = (TextView)findViewById(R.id.tvValue);
+		tvVal.setText("##");
+		
+		if(color != null) {
+			for(TextView tv : lstTextViews)
+				tv.setTextColor(color);
+		}
+		
+		if(a.hasValue(R.styleable.StatView_android_textSize)) {
+			float size = a.getDimension(R.styleable.StatView_android_textSize, 0);
+			for(TextView tv : lstTextViews)
+				tv.setTextSize(size);
+		}
+		
+		a.recycle();
 	}
 	
-	@Override
-	  public Parcelable onSaveInstanceState() {
-	    //begin boilerplate code that allows parent classes to save state
-	    Parcelable superState = super.onSaveInstanceState();
-
-	    SavedState ss = new SavedState(superState);
-	    //end
-
-	    return ss;
-	  }
-
-	  @Override
-	  public void onRestoreInstanceState(Parcelable state) {
-	    //begin boilerplate code so parent classes can restore state
-	    if(!(state instanceof SavedState)) {
-	      super.onRestoreInstanceState(state);
-	      return;
-	    }
-
-	    SavedState ss = (SavedState)state;
-	    super.onRestoreInstanceState(ss.getSuperState());
-	    //end
-	  }
-
-	  static class SavedState extends BaseSavedState {
-	   
-	    SavedState(Parcelable superState) {
-	      super(superState);
-	    }
-
-	    private SavedState(Parcel in) {
-	      super(in);
-	      //this.stateToSave = in.readInt();
-	    }
-
-	    @Override
-	    public void writeToParcel(Parcel out, int flags) {
-	      super.writeToParcel(out, flags);
-	      //out.writeInt(this.stateToSave);
-	    }
-
-		public static final Parcelable.Creator<SavedState> CREATOR = new Parcelable.Creator<SavedState>() {
-	          public SavedState createFromParcel(Parcel in) {
-	            return new SavedState(in);
-	          }
-	          public SavedState[] newArray(int size) {
-	            return new SavedState[size];
-	          }
-	    };
-	  }
+	private void displayAbility() {
+		TextView tv = (TextView)findViewById(R.id.tvModifier);
+		String sign = "";
+		if(stat.getModifier() >= 0)
+			sign = "+";
+		tv.setText(String.format("%s%d", sign, stat.getModifier()));
+	}
+	
+	private void displaySkill() {
+		throw new RuntimeException("Skill views are not implemented yet");
+	}
 }

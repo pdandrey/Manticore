@@ -13,6 +13,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.SubMenu;
 
+@Deprecated
 public class GalleryMenu implements Menu {
 
 	private Resources res;
