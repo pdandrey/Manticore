@@ -11,3 +11,5 @@ JullianServer/TestResults/*
 obj/
 *.suo
 TestBed/
+db/
+OldTests/
