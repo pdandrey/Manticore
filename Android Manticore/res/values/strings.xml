@@ -29,4 +29,6 @@
     	<string name="menu_faildeathsave">Fail Death Save</string>
     	<string name="menu_useactionpoint">Use Action Point</string>
     	<string name="menu_milestone">Milestone Reached</string>
+    	<string name="dialog_download_examples_title">Download Examples?</string>
+    	<string name="dialog_download_examples_message">You don\'t have any characters on your SDCard.  Would you like to download an example character?</string>
 </resources>

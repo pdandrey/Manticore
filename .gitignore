@@ -6,6 +6,7 @@ Thumbs.db
 Manticore\ Test/lib/jdom-api/
 *.jpage
 R.java
+BuildConfig.java
 JullianServer/JullianServer/Cache/*
 JullianServer/TestResults/*
 obj/

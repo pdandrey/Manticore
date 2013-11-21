@@ -102,6 +102,8 @@ public class LoadCharacterActivity
 			FragmentTransaction trans = mgr.beginTransaction();
 			trans.replace(R.id.loadcharacter_frame, fgmtImport, "Import");
 			trans.commit();
+		} else {
+			fgmtImport.fillData();
 		}
 		
 		findViewById(R.id.loadcharacter_frame).setVisibility(View.VISIBLE);
