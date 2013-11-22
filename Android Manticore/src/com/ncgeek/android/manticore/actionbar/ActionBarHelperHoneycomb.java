@@ -2,13 +2,16 @@ package com.ncgeek.android.manticore.actionbar;
 
 import com.ncgeek.android.manticore.R;
 
+import android.annotation.TargetApi;
 import android.app.ActionBar;
 import android.app.Activity;
 import android.app.FragmentTransaction;
 import android.app.ActionBar.Tab;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.View;
 
+@TargetApi(Build.VERSION_CODES.HONEYCOMB) 
 public class ActionBarHelperHoneycomb extends ActionBarHelper {
 
 	public ActionBarHelperHoneycomb(Activity activity) {
@@ -36,13 +39,14 @@ public class ActionBarHelperHoneycomb extends ActionBarHelper {
 		getActivity().findViewById(R.id.actionbar).setVisibility(View.GONE);
 		
 		ActionBar bar = getActivity().getActionBar();
-		bar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
 		bar.setDisplayShowTitleEnabled(false);
 		bar.setDisplayShowHomeEnabled(false);
 
 		for(ActionBarTab tab : ActionBarTab.values()) {
 			bar.addTab(bar.newTab().setText(tab.toString()).setTag(tab).setTabListener(listener));
 		}
+		
+		bar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
 		
 		int position = 0;
 		if(savedInstanceState != null)
