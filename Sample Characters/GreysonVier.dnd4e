@@ -2426,6 +2426,9 @@
    <textstring name="PortraitID" >
       &lt;?xml version=&quot;1.0&quot; encoding=&quot;utf-16&quot;?&gt;&lt;ContentIdentifier xmlns:i=&quot;http://www.w3.org/2001/XMLSchema-instance&quot; xmlns=&quot;http://schemas.datacontract.org/2004/07/WotC.ContentVault&quot;&gt;&lt;ContentID&gt;10022317&lt;/ContentID&gt;&lt;Official&gt;true&lt;/Official&gt;&lt;OfficialTypeID i:nil=&quot;true&quot; /&gt;&lt;ScratchID i:nil=&quot;true&quot; /&gt;&lt;TypeID&gt;2&lt;/TypeID&gt;&lt;/ContentIdentifier&gt;
    </textstring>
+   <textstring name="Custom Character Portrait">
+	https://raw.github.com/pdandrey/Manticore/android_upgrade/Sample%20Characters/FlareMaleHero.png
+   </textstring>
    <textstring name="PortraitExplicitlySet" >
       True
    </textstring>
