@@ -25,6 +25,7 @@ public class CharacterExistsDialog extends Dialog {
 		setContentView(R.layout.dialog_rename_character);
 		this.character = character;
 		setTitle("Character Exists");
+		this.setCancelable(false);
 		
 		tvLabel = (TextView)findViewById(R.id.dialog_lblRenameCharacter);
 		txtName = (EditText)findViewById(R.id.dialog_etRenameCharacter);

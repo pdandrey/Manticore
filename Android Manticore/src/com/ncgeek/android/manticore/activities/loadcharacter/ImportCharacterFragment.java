@@ -46,16 +46,42 @@ public class ImportCharacterFragment
 		}
 	};
 	
-	private Handler characterHandler = new Handler() {
+	private Handler characterHandler = new Handler(new Handler.Callback() {
 		@Override
-		public void handleMessage(Message msg) {
-			_dlgLoadProgress.setMessage("Loading " + (String)msg.obj);
+		public boolean handleMessage(Message msg) {
+			if(msg.what == 0)
+				_dlgLoadProgress.setMessage("Loading " + (String)msg.obj);
+			else if(msg.what == 1) {
+				_dlgLoadProgress.dismiss();
+				AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+				builder
+					.setCancelable(false)
+					.setMessage("There was an error importing the character. Please check the logs for more information")
+					.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
+						@Override
+						public void onClick(DialogInterface dialog, int which) {
+							dialog.cancel();
+						}
+					})
+					.create()
+					.show();
+			} else if(msg.what == 2) {
+				CharacterExistsDialog dlg = new CharacterExistsDialog(getActivity(), (ManticoreCharacter)msg.obj);
+				dlg.show();
+				_dlgLoadProgress.dismiss();
+			} else if(msg.what == 3) {
+				ManticoreCharacter data = (ManticoreCharacter)msg.obj;
+				repos.insert(data);
+				callback.onCharacterLoaded(data);
+			}
+				
+			return true;
 		}
-	};
+	});
 	
-	private Handler downloadHandler = new Handler() {
+	private Handler downloadHandler = new Handler(new Handler.Callback() {
 		@Override
-		public void handleMessage(Message msg) {
+		public boolean handleMessage(Message msg) {
 			if(msg.what == 0)
 				_dlgLoadProgress.setMessage((String)msg.obj);
 			else if(msg.what == 1)
@@ -65,9 +91,9 @@ public class ImportCharacterFragment
 				_dlgLoadProgress = null;
 				fillData();
 			}
-				
+			return true;
 		}
-	};
+	});
 	
 	private LoaderManager.LoaderCallbacks<ManticoreCharacter> lmCallback_Character = new LoaderManager.LoaderCallbacks<ManticoreCharacter>() {
 		
@@ -87,27 +113,12 @@ public class ImportCharacterFragment
 		public void onLoadFinished(Loader<ManticoreCharacter> loader, ManticoreCharacter data) {
 				_dlgLoadProgress.setMessage("Finalizing...");
 				if(data == null) {
-					_dlgLoadProgress.dismiss();
-					AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-					builder
-						.setCancelable(false)
-						.setMessage("There was an error importing the character. Please check the logs for more information")
-						.setPositiveButton("Ok", new DialogInterface.OnClickListener() {
-							@Override
-							public void onClick(DialogInterface dialog, int which) {
-								dialog.cancel();
-							}
-						})
-						.create()
-						.show();
+					characterHandler.sendMessage(characterHandler.obtainMessage(1));
 				} else {
 					if(repos.contains(data.getName())) {
-						CharacterExistsDialog dlg = new CharacterExistsDialog(getActivity(), data);
-						dlg.show();
-						_dlgLoadProgress.dismiss();
+						characterHandler.sendMessage(characterHandler.obtainMessage(2, data));
 					} else {
-						repos.insert(data);
-						callback.onCharacterLoaded(data);
+						characterHandler.sendMessage(characterHandler.obtainMessage(3, data));
 					}
 				}
 			}
@@ -130,7 +141,6 @@ public class ImportCharacterFragment
 			
 			File dest = new File(Utility.getExternalStorageDirectory(), "Example-GreysonVier.dnd4e");
 			try {
-				Logger.verbose(LOG_TAG, "Created a download loader");
 				DownloadLoader dl = new DownloadLoader(getActivity(), "https://raw.github.com/pdandrey/Manticore/android_upgrade/Sample%20Characters/GreysonVier.dnd4e", dest, downloadHandler);
 				return dl;
 			} catch(MalformedURLException urlEx) {
@@ -272,4 +282,5 @@ public class ImportCharacterFragment
 		_dlgAlert.dismiss();
 		_dlgAlert = null;
 	}
+	
 }

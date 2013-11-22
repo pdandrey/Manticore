@@ -71,8 +71,7 @@ public class Dnd4eLoader
 			switch(args.getType()) {
 				case SectionStart:
 					Logger.verbose(LOG_TAG, String.format("Starting section %s", args.getSectionName()));
-					Message msg = _handler.obtainMessage();
-					msg.obj = args.getSectionName();
+					Message msg = _handler.obtainMessage(0, args.getSectionName());
 					_handler.sendMessage(msg);
 					break;
 			}
