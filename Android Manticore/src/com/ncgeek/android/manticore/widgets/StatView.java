@@ -6,14 +6,17 @@ import java.util.List;
 import com.ncgeek.android.manticore.R;
 import com.ncgeek.manticore.character.stats.Stat;
 
+import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.res.TypedArray;
+import android.os.Build;
 import android.util.AttributeSet;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+@TargetApi(Build.VERSION_CODES.HONEYCOMB) 
 public class StatView extends LinearLayout {
 
 	private static final String LOG_TAG = "StatView";
@@ -68,7 +71,8 @@ public class StatView extends LinearLayout {
 				break;
 				
 			case Skill:
-				displaySkill();
+			case Stat:
+				//displaySkill();
 				break;
 		}
 	}
@@ -97,7 +101,7 @@ public class StatView extends LinearLayout {
 				break;
 				
 			case Skill:
-				throw new RuntimeException("Skill views are not implemented yet");
+				//throw new RuntimeException("Skill views are not implemented yet");
 				
 			case Stat:
 				layout = R.layout.statview;

@@ -17,7 +17,7 @@ import com.ncgeek.manticore.character.inventory.EquipmentManagerEventArgs;
 public class StatBlock extends Observable implements Observer, Serializable {
 	
 	private static final long serialVersionUID = 1L;
-	
+	private static final String[] SKILL_NAMES = { "Acrobatics", "Arcana", "Athletics", "Bluff", "Diplomacy", "Dungeoneering", "Endurance", "Heal", "History", "Insight", "Intimidate", "Nature", "Perception", "Religion", "Stealth", "Streetwise", "Thievery" };
 	
 	private Map<String, Stat> _statMap;
 	private Map<String, List<Addition>> _linksNeeded;
@@ -70,6 +70,16 @@ public class StatBlock extends Observable implements Observer, Serializable {
 	
 	public Collection<Stat> getStats() {
 		return Collections.unmodifiableCollection(_statMap.values());
+	}
+	
+	public Collection<Stat> getSkills() {
+		ArrayList<Stat> ret = new ArrayList<Stat>();
+		for(String name : SKILL_NAMES) {
+			Stat s = get(name);
+			if(s != null)
+				ret.add(s);
+		}
+		return Collections.unmodifiableCollection(ret);
 	}
 	
 	@Override
