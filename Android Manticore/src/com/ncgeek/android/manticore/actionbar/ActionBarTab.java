@@ -5,12 +5,13 @@ import com.ncgeek.android.manticore.fragments.EmptyFragment;
 import com.ncgeek.android.manticore.fragments.FeatListFragment;
 import com.ncgeek.android.manticore.fragments.PowerListFragment;
 import com.ncgeek.android.manticore.fragments.SkillListFragment;
+import com.ncgeek.android.manticore.fragments.combat.CombatFragment;
 
 import android.support.v4.app.Fragment;
 
 public enum ActionBarTab {
 	Stats(new CharacterStatsFragment()),
-	Combat(new EmptyFragment()),
+	Combat(new CombatFragment()),
 	Party(new EmptyFragment()),
 	Inventory(new EmptyFragment()),
 	Powers(new PowerListFragment()),

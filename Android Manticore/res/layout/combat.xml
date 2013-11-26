@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    <com.ncgeek.android.manticore.widgets.CharacterStatus
+        android:id="@+id/characterstatus"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentTop="true" />
+
+    <TextView
+        android:id="@+id/tvActionPoints"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@id/characterstatus"
+        android:layout_below="@id/characterstatus"
+        android:text="Action Points: 0" />
+
+    <fragment
+        android:id="@+id/fgmtCombat"
+        android:name="com.ncgeek.android.manticore.fragments.combat.MainCombatFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_alignLeft="@id/characterstatus"
+        android:layout_below="@id/tvActionPoints"
+        tools:layout="@layout/combat_main" />
+
+</RelativeLayout>
