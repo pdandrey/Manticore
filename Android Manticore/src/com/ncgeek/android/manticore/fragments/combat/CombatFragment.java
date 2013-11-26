@@ -16,6 +16,7 @@ import android.content.Context;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,6 +29,8 @@ public class CombatFragment extends Fragment {
 	private static final String LOG_TAG = "CombatFgmt";
 	
 	private ManticoreCharacter character;
+	private MainCombatFragment fgmtCombat;
+	private HealCombatFragment fgmtHeal;
 	
 	public CombatFragment() {}
 	
@@ -47,11 +50,52 @@ public class CombatFragment extends Fragment {
 		outState.putSerializable("character", character);
 	}
 	
-	@SuppressLint("NewApi") @Override
+	@Override
 	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 		View v = inflater.inflate(R.layout.combat, container, false);
 		((CharacterStatus)v.findViewById(R.id.characterstatus)).setCharacter(character);
 		
+		showMain();
+		
 		return v;
+	}
+	
+	public void showMain() {
+		if(fgmtCombat == null)
+			fgmtCombat = new MainCombatFragment();
+		
+		FragmentManager mgr = getChildFragmentManager();
+		
+//		Fragment f = mgr.findFragmentByTag("combat_main");
+//		if(f != null)
+//			return;
+		
+		FragmentTransaction trans = mgr.beginTransaction();
+		trans.replace(R.id.fgmtCombat, fgmtCombat, "combat_main");
+		trans.commit();
+	}
+	
+	public void showDamage() {
+		
+	}
+	
+	public void showHeal() {
+		FragmentManager mgr = getChildFragmentManager();
+		
+//		Fragment f = mgr.findFragmentByTag("combat_heal");
+//		if(f != null)
+//			return;
+		
+		if(fgmtHeal == null)
+			fgmtHeal = new HealCombatFragment();
+		
+		FragmentTransaction trans = mgr.beginTransaction();
+		trans.addToBackStack("Heal");
+		trans.replace(R.id.fgmtCombat, fgmtHeal, "combat_heal");
+		trans.commit();
+	}
+	
+	public void startTurn() {
+		
 	}
 }

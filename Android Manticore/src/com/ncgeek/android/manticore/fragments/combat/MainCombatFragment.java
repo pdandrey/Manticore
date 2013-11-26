@@ -20,36 +20,27 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.ExpandableListView;
 import android.widget.ListView;
 
-public class MainCombatFragment extends Fragment {
+public class MainCombatFragment extends BaseCombatFragment {
 
 	private static final String LOG_TAG = "CombatFgmt";
 	
-	private ManticoreCharacter character;
-	
-	public MainCombatFragment() {}
-	
+	public MainCombatFragment() {
+		setLayout(R.layout.combat_main);
+	}
+
 	@Override
-	public void onCreate(Bundle savedInstanceState) {
-		super.onCreate(savedInstanceState);
+	protected void hookupEvents(View v) {
 		
-		if(savedInstanceState != null)
-			character = (ManticoreCharacter)savedInstanceState.get("character");
-		else
-			character = ((Manticore)getActivity()).getCharacter();
-	}
-	
-	@Override
-	public void onSaveInstanceState(Bundle outState) {
-		super.onSaveInstanceState(outState);
-		outState.putSerializable("character", character);
-	}
-	
-	@SuppressLint("NewApi") @Override
-	public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-		View v = inflater.inflate(R.layout.combat_main, container, false);	
-		return v;
+		((Button)v.findViewById(R.id.btnHeal)).setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				getParent().showHeal();
+			}
+		});
 	}
 }
