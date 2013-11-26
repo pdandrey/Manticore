@@ -13,6 +13,7 @@ public class Stat implements Serializable {
 	private List<String> _aliases;
 	private List<Addition> _additions;
 	private int _setValue;
+	private Boolean _trained;
 	
 	public Stat() {
 		this(new ArrayList<String>(), new ArrayList<Addition>());
@@ -21,6 +22,7 @@ public class Stat implements Serializable {
 	public Stat(List<String> aliasList, List<Addition> additionList) {
 		_aliases = aliasList;
 		_additions = additionList;
+		_trained = null;
 	}
 	
 	public void addAlias(String alias) {
@@ -99,5 +101,28 @@ public class Stat implements Serializable {
 			if(name.equalsIgnoreCase(s))
 				return true;
 		return false;
+	}
+	
+	public Stat getAbilityModifier() {
+		for(Addition a : _additions) {
+			if(a.isAbilityModified()) {
+				return a.getStat();
+			}
+		}
+		return null;
+	}
+	
+	public boolean isTrained() {
+		if(_trained == null) {
+			_trained = false;
+			for(Addition a : _additions) {
+				Stat link = a.getStat();
+				if(link != null && link.getAliases().get(0).toLowerCase().contains("trained") && link.getAbsoluteValue() > 0) {
+					_trained = true;
+					break;
+				}
+			}
+		}
+		return _trained;
 	}
 }

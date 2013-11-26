@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merge xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent" >
+    <TextView
+     	android:id="@+id/tvName"
+     	android:layout_width="0dp"
+     	android:layout_height="wrap_content"
+     	android:textStyle="bold"
+     	android:textSize="18sp"
+     	android:gravity="left"
+     	android:layout_weight="2"
+     	android:text="Bluff"
+     	/>
+    <TextView
+        android:id="@+id/tvValue"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_weight="1"
+        android:textSize="18sp"
+        android:text="13"
+        />
+    <TextView
+        android:id="@+id/tvModifier"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_weight="1"
+        android:textSize="13sp"
+        android:text="Cha+2 Trained"
+        />
+</merge>

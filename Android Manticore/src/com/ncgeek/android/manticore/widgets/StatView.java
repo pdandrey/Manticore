@@ -71,8 +71,10 @@ public class StatView extends LinearLayout {
 				break;
 				
 			case Skill:
+				displaySkill();
+				break;
+				
 			case Stat:
-				//displaySkill();
 				break;
 		}
 	}
@@ -101,7 +103,9 @@ public class StatView extends LinearLayout {
 				break;
 				
 			case Skill:
-				//throw new RuntimeException("Skill views are not implemented yet");
+				layout = R.layout.stat_skillview;
+				lstIds.add(R.id.tvModifier);
+				break;
 				
 			case Stat:
 				layout = R.layout.statview;
@@ -157,6 +161,15 @@ public class StatView extends LinearLayout {
 	}
 	
 	private void displaySkill() {
-		throw new RuntimeException("Skill views are not implemented yet");
+		TextView tv = (TextView)findViewById(R.id.tvModifier);
+		String sign = "";
+		Stat mod = stat.getAbilityModifier();
+		
+		if(mod.getModifier() >= 0)
+			sign = "+";
+		String trained = "";
+		if(stat.isTrained())
+			trained = " Trn";
+		tv.setText(String.format("%s%s%d", mod.getAliases().get(0), sign, mod.getModifier()));		
 	}
 }
