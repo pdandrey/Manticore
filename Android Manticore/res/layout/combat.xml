@@ -12,20 +12,12 @@
         android:layout_alignParentRight="true"
         android:layout_alignParentTop="true" />
 
-    <TextView
-        android:id="@+id/tvActionPoints"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignLeft="@id/characterstatus"
-        android:layout_below="@id/characterstatus"
-        android:text="Action Points: 0" />
-
     <FrameLayout
         android:id="@+id/fgmtCombat"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_alignLeft="@id/characterstatus"
-        android:layout_below="@id/tvActionPoints"
+        android:layout_below="@id/characterstatus"
         />
     <!-- <fragment
         android:id="@+id/fgmtCombat"

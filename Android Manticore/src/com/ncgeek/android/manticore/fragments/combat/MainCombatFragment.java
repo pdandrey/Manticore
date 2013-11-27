@@ -2,27 +2,10 @@ package com.ncgeek.android.manticore.fragments.combat;
 
 
 
-import com.ncgeek.android.manticore.ManticoreCharacter;
 import com.ncgeek.android.manticore.R;
-import com.ncgeek.android.manticore.activities.Manticore;
-import com.ncgeek.android.manticore.widgets.CharacterStatus;
-import com.ncgeek.android.manticore.widgets.StatView;
-import com.ncgeek.manticore.character.stats.Stat;
-import com.ncgeek.manticore.util.Logger;
-
-import android.annotation.SuppressLint;
-import android.app.Activity;
-import android.content.Context;
-import android.os.Bundle;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
-import android.view.LayoutInflater;
 import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
-import android.widget.ExpandableListView;
-import android.widget.ListView;
+import android.widget.TextView;
 
 public class MainCombatFragment extends BaseCombatFragment {
 
@@ -42,5 +25,7 @@ public class MainCombatFragment extends BaseCombatFragment {
 				getParent().showHeal();
 			}
 		});
+		
+		((TextView)v.findViewById(R.id.tvActionPoints)).setText(String.format("%d", getCharacter().getActionPoints()));
 	}
 }

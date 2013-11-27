@@ -3,13 +3,31 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
 
+    <TextView
+        android:id="@+id/lblActionPoints"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentTop="true"
+        android:text="Action Points:" />
+    
+    <TextView
+        android:id="@+id/tvActionPoints"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@id/lblActionPoints"
+        android:layout_toRightOf="@id/lblActionPoints"
+        android:layout_marginLeft="5dp"
+        android:text="0"
+        />
+    
     <Button
         android:id="@+id/btnStartRound"
         style="?android:attr/buttonStyleSmall"
         android:layout_width="150dp"
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
-        android:layout_alignParentTop="true"
+        android:layout_below="@id/lblActionPoints"
         android:layout_marginLeft="10dp"
         android:layout_marginTop="10dp"
         android:text="Start Round" />
