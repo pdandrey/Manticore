@@ -28,7 +28,7 @@
 		    android:layout_weight="1"
 		    android:orientation="vertical"
 		    ncgeek:type="stat" 
-		    android:textSize="14sp"
+		    android:textSize="@dimen/stat_size_save"
 		    />
 		<com.ncgeek.android.manticore.widgets.StatView
 		    android:id="@+id/statFort"
@@ -37,7 +37,7 @@
 		    android:layout_weight="1"
 		    ncgeek:type="stat" 
 		    android:text="Fort"
-		    android:textSize="14sp"
+			android:textSize="@dimen/stat_size_save"
 		    />
 		<com.ncgeek.android.manticore.widgets.StatView
 		    android:id="@+id/statReflex"
@@ -45,7 +45,7 @@
 		    android:layout_height="wrap_content"
 		    android:layout_weight="1"
 		    ncgeek:type="stat" 
-		    android:textSize="14sp"
+		    android:textSize="@dimen/stat_size_save"
 		    />
 		<com.ncgeek.android.manticore.widgets.StatView
 		    android:id="@+id/statWill"
@@ -53,7 +53,7 @@
 		    android:layout_height="wrap_content"
 		    android:layout_weight="1"
 		    ncgeek:type="stat" 
-		    android:textSize="14sp"
+		    android:textSize="@dimen/stat_size_save"
 		    />
 	</LinearLayout>
 	<com.ncgeek.android.manticore.widgets.StatView
@@ -68,7 +68,7 @@
 	    android:layout_marginRight="15dp"
 	    ncgeek:type="ability"
 	    android:text="Strength"
-	    android:textSize="13sp"
+	    android:textSize="@dimen/stat_size_ability"
 	    />
 	<com.ncgeek.android.manticore.widgets.StatView
 	    android:id="@+id/statCon"
@@ -80,7 +80,7 @@
 	    android:layout_marginTop="5dp"
 	    ncgeek:type="ability"
 	    android:text="Constitution"
-	    android:textSize="13sp"
+	    android:textSize="@dimen/stat_size_ability"
 	    />
 	<com.ncgeek.android.manticore.widgets.StatView
 	    android:id="@+id/statDex"
@@ -92,7 +92,7 @@
 	    android:layout_marginTop="5dp"
 	    ncgeek:type="ability"
 	    android:text="Dexterity"
-	    android:textSize="13sp"
+	    android:textSize="@dimen/stat_size_ability"
 	    />
 	<com.ncgeek.android.manticore.widgets.StatView
 	    android:id="@+id/statInt"
@@ -104,7 +104,7 @@
 	    android:layout_marginTop="5dp"
 	    ncgeek:type="ability"
 	    android:text="Intelligence"
-	    android:textSize="13sp"
+	    android:textSize="@dimen/stat_size_ability"
 	    />
 	<com.ncgeek.android.manticore.widgets.StatView
 	    android:id="@+id/statWis"
@@ -116,7 +116,7 @@
 	    android:layout_marginTop="5dp"
 	    ncgeek:type="ability"
 	    android:text="Wisdom"
-	    android:textSize="13sp"
+	    android:textSize="@dimen/stat_size_ability"
 	    />
 	<com.ncgeek.android.manticore.widgets.StatView
 	    android:id="@+id/statCha"
@@ -128,6 +128,6 @@
 	    android:layout_marginTop="5dp"
 	    ncgeek:type="ability"
 	    android:text="Charisma"
-	    android:textSize="13sp"
+	    android:textSize="@dimen/stat_size_ability"
 	    />
 </RelativeLayout>

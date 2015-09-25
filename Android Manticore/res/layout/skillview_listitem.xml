@@ -8,7 +8,7 @@
     android:layout_marginTop="5dp"
     ncgeek:type="skill"
     android:orientation="horizontal"
-    android:textSize="13sp"
+    android:textSize="@dimen/skill_size"
     />
 
 

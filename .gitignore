@@ -14,3 +14,7 @@ obj/
 TestBed/
 db/
 OldTests/
+out/
+.idea/
+*.iml
+*/gen/*

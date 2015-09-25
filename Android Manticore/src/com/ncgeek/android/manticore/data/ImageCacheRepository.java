@@ -74,8 +74,14 @@ public class ImageCacheRepository {
 				
 				if(ret == null) {
 					// The jullian server does not have it.  Try NCGeek
-					url = new URL(String.format("http://www.ncgeek.com/Manticore/Portraits/%s.png", id));
-					ret = downloadBitmap(url);
+					//url = new URL(String.format("http://www.ncgeek.com/Manticore/Portraits/%s.png", id));
+					//ret = downloadBitmap(url);
+					File file = new File(Utility.getExternalStorageDirectory("portraits"), id + ".png");
+                    if(file.exists()) {
+                        ret = BitmapFactory.decodeFile(file.toString());
+                    } else {
+                        Logger.debug(LOG_TAG, "Portrait %d does not exist", id);
+                    }
 				}
 			} catch(MalformedURLException malUrlEx) {
 				Logger.error(LOG_TAG, "Error while creating Jullian Portrait URL for %s", malUrlEx, uri);
